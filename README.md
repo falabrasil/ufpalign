@@ -8,13 +8,12 @@ Portuguese are available.
 - [Gentle: A robust yet lenient forced aligner built on Kaldi](https://github.com/lowerquality/gentle)
 
 
-
 ## Installation Instructions (from source)
 
 
 ### Create a virtual environment
 
-We recomend the use of
+We recommend the use of
 [Anaconda :snake:](https://docs.anaconda.com/anaconda/install/linux/).
 
 ```bash
