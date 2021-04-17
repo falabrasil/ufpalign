@@ -1,1 +1,0 @@
-this is a text using kaldi forced alignment utility
