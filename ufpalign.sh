@@ -61,7 +61,7 @@ utils/utt2spk_to_spk2utt.pl data/alignme/utt2spk > data/alignme/spk2utt || exit 
 
 # extend lexicon & lang
 log "$0: extending lexicon and lang"
-local/ext_lex.sh $txt_file data/local/dict/lexicon.txt || exit 1
+local/ext_lex_and_syll.sh $txt_file data/local/dict/{lexicon,syllables}.txt || exit 1
 utils/prepare_lang.sh data/local/dict "<UNK>" data/local/lang data/lang || exit 1
 
 # extract mfcc features
@@ -129,12 +129,15 @@ done
 cat data/alignme_ali/*.ctm > data/$am_tag.phoneids.ctm
 
 # create graphemes.ctm
-steps/get_train_ctm.sh data/alignme data/lang data/alignme_ali data/ctm_tmp
-cat data/ctm_tmp/ctm > data/$am_tag.graphemes.ctm
+steps/get_train_ctm.sh data/alignme data/lang data/alignme_ali data/ctm_tmp || exit 1
+cat data/ctm_tmp/ctm > data/$am_tag.graphemes.ctm || exit 1
 
 # ctm 2 textgrid
 log "$0: creating textgrid"
-local/ctm2tg.py data/$am_tag.{graphemes,phoneids}.ctm data/tg
+local/ctm2tg.py \
+  data/$am_tag.{graphemes,phoneids}.ctm \
+  data/local/dict/{lexicon,syllphones}.txt \
+  data/tg || exit 1
 
 cd - > /dev/null
 
