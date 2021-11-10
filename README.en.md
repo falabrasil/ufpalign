@@ -12,15 +12,13 @@ phonetic and orthographic information as below.
 
 ![](doc/textgrid.png)
 
-:brazil: [Acesse a documentação em Português Brasileiro](README.br.md)
+:brazil: [Acesse a documentação em Português Brasileiro](README.md)
 
 ## Requirements
 
 :warning: Currently, UFPAlign works under Linux environments only.
 
-This documentation will guide you through the requirements and UFPAlign 
-installation and usage. If you run into any issues, please open a new issue 
-at this repository so we can help you. This assumes a installation on a
+This assumes a installation on a
 Debian-based OS like Ubuntu, so the default package manager will be `apt`.
 
 <details>
@@ -152,54 +150,22 @@ $HOME/anaconda3
 </details>
 
 
-## Installation
-
-First, make sure that all prerequisites for UFPAlign are installed. 
-Then, you only need to download the `plugin_ufpalign.tar.gz` file and extract
-it in your Praat's preference directory (`~/.praat_dir`). 
-The Praat preferences directory is where Praat saves the preferences file and 
-the buttons file, and where you can install plug-ins. 
-If the preferences directory does not exist, it will automatically be created 
-in your home directory when you start Praat. 
-
-```bash
-$ tar -xzf plugin_ufpalign.tar.gz -C ~/.praat_dir
-```
-
-Once the plugin folder is placed in Praat's preference folder, starting Praat 
-will automatically add the functions included in the UFPAlign to the `new` 
-menu of Praat's objects window as the screenshot below.
-
-![](doc/praat_menu.png)
-
-As part of using the UFPAlign in our own academic research, we have trained 
-acoustic models of different architectures: monophone-, triphone-, and 
-DNN-based (nnet3) models (Check the 
-[FalaBrasil's Kaldi acoustic models training repository](https://github.com/falabrasil/kaldi-br),
-if you want to know more about the acoustic models training script). 
-A total of five pre-trained, Kaldi-compatible models are included as part of 
-UFPAlign. So, you need to download the pretrained acoustic models that are 
-available to perform phonetic alignment. First, change to `~/.praat_dir` and 
-then run the script `download_models.sh`. The models will be downloaded to the 
-`~/.praat-dir/plugin_ufpalign/pretrained_models` directory.
-
-```bash
-$ cd ~/.praat-dir/plugin_ufpalign
-$ ./download_models.sh 
-```
-
 ## Usage
+
+### As a Praat Plugin (GUI)
 
 UFPAlign works fine under Linux environments via command line, but also 
 provides a graphical interface as a plugin to Praat. In order to use the 
 plugin, open the `New` menu and click on the `UFPAlign` option, the following 
 initial window will be displayed. Click on the `Choose...` buttons to select 
-the path to Kaldi's root directory, an audio file (:warning: The audio file 
-must be sampled at a frequency of 16 kHz with 1 channel) and the corresponding 
+the path to Kaldi's root directory, an audio file  and the corresponding 
 orthographic transcription. You can also choose an acoustic model, that will 
 be used to perform the alignment, among the five architecture available as 
 option. After selecting them, click on `Align` button. Then, wait while the 
 file is aligned. This may take a while.
+
+![](doc/praat_menu.png)
+
 
 When the alignment is successful finished, the aligner offers the option to 
 promptly display the current resulting TextGrid in the Praat interface or to 
@@ -219,6 +185,18 @@ transcriptions. Whether you decide to immediately open the result TextGrid in
 Praat interface or not, the TextGrid file will be saved inside a directory 
 named textgrid at your home directory with the same name as the audio file you 
 choose to align.
+
+### From Command Line (CLI)
+
+Just execute file `ufpalign.sh`. with no arguments, it prints a help message.
+The following command works perfectly using the monophone model, though:
+
+```bash
+$ bash ufpalign.sh $HOME/kaldi demo/ex.wav demo/ex.txt mono
+```
+
+File [`demo/M-001.log`](demo/M-001.log) contains an example of output from a
+real execution.
 
 ## Citation
 
@@ -257,4 +235,3 @@ __Grupo FalaBrasil (2022)__ - https://ufpafalabrasil.gitlab.io/
 __Universidade Federal do Pará (UFPA)__ - https://portal.ufpa.br/     
 Cassio Batista - https://cassota.gitlab.io/    
 Larissa Dias   - larissa.engcomp@gmail.com     
-Daniel Santana - daniel.santana.1661@gmail.com     
