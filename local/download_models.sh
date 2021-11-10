@@ -8,8 +8,9 @@
 # https://stackoverflow.com/questions/48133080/how-to-download-a-google-drive-url-via-curl-or-wget/48133859
 
 files=(
-  "mono.tar.gz" "tri_deltas.tar.gz" "tri_lda.tar.gz" "tri_sat.tar.gz"
-  "ivector_extractor.tar.gz" "tdnnf.tar.gz"
+  "mono.tar.gz"               "tri_deltas.tar.gz"
+  "tri_lda.tar.gz"            "tri_sat.tar.gz"
+  "ivector_extractor.tar.gz"  "tdnnf.tar.gz"
 )
 
 ids=(

@@ -62,7 +62,7 @@ class TextGrid:
                     print('aborted.')
                     sys.exit(1)
         else:
-            print('info: textgrid files will be stored under "%s" dir' % dirname)
+            print('info: textgrid files will be stored under "%s" dir' % os.path.realpath(dirname))
             os.mkdir(dirname)
 
     def get_mainheader(self, xmax):
