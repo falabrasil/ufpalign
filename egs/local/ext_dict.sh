@@ -6,17 +6,21 @@
 # author: apr 2021
 # cassio batista - https://cassota.gitlab.io
 
-if [ $# -ne 3 ] ; then
-  echo "usage: $0 <trans-file> <lex-file> <syll-file>"
+update=false
+
+if [ $# -ne 4 ] ; then
+  echo "usage: $0 <jar-path> <trans-file> <lex-file> <syll-file>"
+  echo "  <jar-path> is the path to FalaBrasil's tagger"
   echo "  <trans-file> is the text transcription file"
   echo "  <lex-file> is the phonetic dict file"
   echo "  <syll-file> is the syllabic dict file"
   exit 1
 fi
 
-txt_file=$1
-lex_file=$2
-syll_file=$3
+jar_path=$1
+txt_file=$2
+lex_file=$3
+syll_file=$4
 
 # FIXME this is freaking odd since Kaldi encourages the use use LC_ALL=C for 
 # compatibility with C++-sorting defaults, but this simply doesn't work for 
@@ -33,9 +37,29 @@ for word in $(cat $txt_file) ; do
   echo $word >> wlist.tmp
 done
 
+# FIXME this should be part of data.tar.gz
+echo "$0: creating syllphones"
+java -jar $jar_path/fb_nlplib.jar -G -i wlist.tmp -o $(dirname $lex_file)/syllphones.txt
+
+awk '{print $1}' $lex_file | python -c "
+import sys
+lex = []
+for word in sys.stdin:
+  lex.append(word.strip())
+wlist = []
+with open('wlist.tmp') as f:
+  for word in f:
+    wlist.append(word.strip())
+for word in wlist:
+  if word not in lex:
+    print('** word \'%s\' not in lex. extending dict...' % word)
+    sys.exit(1)
+print('>> no words missing in dict. great!')
+" && exit 0
+
 # first lexicon
 echo "$0: extending lexicon"
-java -jar fb_nlplib.jar -g -i wlist.tmp -o dict.tmp
+java -jar $jar_path/fb_nlplib.jar -g -i wlist.tmp -o dict.tmp
 head -2 $lex_file > unk.tmp    # first get only unk tokens from lexicon
 tail +3 $lex_file >> dict.tmp  # finally get phones from lexicon
 sort -u dict.tmp -o dict.tmp
@@ -43,11 +67,11 @@ cat unk.tmp dict.tmp > $lex_file || exit 1
 
 # then syll
 echo "$0: extending syll"
-java -jar fb_nlplib.jar -s -i wlist.tmp -o syll.tmp
+java -jar $jar_path/fb_nlplib.jar -s -i wlist.tmp -o syll.tmp
 cat $syll_file >> syll.tmp
 sort -u syll.tmp > $syll_file || exit 1
 
-echo "$0: creating syllphones"
-java -jar fb_nlplib.jar -G -i wlist.tmp -o $(dirname $lex_file)/syllphones.txt
-
 rm -f *.tmp
+
+echo "$0: creating syllphones"
+utils/prepare_lang.sh data/dict "<UNK>" data/lang_tmp data/lang || exit 1
