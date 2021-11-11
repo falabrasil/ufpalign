@@ -25,7 +25,7 @@ fi
 
 # check dependencies
 ok=true
-for f in tar java wget curl python3 sudo ; do
+for f in tar java wget curl python3 ; do
   type -f $f > /dev/null 2>&1 || { echo "$0: $f not installed" && ok=false ; }
 done
 $ok || exit 1

@@ -181,8 +181,8 @@ if __name__=='__main__':
     tg.check_outputdir(tg_output_dirname)
 
     ctm = {
-        'graph':open(ctm_graph_filename, 'r'),
-        'phnid':open(ctm_phone_filename, 'r')
+        'graph':open(ctm_graph_filename, 'r', encoding='utf-8'),
+        'phnid':open(ctm_phone_filename, 'r', encoding='utf-8')
     }
 
     ctm_lines = {
@@ -191,7 +191,7 @@ if __name__=='__main__':
     }
 
     lex = {}
-    with open(lex_filename) as f:
+    with open(lex_filename, encoding='utf-8') as f:
         for line in f:
             try:
                 grapheme, phonemes = line.split('\t')
@@ -201,7 +201,7 @@ if __name__=='__main__':
                 lex[line.strip()] = line.strip()
 
     syll = {}
-    with open(syll_filename) as f:
+    with open(syll_filename, encoding='utf-8') as f:
         for line in f:
             try:
                 grapheme, syllables = line.split('\t')
@@ -302,7 +302,8 @@ if __name__=='__main__':
             tokenlist['phrgr'].append(word)
 
         # write things to textgrid file
-        with open('%s/%s.TextGrid' % (tg_output_dirname, old_name), 'w') as f:
+        with open('%s/%s.TextGrid' % (tg_output_dirname, old_name), 'w',
+                encoding='utf-8') as f:
             sys.stdout.write('\r%s' % old_name)
             sys.stdout.flush()
             f.write(tg.get_mainheader(finish['graph'][-1]))

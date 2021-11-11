@@ -1,0 +1,7 @@
+*.log
+*.md
+*.png
+plugin
+doc
+docker
+LICENSE

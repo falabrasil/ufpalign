@@ -25,7 +25,7 @@ fetch() {
   filehash="$2"
   echo "$0: downloading '$filename' from Google Drive"
   curl -c  ./cookie -s -L "$BASE_URL&id=$filehash" > /dev/null
-  curl -L --no-progress-meter -b ./cookie \
+  curl -L --progress-bar -b ./cookie \
     "$BASE_URL&confirm=$(awk '/download/ {print $NF}' ./cookie)&id=$filehash" \
     -o $filename || exit 1
 }
