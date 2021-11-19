@@ -1,0 +1,207 @@
+-> % bash ufpalign.sh ~/git-all/kaldi demo/M-001.wav demo/M-001.txt mono
+[2021-11-09 22:07:56] ufpalign.sh: downloading models
+local/download_models.sh: downloading 'mono.tar.gz' from Google Drive
+local/download_models.sh: downloading 'tri_deltas.tar.gz' from Google Drive
+local/download_models.sh: downloading 'tri_lda.tar.gz' from Google Drive
+local/download_models.sh: downloading 'tri_sat.tar.gz' from Google Drive
+local/download_models.sh: downloading 'ivector_extractor.tar.gz' from Google Drive
+local/download_models.sh: downloading 'tdnnf.tar.gz' from Google Drive
+local/download_models.sh: downloading FalaBrasil NLP lib from GitLab
+SSL_INIT
+fb_nlplib.jar                       100%[================================================================>] 129.01K  --.-KB/s    in 0.03s
+[2021-11-09 22:09:23] ufpalign.sh: preparing data
+[2021-11-09 22:09:23] ufpalign.sh: extending lexicon and lang
+local/ext_lexsyl.sh: extending lexicon
+Arquivo dict.tmp salvo.
+local/ext_lexsyl.sh: extending syll
+Arquivo syll.tmp salvo.
+local/ext_lexsyl.sh: creating syllphones
+Arquivo dict/syllphones.txt salvo.
+utils/prepare_lang.sh dict <UNK> data/local/lang data/lang
+Checking dict/silence_phones.txt ...
+--> reading dict/silence_phones.txt
+--> text seems to be UTF-8 or ASCII, checking whitespaces
+--> text contains only allowed whitespaces
+--> dict/silence_phones.txt is OK
+
+Checking dict/optional_silence.txt ...
+--> reading dict/optional_silence.txt
+--> text seems to be UTF-8 or ASCII, checking whitespaces
+--> text contains only allowed whitespaces
+--> dict/optional_silence.txt is OK
+
+Checking dict/nonsilence_phones.txt ...
+--> reading dict/nonsilence_phones.txt
+--> text seems to be UTF-8 or ASCII, checking whitespaces
+--> text contains only allowed whitespaces
+--> dict/nonsilence_phones.txt is OK
+
+Checking disjoint: silence_phones.txt, nonsilence_phones.txt
+--> disjoint property is OK.
+
+Checking dict/lexicon.txt
+--> reading dict/lexicon.txt
+--> text seems to be UTF-8 or ASCII, checking whitespaces
+--> text contains only allowed whitespaces
+--> dict/lexicon.txt is OK
+
+Checking dict/extra_questions.txt ...
+--> dict/extra_questions.txt is empty (this is OK)
+--> SUCCESS [validating dictionary directory dict]
+
+**Creating dict/lexiconp.txt from dict/lexicon.txt
+fstaddselfloops data/lang/phones/wdisambig_phones.int data/lang/phones/wdisambig_words.int
+prepare_lang.sh: validating output directory
+utils/validate_lang.pl data/lang
+Checking existence of separator file
+separator file data/lang/subword_separator.txt is empty or does not exist, deal in word case.
+Checking data/lang/phones.txt ...
+--> text seems to be UTF-8 or ASCII, checking whitespaces
+--> text contains only allowed whitespaces
+--> data/lang/phones.txt is OK
+
+Checking words.txt: #0 ...
+--> text seems to be UTF-8 or ASCII, checking whitespaces
+--> text contains only allowed whitespaces
+--> data/lang/words.txt is OK
+
+Checking disjoint: silence.txt, nonsilence.txt, disambig.txt ...
+--> silence.txt and nonsilence.txt are disjoint
+--> silence.txt and disambig.txt are disjoint
+--> disambig.txt and nonsilence.txt are disjoint
+--> disjoint property is OK
+
+Checking sumation: silence.txt, nonsilence.txt, disambig.txt ...
+--> found no unexplainable phones in phones.txt
+
+Checking data/lang/phones/context_indep.{txt, int, csl} ...
+--> text seems to be UTF-8 or ASCII, checking whitespaces
+--> text contains only allowed whitespaces
+--> 10 entry/entries in data/lang/phones/context_indep.txt
+--> data/lang/phones/context_indep.int corresponds to data/lang/phones/context_indep.txt
+--> data/lang/phones/context_indep.csl corresponds to data/lang/phones/context_indep.txt
+--> data/lang/phones/context_indep.{txt, int, csl} are OK
+
+Checking data/lang/phones/nonsilence.{txt, int, csl} ...
+--> text seems to be UTF-8 or ASCII, checking whitespaces
+--> text contains only allowed whitespaces
+--> 152 entry/entries in data/lang/phones/nonsilence.txt
+--> data/lang/phones/nonsilence.int corresponds to data/lang/phones/nonsilence.txt
+--> data/lang/phones/nonsilence.csl corresponds to data/lang/phones/nonsilence.txt
+--> data/lang/phones/nonsilence.{txt, int, csl} are OK
+
+Checking data/lang/phones/silence.{txt, int, csl} ...
+--> text seems to be UTF-8 or ASCII, checking whitespaces
+--> text contains only allowed whitespaces
+--> 10 entry/entries in data/lang/phones/silence.txt
+--> data/lang/phones/silence.int corresponds to data/lang/phones/silence.txt
+--> data/lang/phones/silence.csl corresponds to data/lang/phones/silence.txt
+--> data/lang/phones/silence.{txt, int, csl} are OK
+
+Checking data/lang/phones/optional_silence.{txt, int, csl} ...
+--> text seems to be UTF-8 or ASCII, checking whitespaces
+--> text contains only allowed whitespaces
+--> 1 entry/entries in data/lang/phones/optional_silence.txt
+--> data/lang/phones/optional_silence.int corresponds to data/lang/phones/optional_silence.txt
+--> data/lang/phones/optional_silence.csl corresponds to data/lang/phones/optional_silence.txt
+--> data/lang/phones/optional_silence.{txt, int, csl} are OK
+
+Checking data/lang/phones/disambig.{txt, int, csl} ...
+--> text seems to be UTF-8 or ASCII, checking whitespaces
+--> text contains only allowed whitespaces
+--> 8 entry/entries in data/lang/phones/disambig.txt
+--> data/lang/phones/disambig.int corresponds to data/lang/phones/disambig.txt
+--> data/lang/phones/disambig.csl corresponds to data/lang/phones/disambig.txt
+--> data/lang/phones/disambig.{txt, int, csl} are OK
+
+Checking data/lang/phones/roots.{txt, int} ...
+--> text seems to be UTF-8 or ASCII, checking whitespaces
+--> text contains only allowed whitespaces
+--> 40 entry/entries in data/lang/phones/roots.txt
+--> data/lang/phones/roots.int corresponds to data/lang/phones/roots.txt
+--> data/lang/phones/roots.{txt, int} are OK
+
+Checking data/lang/phones/sets.{txt, int} ...
+--> text seems to be UTF-8 or ASCII, checking whitespaces
+--> text contains only allowed whitespaces
+--> 40 entry/entries in data/lang/phones/sets.txt
+--> data/lang/phones/sets.int corresponds to data/lang/phones/sets.txt
+--> data/lang/phones/sets.{txt, int} are OK
+
+Checking data/lang/phones/extra_questions.{txt, int} ...
+--> text seems to be UTF-8 or ASCII, checking whitespaces
+--> text contains only allowed whitespaces
+--> 9 entry/entries in data/lang/phones/extra_questions.txt
+--> data/lang/phones/extra_questions.int corresponds to data/lang/phones/extra_questions.txt
+--> data/lang/phones/extra_questions.{txt, int} are OK
+
+Checking data/lang/phones/word_boundary.{txt, int} ...
+--> text seems to be UTF-8 or ASCII, checking whitespaces
+--> text contains only allowed whitespaces
+--> 162 entry/entries in data/lang/phones/word_boundary.txt
+--> data/lang/phones/word_boundary.int corresponds to data/lang/phones/word_boundary.txt
+--> data/lang/phones/word_boundary.{txt, int} are OK
+
+Checking optional_silence.txt ...
+--> reading data/lang/phones/optional_silence.txt
+--> data/lang/phones/optional_silence.txt is OK
+
+Checking disambiguation symbols: #0 and #1
+--> data/lang/phones/disambig.txt has "#0" and "#1"
+--> data/lang/phones/disambig.txt is OK
+
+Checking topo ...
+
+Checking word_boundary.txt: silence.txt, nonsilence.txt, disambig.txt ...
+--> data/lang/phones/word_boundary.txt doesn't include disambiguation symbols
+--> data/lang/phones/word_boundary.txt is the union of nonsilence.txt and silence.txt
+--> data/lang/phones/word_boundary.txt is OK
+
+Checking word-level disambiguation symbols...
+--> data/lang/phones/wdisambig.txt exists (newer prepare_lang.sh)
+Checking word_boundary.int and disambig.int
+--> generating a 3 word/subword sequence
+--> resulting phone sequence from L.fst corresponds to the word sequence
+--> L.fst is OK
+--> generating a 27 word/subword sequence
+--> resulting phone sequence from L_disambig.fst corresponds to the word sequence
+--> L_disambig.fst is OK
+
+Checking data/lang/oov.{txt, int} ...
+--> text seems to be UTF-8 or ASCII, checking whitespaces
+--> text contains only allowed whitespaces
+--> 1 entry/entries in data/lang/oov.txt
+--> data/lang/oov.int corresponds to data/lang/oov.txt
+--> data/lang/oov.{txt, int} are OK
+
+--> data/lang/L.fst is olabel sorted
+--> data/lang/L_disambig.fst is olabel sorted
+--> SUCCESS [validating lang directory data/lang]
+[2021-11-09 22:09:52] ufpalign.sh: extracting mfccs
+steps/make_mfcc.sh --nj 1 --mfcc-config conf/mfcc.conf data/alignme
+utils/validate_data_dir.sh: WARNING: you have only one speaker.  This probably a bad idea.
+   Search for the word 'bold' in http://kaldi-asr.org/doc/data_prep.html
+   for more information.
+utils/validate_data_dir.sh: Successfully validated data-directory data/alignme
+steps/make_mfcc.sh: [info]: no segments file exists: assuming wav.scp indexed by utterance.
+steps/make_mfcc.sh: Succeeded creating MFCC features for alignme
+steps/compute_cmvn_stats.sh data/alignme
+Succeeded creating CMVN stats for alignme
+fix_data_dir.sh: kept all 1 utterances.
+fix_data_dir.sh: old files are kept in data/alignme/.backup
+[2021-11-09 22:09:53] ufpalign.sh: aligning
+steps/align_si.sh --nj 1 data/alignme data/lang exp/mono/exp/model data/alignme_ali
+steps/align_si.sh: feature type is delta
+steps/align_si.sh: aligning data in data/alignme using model from exp/mono/exp/model, putting alignments in data/alignme_ali
+steps/diagnostic/analyze_alignments.sh --cmd run.pl data/lang data/alignme_ali
+analyze_phone_length_stats.py: WARNING: optional-silence sil is seen only 0.0% of the time at utterance begin.  This may not be optimal.
+analyze_phone_length_stats.py: WARNING: optional-silence sil is seen only 0.0% of the time at utterance end.  This may not be optimal.
+steps/diagnostic/analyze_alignments.sh: see stats in data/alignme_ali/log/analyze_alignments.log
+steps/align_si.sh: done aligning data.
+[2021-11-09 22:09:54] ufpalign.sh: creating ctm
+ali-to-phones --ctm-output exp/mono/exp/model/final.mdl 'ark:gunzip -c data/alignme_ali/ali.1.gz |' -
+LOG (ali-to-phones[5.5.0~1-7547]:main():ali-to-phones.cc:134) Done 1 utterances.
+steps/get_train_ctm.sh data/alignme data/lang data/alignme_ali data/ctm_tmp
+[2021-11-09 22:09:54] ufpalign.sh: creating textgrid
+info: textgrid files will be stored under "/home/cassio/git-all/kaldi/egs/UFPAlign/s5/data/tg" dir
+M-001   done!

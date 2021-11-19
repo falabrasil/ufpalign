@@ -1,68 +1,68 @@
-# FalaBrasil Forced Phonetic Aligner for Brazilian Portuguese Using Kaldi Tools :br:
+# UFPAlign: Alinhamento Fonético Forçado :brazil:
 
-The UFPAlign is an open-source automatic phonetic alignment tool for Brazilian Portuguese that uses the Kaldi toolkit (http://kaldi-asr.org/) for performing forced alignment of speech datasets. The UFPAlign is distributed as a plugin for Praat (https://www.fon.hum.uva.nl/praat/), a popular free software package for speech analysis in phonetics. The plugin is directly accessible from the Praat menus and it allows to align speech from an audio file and its orthographic transcription with a few minor manual steps. The result is a multi-level annotation TextGrid containing 
-phonemes, syllables, words, phonetic and orthographic information as below. 
+O UFPAlign é uma ferramenta de código aberto para alinhamento fonético
+automático do Português Brasileiro utilizando o pacote de ferramentas 
+[Kaldi](http://kaldi-asr.org/). O UFPAlign é disponibilizado como um plugin 
+para o [Praat](https://www.fon.hum.uva.nl/praat/), sendo acessível diretamente 
+do menu do Praat e executa o alinhamento a partir de um arquivo de áudio e sua
+transcrição ortográfica com algumas poucas etapas manuais. O resultado é um
+TextGrid multi-nível contendo fonemas, sílabas, palavras, transcrições
+fonéticas e ortográficas conforme a figura abaixo.
 
 ![](doc/textgrid.png)
 
-:br: [Acesse a documentação em Português Brasileiro](README.br.md)
+:uk: [Check the documentation in English](README.en.md)
 
-:fox_face: [Check the original development repository on GitLab](https://gitlab.com/fb-align/kaldi-ali)
+## Dependências
 
-## Requirements
+:warning: Atualmente, o UFPAlign funciona em sistemas operacionais Linux.
 
-Currently, the UFPAlign works under Linux environments. The following is a list of the packages and tools you need in order to install the UFPAlign:
-
-- [Kaldi](https://kaldi-asr.org/)
-- [Praat](http://www.fon.hum.uva.nl/praat/)
-- [Python 3](https://www.python.org/)
-- [FalaBrasil NLP-generator](https://gitlab.com/fb-nlp/nlp-generator) 
-<!--{::comment}  [Openjdk](https://openjdk.java.net/)
-[//]: # "Comment"- [Cython](https://cython.org/)
-[//]: # "Comment"- [PyJNIus](https://github.com/kivy/pyjnius)
-[//]: # "Comment"- [PyICU](https://pypi.org/project/PyICU/){:/comment}-->
-
-This documentation will guide you 
-through the requirements and UFPAlign installation and usage. 
-If you run into any issues, please open a new issue at this repository so we can help you.
-
-### Requirements installation instructions
-<details>
-<summary>Click to expand</summary>
-
-#### Kaldi installation
-
+Aqui, assume-se uma instalação em um sistema operacional
+baseado no Debian, então o gerenciador de pacotes padrão será o `apt`.
 
 <details>
-<summary>Click to expand</summary>
+<summary>Kaldi</summary>
 
-
-First, clone the most current version of Kaldi from GitHub by typing into a shell:
+Primeiro, clone a versão mais atual do Kaldi do GitHub digitando no
+terminal:
 
 ```bash
 $ git clone https://github.com/kaldi-asr/kaldi
 ```
 
-Then, to install Kaldi `tools` go to kaldi/tools/ and first check the prerequisites for Kaldi and see if there are any system-level installations you need to do:
+O próximo passo é a instalação do `tools` do Kaldi. No diretório 
+`kaldi/tools/`, verifica se algum pré-requisitos do Kaldi ainda precisa ser
+instalado:
 
 ```bash
 $ cd kaldi/tools
 $ extras/check_dependencies.sh
 ```
-Check the output carefully and install any prerequisites missing. Then run:
+
+Se houver algum requisito faltando, o comando deve te informar o passo para
+instalá-lo. O passo seguinte é a compilação dos requisitos com o `make`:
 
 ```bash
 $ make
 ```
 
-If you have multiple CPUs and want to speed things up, you can do a parallel
-build by supplying the "-j" option to make, e.g. to use 4 CPUs:
+Se tiveres várias CPUs e quiseres acelerar as coisas, podes rodar o passo
+anterior paralelamente usando o parâmetro `-j`. Por exemplo, para usar 4 CPUs:
 
 ```bash
 $ make -j 4
 ```
 
-Finally, install Kaldi `src`.
+O último pacote a ser instalado é a OpenBLAS, uma biblioteca open-source de
+álgebra linear que pode ser utilizada no lugar da Intel MKL. Cuidado que isso
+irá utilizar todos os cores da tua máquina, até mesmo as hyperthreads caso o
+processador suporte.
+
+```bash
+$ extras/install_openblas.sh
+```
+
+Finalmente, podes intalar o Kaldi `src`.
 
 ```bash
 $ cd kaldi/src
@@ -71,58 +71,62 @@ $ make depend -j 4
 $ make -j 4
 ```
 
-To guarantee Kaldi installation was successful, run the scripts on the yes/no
-dataset. It doesn't take long to finish since the dataset is pretty small and
-the pipeline only trains and decodes a monophone-bases model.
+Para testar se a instalação do Kaldi foi bem-sucedida, podes executar os
+scripts do corpus `yes/no`. A execução é rápida, pois o conjunto de dados é
+muito pequeno e o pipeline apenas treina e decodifica um modelo baseado em
+monofones.
 
 ```bash
 $ cd kaldi/egs/yesno/s5
 $ bash run.sh
 ```
 
-The last line should print the word error rate:
+A última linha da execução deverá printar a taxa de erro por palavra (WER): 
 
 ```text
 %WER 0.00 [ 0 / 232, 0 ins, 0 del, 0 sub ] exp/mono0a/decode_test_yesno/wer_10_0.0
 ```
-
 </details>
 
-#### Praat installation
-
-
 <details>
-<summary>Click to expand</summary>
-To install the Linux version of Praat, you can either use `apt-get` by typing into a shell:
+<summary>Praat</summary>
+
+Em ambientes Linux, podes instalar o Praat usando o `apt-get` rodando o comando:
 
 ```bash
 $ sudo apt-get install praat
 ```
 
-Or you can download a 64-bit binary executable on the [Praat download page](https://www.fon.hum.uva.nl/praat/praat6141_linux64.tar.gz). Then, unpack it, creating the executable file praat. You can remove the tar file.
+Ou podes baixar o executável 64-bit na página de [download do
+Praat](https://www.fon.hum.uva.nl/praat/praat6141_linux64.tar.gz). Depois de
+baixá-lo, deves descompactar dentro de uma pasta. Pronto, apenas clique no
+executável para usar o Praat. O `*.tar.gz` pode ser deletado.
 </details>
 
-#### NLP-generator installation
-
-
 <details>
-<summary>Click to expand</summary>
+<summary>NLP-generator</summary>
 
-First, clone the NLP-generator from Gitlab into your home directory (:warning: It must be cloned to your home directory) by typing into a shell:
+Primeiro, deves clonar o repositório NLP-generator do Gitlab dentro do diretório
+home (:warning: O NLP-generator precisa ser clonado dentro da home para que
+o UFPAlign funcione corretamente).
 
 ```bash
-$ git clone git clone https://gitlab.com/fb-nlp/nlp-generator.git
+$ git clone https://gitlab.com/fb-nlp/nlp-generator.git
 ```
 
-The NLP-generator, originally developed in Java, has recently been adapted to 
-Python thanks to the [PyJNIus](https://github.com/kivy/pyjnius) module, which
-allows you to load Java methods into Python. So, to install the NLP requiriments, we need to download and install [Anaconda](https://www.anaconda.com/) for Python 3. In your browser, download the Anaconda installer for Linux from the Anaconda website. Then, enter the following to install:
+O NLP-generator foi desenvolvido em Java, mas recentemente foi atualizado para
+também funcionar em Python graças ao módulo
+[PyJNIus](https://github.com/kivy/pyjnius), o qual permite que os metódos em
+Java sejam  importados pelo Python. Portanto, para instalar os requisitos de
+NLP, precisar baixar e instalar o [Anaconda] (https://www.anaconda.com/) para
+Python 3. Baixa e execita o instalador Anaconda no navegador para Linux 
+diretamente do site do Anaconda:
 
 ```bash
 $ bash Anaconda3-2020.11-Linux-x86_64.sh 
 ```
 
-Now you can install the remaining requiriments using conda:
+Agora podes instalar os requisitos restantes usando `conda`:
 
 ```bash
 $ conda install cython
@@ -130,11 +134,15 @@ $ sudo conda install -c conda-forge pyjnius
 $ sudo conda install -c anaconda openjdk
 $ pip3 install PyICU
 ```
-Make sure that all requirements are meet by typing into a shell:
+
+Certifique-se de que todos os requisitos sejam atendidos digitando no terminal:
+
 ```bash
 $ pip3 list | grep -iE 'jni|cython|pyicu'
 ```
-The last command should print the output:
+
+O último comando deve imprimir a saída:
+
 ```bash
 $ pip3 list | egrep -i 'jni|cython|pyicu'
 Cython                             0.29.21
@@ -142,95 +150,65 @@ PyICU                              2.6
 pyjnius                            1.2.1
 ```
 
-Finally, make sure that your environment variable
-`JAVA_HOME` points to Java 8 (or newer version) from Anaconda as the example below:
+Finalmente, atenta para que a variável de ambiente `JAVA_HOME` aponte
+para Java 8 (ou versão mais recente) do Anaconda como o exemplo abaixo:
+
 ```bash
 $ echo $JAVA_HOME 
-/home/anaconda3
+/home/cassio/anaconda3
 ```
 </details>
-</details>
 
-## UFPAlign installation instructions
 
-<details>
-<summary>Click to expand</summary>
-First, make sure that all prerequisites for UFPAlign are installed. Then, you only need to download the `plugin_ufpalign.tar.gz` file and extract
-it in your Praat's preference directory (`~/.praat_dir`). The Praat preferences directory is where Praat saves the preferences file and the buttons file, and where you can install plug-ins. If the preferences directory does not exist, it will automatically be created in your home directory when you start Praat. 
+## Instruções de Uso
 
-```bash
-$ tar -xzf plugin_ufpalign.tar.gz -C ~/.praat_dir
-```
-Once the plugin folder is placed in Praat's preference folder, starting Praat will automatically add the functions included in the UFPAlign to the `new` menu of Praat's objects window as the screenshot below.
+### Plugin do Praat (GUI)
+
+Para usar o plugin, abra o menu `New` e clique na opção `UFPAlign`, a seguinte
+janela inicial será exibido. Clique nos botões `Choose...` para selecionar o
+caminho para o diretório raiz do Kaldi, um arquivo de áudio e
+sua correspondente transcrição ortográfica. Podes também escolher a
+arquitetura do modelo acústico que será usado para realizar o alinhamento.
+Após selecioná-los, clica no botão `Alinhar`. Isso deve demorar um pouco.
 
 ![](doc/praat_menu.png)
 
-As part of using the UFPAlign in our own academic research, we have trained acoustic models of different architectures: monophone-, triphone-, and DNN-based (nnet3) models (Check the [FalaBrasil's Kaldi acoustic models training repository](https://gitlab.com/fb-asr/fb-am-tutorial/kaldi-am-train/-/tree/master/train_vosk), if you want to know more about the acoustic models training script). A total of five pre-trained, Kaldi-compatible models are included as part of UFPAlign. So, you need to download the pretrained acoustic models that are available to perform phonetic alignment. First, change to `~/.praat_dir` and then run the script `download_models.sh`. The models will be downloaded to the `~/.praat-dir/plugin_ufpalign/pretrained_models` directory.
+Quando o alinhamento é concluído com sucesso, o alinhador oferece a opção de
+exibir imediatamente o TextGrid resultante na interface do Praat ou prosseguir
+para alinhar um novo arquivo de áudio.
+
+A figura no início desse documento mostra o editor de TextGrid do Praat 
+exibindo uma forma de onda do arquivo de áudio seguida por seu espectrograma 
+e o TextGrid multicamadas resultante de alinhamento contendo cinco camadas: 
+fonemas, sílabas, palavras, transcrição fonética e transcrição ortográfica, 
+respectivamente.
+
+O próprio editor TextGrid do Praat plota a forma de onda e o espectrograma do
+arquivo de áudio, esta informação não é conteúdo do arquivo TextGrid. O Kaldi
+fornece os traços azuis verticais, que correspondem às marcas de tempo,
+enquanto a biblioteca de NLP do FalaBrasil fornece as transcrições fonéticas e
+silábicas. Decidindo abrir imediatamente o TextGrid resultante na
+interface Praat ou não, o arquivo TextGrid será salvo dentro de um diretório
+chamado textgrid no diretório inicial com o mesmo nome do arquivo de áudio
+que escolheste alinhar.
+
+### Linha de Comando (CLI)
+
+Basicamente tens de executar o arquivo `ufpalign.sh`. Sem nenhum argumento, ele
+printa uma mensagem de ajuda. O comando abaixo funciona perfeitamente
+utilizando o modelo monofone:
 
 ```bash
-$ cd ~/.praat-dir/plugin_ufpalign
-$ ./download_models.sh 
+$ bash ufpalign.sh $HOME/kaldi demo/ex.wav demo/ex.txt mono
 ```
 
-</details>
+O arquivo [`demo/M-001.log`](demo/M-001.log) contém um exemplo de saída
+completa do comando funcionando.
 
-## UFPAlign usage instructions
-<details>
-<summary>Click to expand</summary>
+## Citação
 
-UFPAlign works fine under Linux environments via command line, but also provides a graphical interface as a plugin to Praat. In order to use the plugin, open the `New` menu and click on the `UFPAlign` option, the following initial window will be
-displayed. Click on the `Choose...` buttons to select the path to Kaldi's root directory, an audio file (:warning: The audio file must be sampled at a frequency of 16 Khz
-with 1 channel) and the corresponding orthographic transcription. You can also choose an acoustic model, that will be used to perform the alignment, among the five architecture available as option.
-After selecting them, click on `Align` button. Then, wait while the file is aligned. This may take a while.
-
-![](doc/ufpalign_window1.png)
-
-When the alignment is successful finished, the aligner offers the option to promptly display the current resulting 
-TextGrid in the Praat interface or to proceed 
-to align a new audio file. 
-
-![](doc/ufpalign_window3.png)
-
-The figure below shows the Praat's
-TextGrid editor displaying an audio file waveform followed by its 
-spectrogram and its aligner's resulting multi-tier TextGrid containing five tiers: 
-phonemes, syllables, words, phonetic transcription and orthographic transcription,
-respectively. 
-
-![](doc/textgrid.png)
-
-Praat's TextGrid editor itself plots the waveform and spectrogram from the audio file, it is not content of the TextGrid file. 
-Kaldi provides the vertical blue dashes, which correspond to the time marks, while FalaBrasil's NLP library provides the phonetic and syllabic transcriptions. Whether you decide to immediately open the result TextGrid in Praat interface or not, the TextGrid file will be saved inside a directory named textgrid at your home directory with the same name as the audio file you choose to align.
-
-### UFPAlign usage via command line instructions 
-
-But if you would like to use the UFPAlign via command line, you only need to untar the `UFPAlign.tar.gz` file inside the `path-to-/kaldi/egs/` directory (The `UFPAlign.tar.gz` is shipped inside the `plugin_ufpalign.tar.gz`). :warning: Remember to change the path inside the symbols <> according to the path to Kaldi directory in your system.
-
-```bash
-$ tar -xzf UFPAlign.tar.gz -C <path-to-/kaldi/egs/>
-$ cd <path-to-/kaldi/egs/UFPAlign>
-```
-
-Once the UFPAlign is inside the directory `egs/` of Kaldi, you only need to pass some parameters for the `fb_kaldialign.sh` script. 
-```
- ./fb_kaldialign.sh <path-to-kaldi> <path-to-kaldi-UFPAlign-directory> <path-to-audio-file> <path-to-txt-file> <AM-type-tag>
-```
-
-There are five acoustic models available to perform the phonetic alignment. They are identify by the tags: mono, tri1, tri2, tri3, tdnn. Below a example of the UFPAlign usage via command line.
-
-```bash
-$ ./fb_kaldialign.sh /home/larissa/kaldi /home/larissa/kaldi/egs/UFPAlign /home/larissa/fb-audio-corpora/M-002.wav /home/larissa/fb-audio-corpora/M-002.txt tdnn
-```
-
-As soon as the alignment process is finished, you can find the result TextGrid file inside a directory named textgrid at your home directory with the same name as the audio file you choose to align.
-
-</details>
-
-
-## Citation
-
-If you use any of the resources provided on this repository, please cite us
-as the following:
+Se utilizares qualquer recurso disponível nesse repositório, por favor nos cite
+com as seguintes referências:
 
 ### [BRACIS 2020](https://link.springer.com/chapter/10.1007/978-3-030-61377-8_44)
 
@@ -253,14 +231,15 @@ as the following:
     isbn       = {978-3-030-61377-8}
 }
 ```
-:warning: This paper uses the outdated nnet2 recipes, while this repo has been
-updated to the chain models' recipe via nnet3 scripts. The nnet2
-scripts, can be found on tag `nnet2` in the [FalaBrasil's Kaldi acoustic models training repository](https://gitlab.com/fb-asr/fb-am-tutorial/kaldi-am-train).
 
-[![FalaBrasil](doc/logo_fb_github_footer.png)](https://ufpafalabrasil.gitlab.io/ "Visite o site do Grupo FalaBrasil") [![UFPA](doc/logo_ufpa_github_footer.png)](https://portal.ufpa.br/ "Visite o site da UFPA")
+:warning: Este artigo usa as receitas `nnet2` desatualizadas, porém este
+repositório foi atualizado para a receita dos chain models por meio de scripts
+`nnet3`. O `nnet2` scripts, podem ser encontrados na tag `nnet2` no
+[repositório do FalaBrasil com os scripts de treinamento de modelos acústicos usando o Kaldi](https://github.com/falabrasil/kaldi-br).
 
-__Grupo FalaBrasil (2021)__ - https://ufpafalabrasil.gitlab.io/      
+[![FalaBrasil](https://gitlab.com/falabrasil/avatars/-/raw/main/logo_fb_git_footer.png)](https://ufpafalabrasil.gitlab.io/ "Visite o site do Grupo FalaBrasil") [![UFPA](https://gitlab.com/falabrasil/avatars/-/raw/main/logo_ufpa_git_footer.png)](https://portal.ufpa.br/ "Visite o site da UFPA")
+
+__Grupo FalaBrasil (2022)__ - https://ufpafalabrasil.gitlab.io/      
 __Universidade Federal do Pará (UFPA)__ - https://portal.ufpa.br/     
 Cassio Batista - https://cassota.gitlab.io/    
 Larissa Dias   - larissa.engcomp@gmail.com     
-Daniel Santana - daniel.santana.1661@gmail.com     
