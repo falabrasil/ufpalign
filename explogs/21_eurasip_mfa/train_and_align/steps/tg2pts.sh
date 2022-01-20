@@ -1,0 +1,1 @@
+../../align_only/steps/tg2pts.sh

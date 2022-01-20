@@ -97,58 +97,6 @@ Then, unpack it, creating the executable file praat. You can remove the tar
 file.
 </details>
 
-<details>
-<summary>NLP-generator Installation</summary>
-
-First, clone the NLP-generator from Gitlab into your home directory
-(:warning: It must be cloned to your home directory) by typing into a shell:
-
-```bash
-$ git clone git clone https://gitlab.com/fb-nlp/nlp-generator.git
-```
-
-The NLP-generator, originally developed in Java, has recently been adapted to 
-Python thanks to the [PyJNIus](https://github.com/kivy/pyjnius) module, which
-allows you to load Java methods into Python. So, to install the NLP 
-requirements, we need to download and install 
-[Anaconda](https://www.anaconda.com/) for Python 3. In your browser, download
-the Anaconda installer for Linux from the Anaconda website. Then, enter the
-following to install:
-
-```bash
-$ bash Anaconda3-2020.11-Linux-x86_64.sh
-```
-
-Now you can install the remaining requirements using conda:
-
-```bash
-$ conda install cython
-$ sudo conda install -c conda-forge pyjnius
-$ sudo conda install -c anaconda openjdk
-$ pip3 install PyICU
-```
-Make sure that all requirements are meet by typing into a shell:
-```bash
-$ pip3 list | grep -iE 'jni|cython|pyicu'
-```
-The last command should print the output:
-```bash
-$ pip3 list | egrep -i 'jni|cython|pyicu'
-Cython                             0.29.21
-PyICU                              2.6
-pyjnius                            1.2.1
-```
-
-Finally, make sure that your environment variable `JAVA_HOME` points to Java 8
-(or newer version) from Anaconda as the example below:
-
-```bash
-$ echo $JAVA_HOME 
-$HOME/anaconda3
-```
-
-</details>
-
 
 ## Usage
 
@@ -188,7 +136,7 @@ choose to align.
 
 ### From Command Line (CLI)
 
-Just execute file `ufpalign.sh`. with no arguments, it prints a help message.
+Just execute file `ufpalign.sh`. With no arguments, it prints a help message.
 The following command works perfectly using the monophone model, though:
 
 ```bash
@@ -197,6 +145,7 @@ $ bash ufpalign.sh $HOME/kaldi demo/ex.wav demo/ex.txt mono
 
 File [`demo/M-001.log`](demo/M-001.log) contains an example of output from a
 real execution.
+
 
 ## Citation
 

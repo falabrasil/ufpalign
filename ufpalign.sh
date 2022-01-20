@@ -35,6 +35,7 @@ wav_file=$(readlink -f $2)
 txt_file=$(readlink -f $3)
 am_tag=$4
 
+# sanity check
 [ ! -d "$kaldi_root/egs" ] && \
   echo "$0: error: bad kaldi root dir: '$kaldi_root'" && exit 1
 for f in $wav_file $txt_file ; do
@@ -48,14 +49,13 @@ done
 log "$0: downloading models"
 util/download_model.sh "data" $UFPALIGN_DIR || exit 1
 util/download_model.sh $am_tag $UFPALIGN_DIR || exit 1
-[[ "$am_tag" == "tdnn" ]] && \
-  { util/download_model.sh "ie" $UFPALIGN_DIR || exit 1 ; }
+[[ "$am_tag" == "tdnn" ]] && { util/download_model.sh "ie" $UFPALIGN_DIR || exit 1 ; }
 
 egs_dir=$kaldi_root/egs/UFPAlign/s5
 rm -rf $egs_dir/data  # safety?
 mkdir -p $egs_dir/data/local || exit 1
 
-cp -r egs/{conf,local} $egs_dir
+cp -r conf local $egs_dir
 cp -r $UFPALIGN_DIR/data $egs_dir
 ln -rsf $kaldi_root/egs/wsj/s5/{steps,utils,path.sh} $egs_dir
 
@@ -79,23 +79,24 @@ utils/utt2spk_to_spk2utt.pl data/alignme/utt2spk > data/alignme/spk2utt || exit 
 log "$0: extending lexicon and lang"
 local/ext_dict.sh $UFPALIGN_DIR $txt_file data/dict/{lexicon,syllables}.txt || exit 1
 
-# extract mfcc features
+# extract mfcc features: low resolution for gmm, high for tdnn
 log "$0: extracting mfccs"
-if [[ "$am_tag" =~ ("mono"|"tri"[1-3]) ]] ; then
-  conf=conf/mfcc.conf  # low resolution features, 13 MFCCs
-elif [[ "$am_tag" == "tdnn" ]] ; then
-  conf=conf/mfcc_hires.conf # high resolution features, 40 MFCCs
-fi
-steps/make_mfcc.sh --nj 1 --mfcc-config $conf data/alignme || exit 1
-steps/compute_cmvn_stats.sh data/alignme || exit 1
-utils/fix_data_dir.sh data/alignme || exit 1
+conf=conf/mfcc.conf 
+[[ "$am_tag" == "tdnn" ]] && conf=conf/mfcc_hires.conf
+(
+  steps/make_mfcc.sh --nj 1 --mfcc-config $conf data/alignme || touch .err
+  steps/compute_cmvn_stats.sh data/alignme || touch .err
+  utils/fix_data_dir.sh data/alignme || touch .err
+)&
 
 # extract ivector features (for tdnn model only)
 if [[ "$am_tag" == "tdnn" ]] ; then
   log "$0: extracting ivectors"
-  steps/online/nnet2/extract_ivectors_online.sh --nj 1 \
-    data/alignme $UFPALIGN_DIR/ie data/alignme/ivector_hires
+  ( steps/online/nnet2/extract_ivectors_online.sh --nj 1 \
+    data/alignme $UFPALIGN_DIR/ie data/alignme/ivector_hires || touch .err )&
 fi
+wait
+[ -f .err ] && rm .err && echo "$0: error at feat extraction" && exit 1
 
 # align
 log "$0: aligning"

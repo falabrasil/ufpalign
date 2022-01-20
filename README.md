@@ -4,8 +4,8 @@ O UFPAlign é uma ferramenta de código aberto para alinhamento fonético
 automático do Português Brasileiro utilizando o pacote de ferramentas 
 [Kaldi](http://kaldi-asr.org/). O UFPAlign é disponibilizado como um plugin 
 para o [Praat](https://www.fon.hum.uva.nl/praat/), sendo acessível diretamente 
-do menu do Praat e executa o alinhamento a partir de um arquivo de áudio e sua
-transcrição ortográfica com algumas poucas etapas manuais. O resultado é um
+do menu do Praat e executando o alinhamento a partir de um arquivo de áudio e 
+sua transcrição ortográfica com algumas poucas etapas manuais. O resultado é um
 TextGrid multi-nível contendo fonemas, sílabas, palavras, transcrições
 fonéticas e ortográficas conforme a figura abaixo.
 
@@ -23,7 +23,7 @@ baseado no Debian, então o gerenciador de pacotes padrão será o `apt`.
 <details>
 <summary>Kaldi</summary>
 
-Primeiro, clone a versão mais atual do Kaldi do GitHub digitando no
+Primeiro, clona a versão mais atual do Kaldi do GitHub digitando no
 terminal:
 
 ```bash
@@ -31,7 +31,7 @@ $ git clone https://github.com/kaldi-asr/kaldi
 ```
 
 O próximo passo é a instalação do `tools` do Kaldi. No diretório 
-`kaldi/tools/`, verifica se algum pré-requisitos do Kaldi ainda precisa ser
+`kaldi/tools/`, verifica se algum pré-requisito do Kaldi ainda precisa ser
 instalado:
 
 ```bash
@@ -56,7 +56,7 @@ $ make -j 4
 O último pacote a ser instalado é a OpenBLAS, uma biblioteca open-source de
 álgebra linear que pode ser utilizada no lugar da Intel MKL. Cuidado que isso
 irá utilizar todos os cores da tua máquina, até mesmo as hyperthreads caso o
-processador suporte.
+processador as suporte.
 
 ```bash
 $ extras/install_openblas.sh
@@ -99,64 +99,8 @@ $ sudo apt-get install praat
 
 Ou podes baixar o executável 64-bit na página de [download do
 Praat](https://www.fon.hum.uva.nl/praat/praat6141_linux64.tar.gz). Depois de
-baixá-lo, deves descompactar dentro de uma pasta. Pronto, apenas clique no
+baixá-lo, deves descompactar dentro de uma pasta. Pronto, apenas clica no
 executável para usar o Praat. O `*.tar.gz` pode ser deletado.
-</details>
-
-<details>
-<summary>NLP-generator</summary>
-
-Primeiro, deves clonar o repositório NLP-generator do Gitlab dentro do diretório
-home (:warning: O NLP-generator precisa ser clonado dentro da home para que
-o UFPAlign funcione corretamente).
-
-```bash
-$ git clone https://gitlab.com/fb-nlp/nlp-generator.git
-```
-
-O NLP-generator foi desenvolvido em Java, mas recentemente foi atualizado para
-também funcionar em Python graças ao módulo
-[PyJNIus](https://github.com/kivy/pyjnius), o qual permite que os metódos em
-Java sejam  importados pelo Python. Portanto, para instalar os requisitos de
-NLP, precisar baixar e instalar o [Anaconda] (https://www.anaconda.com/) para
-Python 3. Baixa e execita o instalador Anaconda no navegador para Linux 
-diretamente do site do Anaconda:
-
-```bash
-$ bash Anaconda3-2020.11-Linux-x86_64.sh 
-```
-
-Agora podes instalar os requisitos restantes usando `conda`:
-
-```bash
-$ conda install cython
-$ sudo conda install -c conda-forge pyjnius
-$ sudo conda install -c anaconda openjdk
-$ pip3 install PyICU
-```
-
-Certifique-se de que todos os requisitos sejam atendidos digitando no terminal:
-
-```bash
-$ pip3 list | grep -iE 'jni|cython|pyicu'
-```
-
-O último comando deve imprimir a saída:
-
-```bash
-$ pip3 list | egrep -i 'jni|cython|pyicu'
-Cython                             0.29.21
-PyICU                              2.6
-pyjnius                            1.2.1
-```
-
-Finalmente, atenta para que a variável de ambiente `JAVA_HOME` aponte
-para Java 8 (ou versão mais recente) do Anaconda como o exemplo abaixo:
-
-```bash
-$ echo $JAVA_HOME 
-/home/cassio/anaconda3
-```
 </details>
 
 
@@ -164,8 +108,8 @@ $ echo $JAVA_HOME
 
 ### Plugin do Praat (GUI)
 
-Para usar o plugin, abra o menu `New` e clique na opção `UFPAlign`, a seguinte
-janela inicial será exibido. Clique nos botões `Choose...` para selecionar o
+Para usar o plugin, abre o menu `New` e clique na opção `UFPAlign`, a seguinte
+janela inicial será exibido. Clica nos botões `Choose...` para selecionar o
 caminho para o diretório raiz do Kaldi, um arquivo de áudio e
 sua correspondente transcrição ortográfica. Podes também escolher a
 arquitetura do modelo acústico que será usado para realizar o alinhamento.

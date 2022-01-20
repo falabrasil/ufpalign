@@ -1,1 +1,1 @@
-este é um teste dos modelos acústiscos treinados pelo grupo falabrasil para alinhamento fonético
+este é um teste dos modelos acústicos treinados pelo grupo falabrasil para alinhamento fonético
