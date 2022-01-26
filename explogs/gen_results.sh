@@ -10,10 +10,10 @@
 rm -f /tmp/*.{pb,iou,png} .err
 
 predicted=(
-  "21_eurasip_htk/ufpalign1.0/workspace/pts" 
-  "21_eurasip_htk/easyalign/workspace/pts/fb" 
-  "21_eurasip_mfa/align_only/workspace/pts_out/fb" 
-  "21_eurasip_mfa/train_and_align/workspace/pts" 
+  "22_eurasip_htk/ufpalign1.0/workspace/pts" 
+  "22_eurasip_htk/easyalign/workspace/pts/fb" 
+  "22_eurasip_mfa/align_only/workspace/pts_out/fb" 
+  "22_eurasip_mfa/train_and_align/workspace/pts" 
 )
 filename=(
   "UFPAlign 1.0 - %s" 
@@ -24,12 +24,12 @@ filename=(
 
 for i in $(seq 0 3) ; do
   for gender in M F ; do
-    ( python pts2pb.py \
+    ( utils/pts2pb.py \
         ds2fb/workspace/pts_out/fb \
         ${predicted[$i]} \
         $gender \
         "$(printf "/tmp/${filename[$i]}.pb" $gender)" || touch .err )&
-    ( python pts2iou.py \
+    ( utils/pts2iou.py \
         ds2fb/workspace/pts_out/fb \
         ${predicted[$i]} \
         $gender \
@@ -64,7 +64,7 @@ wait
 #rm -f /tmp/*.pb
 #for i in $(seq 0 5) ; do
 #  for gender in M F ; do
-#    python pts2pb.py \
+#    utils/pts2pb.py \
 #      ds2fb/workspace/pts_out/fb \
 #      ${predicted[$i]} \
 #      $gender \
@@ -74,7 +74,7 @@ wait
 #
 ## plot M and F in different mpl Figure objects to preserve space
 #for gender in M F ; do
-#  python pb2tol.py /tmp/UFPAlign*mono*$gender.pb \
+#  utils/pb2tol.py /tmp/UFPAlign*mono*$gender.pb \
 #                   /tmp/UFPAlign*Δ*$gender.pb \
 #                   /tmp/UFPAlign*LDA*$gender.pb \
 #                   /tmp/UFPAlign*SAT*$gender.pb \
@@ -82,7 +82,7 @@ wait
 #done
 
 #######################################################################
-### EURASIP 2021: Mini-Librispeech
+### EURASIP 2022: Mini-Librispeech
 #######################################################################
 
 predicted=(
@@ -103,12 +103,12 @@ filename=(
 
 for i in $(seq 0 4) ; do
   for gender in M F ; do
-    ( python pts2pb.py \
+    ( utils/pts2pb.py \
         ds2fb/workspace/pts_out/fb \
         ${predicted[$i]} \
         $gender \
         "$(printf "/tmp/${filename[$i]}.pb" $gender)" || touch .err )&
-    ( python pts2iou.py \
+    ( utils/pts2iou.py \
         ds2fb/workspace/pts_out/fb \
         ${predicted[$i]} \
         $gender \
@@ -118,17 +118,18 @@ done
 wait
 [ -f .err ] && rm .err && echo "$0: error: kaldi error" && exit 1
 
+# iou: intersection over union actually request by reviewer 1 of eurasip
 # plot M and F in different mpl Figure objects to preserve space
 for gender in F M ; do
-  ( python3 iou2bp_trideltas.py /tmp/Kaldi*Δ*$gender.iou )&
+  ( utils/iou2bp_trideltas.py /tmp/Kaldi*Δ*$gender.iou )&
   ( sleep 1 && \
-    python iou2bp.py /tmp/{U,E,M}*$gender.iou \
+    utils/iou2bp.py /tmp/{U,E,M}*$gender.iou \
                      /tmp/Kaldi*mono*$gender.iou \
                      /tmp/Kaldi*Δ*$gender.iou \
                      /tmp/Kaldi*LDA*$gender.iou \
                      /tmp/Kaldi*SAT*$gender.iou \
                      /tmp/Kaldi*TDNN*$gender.iou )&
-  python pb2tol.py /tmp/{U,E,M}*$gender.pb \
+  utils/pb2tol.py /tmp/{U,E,M}*$gender.pb \
                    /tmp/Kaldi*mono*$gender.pb \
                    /tmp/Kaldi*Δ*$gender.pb \
                    /tmp/Kaldi*LDA*$gender.pb \

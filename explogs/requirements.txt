@@ -1,0 +1,5 @@
+termcolor
+matplotlib
+numpy
+seaborn
+pandas

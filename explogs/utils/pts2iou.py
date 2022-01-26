@@ -10,7 +10,6 @@ import io
 import pickle
 import locale
 from collections import OrderedDict
-from functools import cmp_to_key
 
 import numpy as np
 import pandas as pd

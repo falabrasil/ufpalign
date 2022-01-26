@@ -41,3 +41,9 @@ Since we are rather training an acoustic model from scratch we could use what
 phonetic dict we want, it does not necessarily needs to be one trained with MFA
 G2P model for Portuguese. So yeah, we're using FalaBrasil's dict directly to
 avoid the m2m aligner.
+
+[![FalaBrasil](https://gitlab.com/falabrasil/avatars/-/raw/main/logo_fb_git_footer.png)](https://ufpafalabrasil.gitlab.io/ "Visite o site do Grupo FalaBrasil") [![UFPA](https://gitlab.com/falabrasil/avatars/-/raw/main/logo_ufpa_git_footer.png)](https://portal.ufpa.br/ "Visite o site da UFPA")
+
+__Grupo FalaBrasil (2021)__ - https://ufpafalabrasil.gitlab.io/      
+__Universidade Federal do Pará (UFPA)__ - https://portal.ufpa.br/     
+Cassio Batista - https://cassota.gitlab.io/    
