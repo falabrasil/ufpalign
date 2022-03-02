@@ -1,0 +1,1 @@
+../../22_eurasip_mfa_align_only/steps/tg2pts.sh

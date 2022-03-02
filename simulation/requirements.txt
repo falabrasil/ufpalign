@@ -1,0 +1,6 @@
+dvc[gdrive]
+matplotlib
+numpy
+pandas
+seaborn
+termcolor
