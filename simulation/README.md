@@ -48,6 +48,13 @@
 | htk   | https://htk.eng.cam.ac.uk/                                        |
 | kaldi | https://github.com/kaldi-asr/kaldi                                |
 
+Most of the requirements are solved if you use the docker image under
+`docker/simulation` dir. The following is a manual set up just in case you 
+like to suffer. HTK has been a pain in Ubuntu 20 for me. MFA is easier now 
+since everything is being hosted under `conda-forge` repo, including all Kaldi
+dependencies.
+
+
 ### Data: Male Female (mf) Dataset
 
 :warning: Install DVC with Google Drive support via `pip install dvc[gdrive]`.
@@ -68,8 +75,8 @@ Either Anaconda or Miniconda will do.
 $ conda create --name mfa python=3.8 --channel conda-forge montreal-forced-aligner --yes
 $ conda activate mfa
 (mfa) $ mfa download acoustic portuguese
-(mfa) $ mfa download dictionary portuguese_brazil_ipa
-(mfa) $ mfa download g2p portuguese_g2p
+(mfa) $ mfa download dictionary portuguese_brazil_ipa  # optional
+(mfa) $ mfa download g2p portuguese_g2p  # optional
 ```
 
 <details>

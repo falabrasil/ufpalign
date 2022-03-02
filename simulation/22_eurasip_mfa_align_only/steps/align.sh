@@ -3,7 +3,7 @@
 # author: feb 2021
 # Cassio Batista - https://cassota.gitlab.io
 
-. env.sh || exit 1
+. ../env.sh || exit 1
 
 if test $# -ne 3 ; then
   echo "usage: $0 <corpus-dir> <dict> <tg-out-dir>"

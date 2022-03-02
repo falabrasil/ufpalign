@@ -10,10 +10,10 @@
 rm -f /tmp/*.{pb,iou,png} .err
 
 predicted=(
-  "22_eurasip_htk/ufpalign1.0/workspace/pts" 
-  "22_eurasip_htk/easyalign/workspace/pts/fb" 
-  "22_eurasip_mfa/align_only/workspace/pts_out/fb" 
-  "22_eurasip_mfa/train_and_align/workspace/pts" 
+  "22_eurasip_htk_ufpalign/workspace/pts" 
+  "22_eurasip_htk_easyalign/workspace/pts/fb" 
+  "22_eurasip_mfa_align_only/workspace/pts_out/fb" 
+  "22_eurasip_mfa_train_and_align/workspace/pts" 
 )
 filename=(
   "UFPAlign 1.0 - %s" 
@@ -24,12 +24,12 @@ filename=(
 
 for i in $(seq 0 3) ; do
   for gender in M F ; do
-    ( utils/pts2pb.py \
+    ( local/pts2pb.py \
         ds2fb/workspace/pts_out/fb \
         ${predicted[$i]} \
         $gender \
         "$(printf "/tmp/${filename[$i]}.pb" $gender)" || touch .err )&
-    ( utils/pts2iou.py \
+    ( local/pts2iou.py \
         ds2fb/workspace/pts_out/fb \
         ${predicted[$i]} \
         $gender \
@@ -103,12 +103,12 @@ filename=(
 
 for i in $(seq 0 4) ; do
   for gender in M F ; do
-    ( utils/pts2pb.py \
+    ( local/pts2pb.py \
         ds2fb/workspace/pts_out/fb \
         ${predicted[$i]} \
         $gender \
         "$(printf "/tmp/${filename[$i]}.pb" $gender)" || touch .err )&
-    ( utils/pts2iou.py \
+    ( local/pts2iou.py \
         ds2fb/workspace/pts_out/fb \
         ${predicted[$i]} \
         $gender \
@@ -121,15 +121,15 @@ wait
 # iou: intersection over union actually request by reviewer 1 of eurasip
 # plot M and F in different mpl Figure objects to preserve space
 for gender in F M ; do
-  ( utils/iou2bp_trideltas.py /tmp/Kaldi*Δ*$gender.iou )&
+  ( local/iou2bp_trideltas.py /tmp/Kaldi*Δ*$gender.iou )&
   ( sleep 1 && \
-    utils/iou2bp.py /tmp/{U,E,M}*$gender.iou \
+    local/iou2bp.py /tmp/{U,E,M}*$gender.iou \
                      /tmp/Kaldi*mono*$gender.iou \
                      /tmp/Kaldi*Δ*$gender.iou \
                      /tmp/Kaldi*LDA*$gender.iou \
                      /tmp/Kaldi*SAT*$gender.iou \
                      /tmp/Kaldi*TDNN*$gender.iou )&
-  utils/pb2tol.py /tmp/{U,E,M}*$gender.pb \
+  local/pb2tol.py /tmp/{U,E,M}*$gender.pb \
                    /tmp/Kaldi*mono*$gender.pb \
                    /tmp/Kaldi*Δ*$gender.pb \
                    /tmp/Kaldi*LDA*$gender.pb \

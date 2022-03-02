@@ -4,7 +4,7 @@
 # author: nov 2020
 # cassio batista - https://cassota.gitlab.io
 
-. env.sh || exit 1
+. ../env.sh || exit 1
 
 FMT='%H:%M:%S'
 

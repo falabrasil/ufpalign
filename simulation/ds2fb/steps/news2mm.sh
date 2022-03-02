@@ -5,7 +5,7 @@
 
 # to be executed after pts2news.sh script
 
-. env.sh || exit 1
+. ../env.sh || exit 1
 
 if test $# -ne 3 ; then
     echo "usage: $0 <news-in-file> <mm-out-file> <mm-model-out-file>"

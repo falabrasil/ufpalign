@@ -20,7 +20,7 @@
 # targetkind$ = Get value... 'langcol' tk   # L81
 # srcrateref=10000000/spfreqref             # L86
 
-. env.sh || exit 1
+. ../env.sh || exit 1
 
 SP_FREQ_REF=16000
 TARGET_KIND=MFCC_0_D_N_Z

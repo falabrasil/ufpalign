@@ -3,7 +3,7 @@
 # author: dec 2020
 # cassio batista - https://cassota.gitlab.io
 
-. env.sh || exit 1
+. ../env.sh || exit 1
 
 WORKDIR=workspace
 MODEL_EGS_DIR=$HOME/git-all/kaldi/egs/21_eurasip/s5

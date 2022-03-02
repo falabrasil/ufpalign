@@ -3,7 +3,7 @@
 # author: feb 2021
 # cassio batista - https://cassota.gitlab.io
 
-. env.sh || exit 1
+. ../env.sh || exit 1
 
 WORKDIR=workspace
 FB_PTSDIR=../../ds2fb/workspace/pts_out/fb

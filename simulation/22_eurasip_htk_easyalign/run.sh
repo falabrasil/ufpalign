@@ -3,7 +3,7 @@
 # author: jan 2021
 # cassio batista - https://cassota.gitlab.io
 
-. env.sh || exit 1
+. ../env.sh || exit 1
 
 WORKDIR=workspace
 
