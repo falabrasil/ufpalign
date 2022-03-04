@@ -52,7 +52,7 @@ for wav in $data_dir/*.wav ; do
       $dict \
       $UFPALIGN_DIR/util/phones.list \
       $wav;
-    mv $rec $rec_dir 2>/dev/null || echo "[$0 $(date "$FMT")] **$wav fail";
+    mv $rec $rec_dir 2>/dev/null || echo "[$0 $(date +"$FMT")] **$wav fail";
     rm -f $lab;
   ) &
   # ensure we don't supperpass the specified amount of parallel jobs

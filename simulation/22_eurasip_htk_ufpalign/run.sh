@@ -37,7 +37,7 @@ if [ $STAGE -le 1 ] ; then
 fi
 
 if [ $STAGE -le 2 ] ; then
-  msg "[$0] calling rec2pts script" | lolcat
+  msg "[$0] calling rec2pts script"
   mkdir -p $WORKDIR/pts/
   steps/rec2pts.py $WORKDIR/rec $WORKDIR/pts || exit 1
 fi

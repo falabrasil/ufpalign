@@ -221,7 +221,6 @@ i       0.886   i       0.886
 ## Requirements
 
 - m2m aligner: https://github.com/letter-to-phoneme/m2m-aligner
-- lolcat
 - Python 3 + termcolor
 
 [![FalaBrasil](https://gitlab.com/falabrasil/avatars/-/raw/main/logo_fb_git_footer.png)](https://ufpafalabrasil.gitlab.io/ "Visite o site do Grupo FalaBrasil") [![UFPA](https://gitlab.com/falabrasil/avatars/-/raw/main/logo_ufpa_git_footer.png)](https://portal.ufpa.br/ "Visite o site da UFPA")

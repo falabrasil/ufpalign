@@ -1,1 +1,1 @@
-../../ufpalign1.0/steps/rec2pts.py
+../../22_eurasip_htk_ufpalign/steps/rec2pts.py

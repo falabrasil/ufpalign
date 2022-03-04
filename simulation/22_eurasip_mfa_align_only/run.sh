@@ -6,7 +6,7 @@
 . ../env.sh || exit 1
 
 WORKDIR=workspace
-FB_PTSDIR=../../ds2fb/workspace/pts_out/fb
+FB_PTSDIR=../ds2fb/workspace/pts_out/fb
 
 # https://stackoverflow.com/questions/402377/using-getopts-to-process-long-and-short-command-line-options
 MIN_STAGE=1
@@ -20,7 +20,8 @@ while true ; do
   esac
 done
 
-# XXX this is probably gonna be a problem under a docker container
+# Q: this is probably gonna be a problem under a docker container
+# A: not if the docker is from continuumio =)
 if [ -z $CONDA_PREFIX ] ; then
   echo "$0: warning: it is advised to install things under a conda venv."
   echo "  aborting."
@@ -37,9 +38,9 @@ fi
 
 if [ $STAGE -le 1 ] ; then
   msg "[$0] calling MFA aligner script"
-  mkdir -p $WORKDIR/tg
-  steps/align.sh $DATA_DIR/male   ../dict_mfa.dict $WORKDIR/tg || exit 1
-  steps/align.sh $DATA_DIR/female ../dict_mfa.dict $WORKDIR/tg || exit 1
+  rm -rf $WORKDIR/tg
+  steps/align.sh $DATA_DIR/male   dict_mfa.dict $WORKDIR/tg || exit 1
+  steps/align.sh $DATA_DIR/female dict_mfa.dict $WORKDIR/tg || exit 1
 fi
 
 if [ $STAGE -le 2 ] ; then
