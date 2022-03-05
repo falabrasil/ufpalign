@@ -17,8 +17,7 @@ copyright issues.
 
 ```bash
 $ git clone https://github.com/falabrasil/ufpalign
-$ cd ufpalign
-# do not forget to download HTK source right now and put the .tar.gz file here
+$ cd ufpalign  # do not forget to download HTK and put the .tar.gz file here
 $ docker build -t falabrasil/ufpalign:simulation-$(date +'%Y%m%d') -f docker/simulation/Dockerfile .
 ```
 
@@ -29,18 +28,19 @@ Create the container and run it at once:
 
 ```bash
 $ git clone https://github.com/falabrasil/ufpalign
-$ docker run --name ufpalign-simulation -it -v $PWD/ufpalign:/opt/ufpalign \
-    falabrasil/ufpalign-simulation:-$(date +'%Y%m%d') bash
+$ cd ufpalign
+$ docker run --name ufpalign-simulation -it -v $PWD:/opt/ufpalign \
+    falabrasil/ufpalign:simulation-$(date +'%Y%m%d') bash
 ```
 
 Or, if the container has already been created:
 
 ```bash
-$ docker start falabrasil/ufpalign-simulation:-$(date +'%Y%m%d') 
-$ docker exec -it falabrasil/ufpalign-simulation:-$(date +'%Y%m%d') bash
+$ docker start ufpalign-simulation
+$ docker exec -it ufpalign-simulation bash
 ```
 
-Then, within the container, run the aligner:
+Once inside the container, run the aligner:
 
 ```text
 (base) root@HASH # cd /opt/speech-datasets && dvc pull -r align 

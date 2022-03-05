@@ -21,19 +21,17 @@ Create the container and run it at once:
 
 ```bash
 $ docker run --name ufpalign-execution -it \
-    falabrasil/ufpalign-execution:-$(date +'%Y%m%d') bash
-root@HASH # bash ufpalign.sh /opt/kaldi demo/audio.wav demo/trans.txt tdnn
+    falabrasil/ufpalign:execution-$(date +'%Y%m%d') bash
 ```
 
 Or, if the container has already been created:
 
 ```bash
-$ docker start falabrasil/ufpalign-execution:-$(date +'%Y%m%d') 
-$ docker exec -it falabrasil/ufpalign-execution:-$(date +'%Y%m%d') bash
-root@HASH # bash ufpalign.sh /opt/kaldi demo/audio.wav demo/trans.txt tdnn
+$ docker start ufpalign-execution
+$ docker exec -it ufpalign-execution bash
 ```
 
-Then, within the container, run the aligner:
+Once inside the container, run the aligner:
 
 ```text
 root@HASH # bash ufpalign.sh /opt/kaldi demo/audio.wav demo/trans.txt tdnn
