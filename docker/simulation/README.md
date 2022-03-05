@@ -1,8 +1,8 @@
-# Docker for simulation :whale:
+# Docker for running simulations :whale:
 
 In order to build this image, you gotta download HTK source from the website
 first: https://htk.eng.cam.ac.uk/. Place the file `HTK-3.4.1.tar.gz` from the
-last stable release in this very dir, then.
+last stable release in this root dir of this repo, then.
 
 The image is based on 
 [Continuum IO's image for Miniconda 3](https://hub.docker.com/r/continuumio/miniconda3),
@@ -17,17 +17,32 @@ copyright issues.
 
 ```bash
 $ git clone https://github.com/falabrasil/ufpalign
-$ cd ufpalign/docker/simulation
+$ cd ufpalign
 # do not forget to download HTK source right now and put the .tar.gz file here
-$ docker build -t falabrasil/ufpalign:simulation-$(date +'%Y%m%d') .
+$ docker build -t falabrasil/ufpalign:simulation-$(date +'%Y%m%d') -f docker/simulation/Dockerfile .
 ```
+
 
 ## Usage
 
-```text
+Create the container and run it at once:
+
+```bash
 $ git clone https://github.com/falabrasil/ufpalign
 $ docker run --name ufpalign-simulation -it -v $PWD/ufpalign:/opt/ufpalign \
     falabrasil/ufpalign-simulation:-$(date +'%Y%m%d') bash
+```
+
+Or, if the container has already been created:
+
+```bash
+$ docker start falabrasil/ufpalign-simulation:-$(date +'%Y%m%d') 
+$ docker exec -it falabrasil/ufpalign-simulation:-$(date +'%Y%m%d') bash
+```
+
+Then, within the container, run the aligner:
+
+```text
 (base) root@HASH # cd /opt/speech-datasets && dvc pull -r align 
 (base) root@HASH # cd /opt/ufpalign/simulation && bash run.sh
 ```
