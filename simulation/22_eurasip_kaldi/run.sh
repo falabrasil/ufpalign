@@ -6,8 +6,8 @@
 . ../env.sh || exit 1
 
 WORKDIR=workspace
-MODEL_EGS_DIR=$HOME/git-all/kaldi/egs/21_eurasip/s5
-DUMMY_EGS_DIR=$HOME/git-all/kaldi/egs/21_dumbdummy/s5
+MODEL_EGS_DIR=$KALDI_DIR/egs/21_eurasip/s5
+DUMMY_EGS_DIR=$KALDI_DIR/egs/21_dumbdummy/s5
 
 # https://stackoverflow.com/questions/402377/using-getopts-to-process-long-and-short-command-line-options
 MIN_STAGE=0

@@ -86,11 +86,11 @@ wait
 #######################################################################
 
 predicted=(
-  "21_eurasip_kaldi/workspace/pts/mono"
-  "21_eurasip_kaldi/workspace/pts/tri1"
-  "21_eurasip_kaldi/workspace/pts/tri2b"
-  "21_eurasip_kaldi/workspace/pts/tri3b"
-  "21_eurasip_kaldi/workspace/pts/tdnn"
+  "22_eurasip_kaldi/workspace/pts/mono"
+  "22_eurasip_kaldi/workspace/pts/tri1"
+  "22_eurasip_kaldi/workspace/pts/tri2b"
+  "22_eurasip_kaldi/workspace/pts/tri3b"
+  "22_eurasip_kaldi/workspace/pts/tdnn"
 )
 
 filename=(

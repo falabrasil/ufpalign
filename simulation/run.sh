@@ -22,8 +22,10 @@ local/check_dependencies.sh || ok=false
 ! $ok && echo "** PLEASE READ THE README.md FILE!!!" && exit 1
 
 for sim in ds2fb 22_eurasip_htk_{easyalign,ufpalign} 22_eurasip_mfa_{align_only,train_and_align} 22_eurasip_kaldi ; do
-  ( cd $sim ; bash run.sh || touch .err )
-  [ -f $sim/.err ] && rm $sim/.err && echo "$0: error at $sim" && exit 1
+  pushd $sim
+  msg "$0: running simulation on $sim"
+  bash run.sh || exit 1
+  popd
 done
 
 echo "$0: success!"
