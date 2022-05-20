@@ -1,0 +1,1322 @@
+[92m[2021-10-24 19:28:17] run_align.sh: extend lex[0m
+removed 'alignme/local/dict/lexiconp.txt'
+removed 'alignme/local/dict/lexiconp_silprob.txt'
+[92m[2021-10-24 19:28:17] run_align.sh: prep lang[0m
+utils/prepare_lang.sh alignme/local/dict <UNK> alignme/local/lang_tmp alignme/lang
+Checking alignme/local/dict/silence_phones.txt ...
+--> reading alignme/local/dict/silence_phones.txt
+--> text seems to be UTF-8 or ASCII, checking whitespaces
+--> text contains only allowed whitespaces
+--> alignme/local/dict/silence_phones.txt is OK
+
+Checking alignme/local/dict/optional_silence.txt ...
+--> reading alignme/local/dict/optional_silence.txt
+--> text seems to be UTF-8 or ASCII, checking whitespaces
+--> text contains only allowed whitespaces
+--> alignme/local/dict/optional_silence.txt is OK
+
+Checking alignme/local/dict/nonsilence_phones.txt ...
+--> reading alignme/local/dict/nonsilence_phones.txt
+--> text seems to be UTF-8 or ASCII, checking whitespaces
+--> text contains only allowed whitespaces
+--> alignme/local/dict/nonsilence_phones.txt is OK
+
+Checking disjoint: silence_phones.txt, nonsilence_phones.txt
+--> disjoint property is OK.
+
+Checking alignme/local/dict/lexicon.txt
+--> reading alignme/local/dict/lexicon.txt
+--> text seems to be UTF-8 or ASCII, checking whitespaces
+--> text contains only allowed whitespaces
+--> alignme/local/dict/lexicon.txt is OK
+
+Checking alignme/local/dict/extra_questions.txt ...
+--> reading alignme/local/dict/extra_questions.txt
+--> text seems to be UTF-8 or ASCII, checking whitespaces
+--> text contains only allowed whitespaces
+--> alignme/local/dict/extra_questions.txt is OK
+--> SUCCESS [validating dictionary directory alignme/local/dict]
+
+**Creating alignme/local/dict/lexiconp.txt from alignme/local/dict/lexicon.txt
+prepare_lang.sh: validating output directory
+utils/validate_lang.pl alignme/lang
+Checking existence of separator file
+separator file alignme/lang/subword_separator.txt is empty or does not exist, deal in word case.
+Checking alignme/lang/phones.txt ...
+--> text seems to be UTF-8 or ASCII, checking whitespaces
+--> text contains only allowed whitespaces
+--> alignme/lang/phones.txt is OK
+
+Checking words.txt: #0 ...
+--> text seems to be UTF-8 or ASCII, checking whitespaces
+--> text contains only allowed whitespaces
+--> alignme/lang/words.txt is OK
+
+Checking disjoint: silence.txt, nonsilence.txt, disambig.txt ...
+--> silence.txt and nonsilence.txt are disjoint
+--> silence.txt and disambig.txt are disjoint
+--> disambig.txt and nonsilence.txt are disjoint
+--> disjoint property is OK
+
+Checking sumation: silence.txt, nonsilence.txt, disambig.txt ...
+--> found no unexplainable phones in phones.txt
+
+Checking alignme/lang/phones/context_indep.{txt, int, csl} ...
+--> text seems to be UTF-8 or ASCII, checking whitespaces
+--> text contains only allowed whitespaces
+--> 10 entry/entries in alignme/lang/phones/context_indep.txt
+--> alignme/lang/phones/context_indep.int corresponds to alignme/lang/phones/context_indep.txt
+--> alignme/lang/phones/context_indep.csl corresponds to alignme/lang/phones/context_indep.txt
+--> alignme/lang/phones/context_indep.{txt, int, csl} are OK
+
+Checking alignme/lang/phones/nonsilence.{txt, int, csl} ...
+--> text seems to be UTF-8 or ASCII, checking whitespaces
+--> text contains only allowed whitespaces
+--> 152 entry/entries in alignme/lang/phones/nonsilence.txt
+--> alignme/lang/phones/nonsilence.int corresponds to alignme/lang/phones/nonsilence.txt
+--> alignme/lang/phones/nonsilence.csl corresponds to alignme/lang/phones/nonsilence.txt
+--> alignme/lang/phones/nonsilence.{txt, int, csl} are OK
+
+Checking alignme/lang/phones/silence.{txt, int, csl} ...
+--> text seems to be UTF-8 or ASCII, checking whitespaces
+--> text contains only allowed whitespaces
+--> 10 entry/entries in alignme/lang/phones/silence.txt
+--> alignme/lang/phones/silence.int corresponds to alignme/lang/phones/silence.txt
+--> alignme/lang/phones/silence.csl corresponds to alignme/lang/phones/silence.txt
+--> alignme/lang/phones/silence.{txt, int, csl} are OK
+
+Checking alignme/lang/phones/optional_silence.{txt, int, csl} ...
+--> text seems to be UTF-8 or ASCII, checking whitespaces
+--> text contains only allowed whitespaces
+--> 1 entry/entries in alignme/lang/phones/optional_silence.txt
+--> alignme/lang/phones/optional_silence.int corresponds to alignme/lang/phones/optional_silence.txt
+--> alignme/lang/phones/optional_silence.csl corresponds to alignme/lang/phones/optional_silence.txt
+--> alignme/lang/phones/optional_silence.{txt, int, csl} are OK
+
+Checking alignme/lang/phones/disambig.{txt, int, csl} ...
+--> text seems to be UTF-8 or ASCII, checking whitespaces
+--> text contains only allowed whitespaces
+--> 13 entry/entries in alignme/lang/phones/disambig.txt
+--> alignme/lang/phones/disambig.int corresponds to alignme/lang/phones/disambig.txt
+--> alignme/lang/phones/disambig.csl corresponds to alignme/lang/phones/disambig.txt
+--> alignme/lang/phones/disambig.{txt, int, csl} are OK
+
+Checking alignme/lang/phones/roots.{txt, int} ...
+--> text seems to be UTF-8 or ASCII, checking whitespaces
+--> text contains only allowed whitespaces
+--> 40 entry/entries in alignme/lang/phones/roots.txt
+--> alignme/lang/phones/roots.int corresponds to alignme/lang/phones/roots.txt
+--> alignme/lang/phones/roots.{txt, int} are OK
+
+Checking alignme/lang/phones/sets.{txt, int} ...
+--> text seems to be UTF-8 or ASCII, checking whitespaces
+--> text contains only allowed whitespaces
+--> 40 entry/entries in alignme/lang/phones/sets.txt
+--> alignme/lang/phones/sets.int corresponds to alignme/lang/phones/sets.txt
+--> alignme/lang/phones/sets.{txt, int} are OK
+
+Checking alignme/lang/phones/extra_questions.{txt, int} ...
+--> text seems to be UTF-8 or ASCII, checking whitespaces
+--> text contains only allowed whitespaces
+--> 10 entry/entries in alignme/lang/phones/extra_questions.txt
+--> alignme/lang/phones/extra_questions.int corresponds to alignme/lang/phones/extra_questions.txt
+--> alignme/lang/phones/extra_questions.{txt, int} are OK
+
+Checking alignme/lang/phones/word_boundary.{txt, int} ...
+--> text seems to be UTF-8 or ASCII, checking whitespaces
+--> text contains only allowed whitespaces
+--> 162 entry/entries in alignme/lang/phones/word_boundary.txt
+--> alignme/lang/phones/word_boundary.int corresponds to alignme/lang/phones/word_boundary.txt
+--> alignme/lang/phones/word_boundary.{txt, int} are OK
+
+Checking optional_silence.txt ...
+--> reading alignme/lang/phones/optional_silence.txt
+--> alignme/lang/phones/optional_silence.txt is OK
+
+Checking disambiguation symbols: #0 and #1
+--> alignme/lang/phones/disambig.txt has "#0" and "#1"
+--> alignme/lang/phones/disambig.txt is OK
+
+Checking topo ...
+
+Checking word_boundary.txt: silence.txt, nonsilence.txt, disambig.txt ...
+--> alignme/lang/phones/word_boundary.txt doesn't include disambiguation symbols
+--> alignme/lang/phones/word_boundary.txt is the union of nonsilence.txt and silence.txt
+--> alignme/lang/phones/word_boundary.txt is OK
+
+Checking word-level disambiguation symbols...
+--> alignme/lang/phones/wdisambig.txt exists (newer prepare_lang.sh)
+Checking word_boundary.int and disambig.int
+--> generating a 17 word/subword sequence
+--> resulting phone sequence from L.fst corresponds to the word sequence
+--> L.fst is OK
+--> generating a 40 word/subword sequence
+--> resulting phone sequence from L_disambig.fst corresponds to the word sequence
+--> L_disambig.fst is OK
+
+Checking alignme/lang/oov.{txt, int} ...
+--> text seems to be UTF-8 or ASCII, checking whitespaces
+--> text contains only allowed whitespaces
+--> 1 entry/entries in alignme/lang/oov.txt
+--> alignme/lang/oov.int corresponds to alignme/lang/oov.txt
+--> alignme/lang/oov.{txt, int} are OK
+
+--> alignme/lang/L.fst is olabel sorted
+--> alignme/lang/L_disambig.fst is olabel sorted
+--> SUCCESS [validating lang directory alignme/lang]
+utils/validate_lang.pl alignme/lang
+Checking existence of separator file
+separator file alignme/lang/subword_separator.txt is empty or does not exist, deal in word case.
+Checking alignme/lang/phones.txt ...
+--> text seems to be UTF-8 or ASCII, checking whitespaces
+--> text contains only allowed whitespaces
+--> alignme/lang/phones.txt is OK
+
+Checking words.txt: #0 ...
+--> text seems to be UTF-8 or ASCII, checking whitespaces
+--> text contains only allowed whitespaces
+--> alignme/lang/words.txt is OK
+
+Checking disjoint: silence.txt, nonsilence.txt, disambig.txt ...
+--> silence.txt and nonsilence.txt are disjoint
+--> silence.txt and disambig.txt are disjoint
+--> disambig.txt and nonsilence.txt are disjoint
+--> disjoint property is OK
+
+Checking sumation: silence.txt, nonsilence.txt, disambig.txt ...
+--> found no unexplainable phones in phones.txt
+
+Checking alignme/lang/phones/context_indep.{txt, int, csl} ...
+--> text seems to be UTF-8 or ASCII, checking whitespaces
+--> text contains only allowed whitespaces
+--> 10 entry/entries in alignme/lang/phones/context_indep.txt
+--> alignme/lang/phones/context_indep.int corresponds to alignme/lang/phones/context_indep.txt
+--> alignme/lang/phones/context_indep.csl corresponds to alignme/lang/phones/context_indep.txt
+--> alignme/lang/phones/context_indep.{txt, int, csl} are OK
+
+Checking alignme/lang/phones/nonsilence.{txt, int, csl} ...
+--> text seems to be UTF-8 or ASCII, checking whitespaces
+--> text contains only allowed whitespaces
+--> 152 entry/entries in alignme/lang/phones/nonsilence.txt
+--> alignme/lang/phones/nonsilence.int corresponds to alignme/lang/phones/nonsilence.txt
+--> alignme/lang/phones/nonsilence.csl corresponds to alignme/lang/phones/nonsilence.txt
+--> alignme/lang/phones/nonsilence.{txt, int, csl} are OK
+
+Checking alignme/lang/phones/silence.{txt, int, csl} ...
+--> text seems to be UTF-8 or ASCII, checking whitespaces
+--> text contains only allowed whitespaces
+--> 10 entry/entries in alignme/lang/phones/silence.txt
+--> alignme/lang/phones/silence.int corresponds to alignme/lang/phones/silence.txt
+--> alignme/lang/phones/silence.csl corresponds to alignme/lang/phones/silence.txt
+--> alignme/lang/phones/silence.{txt, int, csl} are OK
+
+Checking alignme/lang/phones/optional_silence.{txt, int, csl} ...
+--> text seems to be UTF-8 or ASCII, checking whitespaces
+--> text contains only allowed whitespaces
+--> 1 entry/entries in alignme/lang/phones/optional_silence.txt
+--> alignme/lang/phones/optional_silence.int corresponds to alignme/lang/phones/optional_silence.txt
+--> alignme/lang/phones/optional_silence.csl corresponds to alignme/lang/phones/optional_silence.txt
+--> alignme/lang/phones/optional_silence.{txt, int, csl} are OK
+
+Checking alignme/lang/phones/disambig.{txt, int, csl} ...
+--> text seems to be UTF-8 or ASCII, checking whitespaces
+--> text contains only allowed whitespaces
+--> 13 entry/entries in alignme/lang/phones/disambig.txt
+--> alignme/lang/phones/disambig.int corresponds to alignme/lang/phones/disambig.txt
+--> alignme/lang/phones/disambig.csl corresponds to alignme/lang/phones/disambig.txt
+--> alignme/lang/phones/disambig.{txt, int, csl} are OK
+
+Checking alignme/lang/phones/roots.{txt, int} ...
+--> text seems to be UTF-8 or ASCII, checking whitespaces
+--> text contains only allowed whitespaces
+--> 40 entry/entries in alignme/lang/phones/roots.txt
+--> alignme/lang/phones/roots.int corresponds to alignme/lang/phones/roots.txt
+--> alignme/lang/phones/roots.{txt, int} are OK
+
+Checking alignme/lang/phones/sets.{txt, int} ...
+--> text seems to be UTF-8 or ASCII, checking whitespaces
+--> text contains only allowed whitespaces
+--> 40 entry/entries in alignme/lang/phones/sets.txt
+--> alignme/lang/phones/sets.int corresponds to alignme/lang/phones/sets.txt
+--> alignme/lang/phones/sets.{txt, int} are OK
+
+Checking alignme/lang/phones/extra_questions.{txt, int} ...
+--> text seems to be UTF-8 or ASCII, checking whitespaces
+--> text contains only allowed whitespaces
+--> 10 entry/entries in alignme/lang/phones/extra_questions.txt
+--> alignme/lang/phones/extra_questions.int corresponds to alignme/lang/phones/extra_questions.txt
+--> alignme/lang/phones/extra_questions.{txt, int} are OK
+
+Checking alignme/lang/phones/word_boundary.{txt, int} ...
+--> text seems to be UTF-8 or ASCII, checking whitespaces
+--> text contains only allowed whitespaces
+--> 162 entry/entries in alignme/lang/phones/word_boundary.txt
+--> alignme/lang/phones/word_boundary.int corresponds to alignme/lang/phones/word_boundary.txt
+--> alignme/lang/phones/word_boundary.{txt, int} are OK
+
+Checking optional_silence.txt ...
+--> reading alignme/lang/phones/optional_silence.txt
+--> alignme/lang/phones/optional_silence.txt is OK
+
+Checking disambiguation symbols: #0 and #1
+--> alignme/lang/phones/disambig.txt has "#0" and "#1"
+--> alignme/lang/phones/disambig.txt is OK
+
+Checking topo ...
+
+Checking word_boundary.txt: silence.txt, nonsilence.txt, disambig.txt ...
+--> alignme/lang/phones/word_boundary.txt doesn't include disambiguation symbols
+--> alignme/lang/phones/word_boundary.txt is the union of nonsilence.txt and silence.txt
+--> alignme/lang/phones/word_boundary.txt is OK
+
+Checking word-level disambiguation symbols...
+--> alignme/lang/phones/wdisambig.txt exists (newer prepare_lang.sh)
+Checking word_boundary.int and disambig.int
+--> generating a 81 word/subword sequence
+--> resulting phone sequence from L.fst corresponds to the word sequence
+--> L.fst is OK
+--> generating a 84 word/subword sequence
+--> resulting phone sequence from L_disambig.fst corresponds to the word sequence
+--> L_disambig.fst is OK
+
+Checking alignme/lang/oov.{txt, int} ...
+--> text seems to be UTF-8 or ASCII, checking whitespaces
+--> text contains only allowed whitespaces
+--> 1 entry/entries in alignme/lang/oov.txt
+--> alignme/lang/oov.int corresponds to alignme/lang/oov.txt
+--> alignme/lang/oov.{txt, int} are OK
+
+--> alignme/lang/L.fst is olabel sorted
+--> alignme/lang/L_disambig.fst is olabel sorted
+--> SUCCESS [validating lang directory alignme/lang]
+[91m[2021-10-24 19:28:47] run_align.sh: prep data[0m
+fix_data_dir.sh: kept all 399 utterances.
+fix_data_dir.sh: old files are kept in alignme/.backup
+utils/copy_data_dir.sh: copied data from alignme to alignme_lores
+utils/validate_data_dir.sh: Successfully validated data-directory alignme_lores
+utils/copy_data_dir.sh: copied data from alignme to alignme_hires
+utils/validate_data_dir.sh: Successfully validated data-directory alignme_hires
+[93m[2021-10-24 19:28:50] [run_align.sh] computing low resolution mfcc features[0m
+steps/make_mfcc.sh --nj 2 alignme_lores
+utils/validate_data_dir.sh: Successfully validated data-directory alignme_lores
+steps/make_mfcc.sh: [info]: no segments file exists: assuming wav.scp indexed by utterance.
+steps/make_mfcc.sh: Succeeded creating MFCC features for alignme_lores
+steps/compute_cmvn_stats.sh alignme_lores
+Succeeded creating CMVN stats for alignme_lores
+fix_data_dir.sh: kept all 399 utterances.
+fix_data_dir.sh: old files are kept in alignme_lores/.backup
+[91m[2021-10-24 19:28:51] [run_align.sh] computing high resolution mfcc features[0m
+steps/make_mfcc.sh --nj 2 --mfcc-config conf/mfcc_hires.conf alignme_hires
+utils/validate_data_dir.sh: Successfully validated data-directory alignme_hires
+steps/make_mfcc.sh: [info]: no segments file exists: assuming wav.scp indexed by utterance.
+steps/make_mfcc.sh: Succeeded creating MFCC features for alignme_hires
+steps/compute_cmvn_stats.sh alignme_hires
+Succeeded creating CMVN stats for alignme_hires
+fix_data_dir.sh: kept all 399 utterances.
+fix_data_dir.sh: old files are kept in alignme_hires/.backup
+[94m[2021-10-24 19:28:52] [run_align.sh] computing ivector features[0m
+steps/online/nnet2/extract_ivectors_online.sh --nj 2 alignme_hires exp/nnet3/extractor alignme/ivectors_hires
+steps/online/nnet2/extract_ivectors_online.sh: extracting iVectors
+steps/online/nnet2/extract_ivectors_online.sh: combining iVectors across jobs
+steps/online/nnet2/extract_ivectors_online.sh: done extracting (online) iVectors to alignme/ivectors_hires using the extractor in exp/nnet3/extractor.
+run_align.sh: #####################################
+run_align.sh: ### align with GMM models routine ###
+run_align.sh: #####################################
+[94m[2021-10-24 19:28:53] [run_align.sh] align mono[0m
+steps/align_si.sh --nj 2 alignme_lores alignme/lang exp/mono alignme/results/mono_ali
+steps/align_si.sh: feature type is delta
+steps/align_si.sh: aligning data in alignme_lores using model from exp/mono, putting alignments in alignme/results/mono_ali
+steps/diagnostic/analyze_alignments.sh --cmd run.pl alignme/lang alignme/results/mono_ali
+analyze_phone_length_stats.py: WARNING: optional-silence sil is seen only 0.751879699248% of the time at utterance begin.  This may not be optimal.
+analyze_phone_length_stats.py: WARNING: optional-silence sil is seen only 16.0401002506% of the time at utterance end.  This may not be optimal.
+steps/diagnostic/analyze_alignments.sh: see stats in alignme/results/mono_ali/log/analyze_alignments.log
+steps/align_si.sh: done aligning data.
+
+steps/get_train_ctm.sh alignme alignme/lang alignme/results/mono_ali ctm_tmp
+[fblocal/ctm2pts.py] mapping file 'alignme/lang/phones.txt'
+
+[fblocal/ctm2pts.py] done. 398 ctm files processed
+ok	output written to alignme/results/mono_ali/ali_m.pb
+ok	output written to alignme/results/mono_ali/ali_f.pb
+--------------------------------------------------------------------------------------
+dataset                       	μ     	med   	σ      | <10ms 	<25ms 	<50ms 	<100ms
+--------------------------------------------------------------------------------------
+ali_m                         	16.506	11.000	19.057 | 44.14%	79.80%	95.41%	99.04%	
+ali_f                         	14.897	10.000	17.521 | 46.90%	83.55%	96.34%	99.45%	
+--------------------------------------------------------------------------------------
+[96m[2021-10-24 19:28:56] [run_align.sh] align tri-deltas[0m
+steps/align_si.sh --nj 2 alignme_lores alignme/lang exp/tri1 alignme/results/tri1_ali
+steps/align_si.sh: feature type is delta
+steps/align_si.sh: aligning data in alignme_lores using model from exp/tri1, putting alignments in alignme/results/tri1_ali
+steps/diagnostic/analyze_alignments.sh --cmd run.pl alignme/lang alignme/results/tri1_ali
+analyze_phone_length_stats.py: WARNING: optional-silence sil is seen only 8.02005012531% of the time at utterance begin.  This may not be optimal.
+analyze_phone_length_stats.py: WARNING: optional-silence sil is seen only 68.1704260652% of the time at utterance end.  This may not be optimal.
+steps/diagnostic/analyze_alignments.sh: see stats in alignme/results/tri1_ali/log/analyze_alignments.log
+steps/align_si.sh: done aligning data.
+
+steps/get_train_ctm.sh alignme alignme/lang alignme/results/tri1_ali ctm_tmp
+[fblocal/ctm2pts.py] mapping file 'alignme/lang/phones.txt'
+
+[fblocal/ctm2pts.py] done. 398 ctm files processed
+ok	output written to alignme/results/tri1_ali/ali_m.pb
+ok	output written to alignme/results/tri1_ali/ali_f.pb
+--------------------------------------------------------------------------------------
+dataset                       	μ     	med   	σ      | <10ms 	<25ms 	<50ms 	<100ms
+--------------------------------------------------------------------------------------
+ali_m                         	18.402	11.000	26.152 | 44.29%	78.83%	93.01%	98.18%	
+ali_f                         	17.607	10.000	24.691 | 47.15%	80.63%	93.22%	98.08%	
+--------------------------------------------------------------------------------------
+[93m[2021-10-24 19:28:59] [run_align.sh] align tri-lda[0m
+steps/align_fmllr.sh --nj 2 alignme_lores alignme/lang exp/tri2b alignme/results/tri2b_ali
+steps/align_fmllr.sh: feature type is lda
+steps/align_fmllr.sh: compiling training graphs
+steps/align_fmllr.sh: aligning data in alignme_lores using exp/tri2b/final.mdl and speaker-independent features.
+steps/align_fmllr.sh: computing fMLLR transforms
+steps/align_fmllr.sh: doing final alignment.
+steps/align_fmllr.sh: done aligning data.
+steps/diagnostic/analyze_alignments.sh --cmd run.pl alignme/lang alignme/results/tri2b_ali
+analyze_phone_length_stats.py: WARNING: optional-silence sil is seen only 1.50753768844% of the time at utterance begin.  This may not be optimal.
+analyze_phone_length_stats.py: WARNING: optional-silence sil is seen only 44.2211055276% of the time at utterance end.  This may not be optimal.
+steps/diagnostic/analyze_alignments.sh: see stats in alignme/results/tri2b_ali/log/analyze_alignments.log
+37 warnings in alignme/results/tri2b_ali/log/align_pass1.*.log
+2 warnings in alignme/results/tri2b_ali/log/analyze_alignments.log
+5 warnings in alignme/results/tri2b_ali/log/align_pass2.*.log
+3 warnings in alignme/results/tri2b_ali/log/fmllr.*.log
+fblocal/ali2ctm2pts.sh: file missing: male_M-101
+
+steps/get_train_ctm.sh alignme alignme/lang alignme/results/tri2b_ali ctm_tmp
+[fblocal/ctm2pts.py] mapping file 'alignme/lang/phones.txt'
+
+[fblocal/ctm2pts.py] done. 398 ctm files processed
+
+[33mfblocal/pts2pb.py: file sizes differ: 25 vs 0. this should not be happening[0m
+ok	output written to alignme/results/tri2b_ali/ali_m.pb
+ok	output written to alignme/results/tri2b_ali/ali_f.pb
+--------------------------------------------------------------------------------------
+dataset                       	μ     	med   	σ      | <10ms 	<25ms 	<50ms 	<100ms
+--------------------------------------------------------------------------------------
+ali_m                         	15.259	10.000	18.953 | 47.65%	82.02%	95.90%	99.32%	
+ali_f                         	14.754	10.000	18.299 | 48.41%	83.95%	96.29%	99.43%	
+--------------------------------------------------------------------------------------
+[93m[2021-10-24 19:29:06] [run_align.sh] align tri-sat (1st)[0m
+steps/align_fmllr.sh --nj 2 alignme_lores alignme/lang exp/tri3b alignme/results/tri3b_ali
+steps/align_fmllr.sh: feature type is lda
+steps/align_fmllr.sh: compiling training graphs
+steps/align_fmllr.sh: aligning data in alignme_lores using exp/tri3b/final.alimdl and speaker-independent features.
+steps/align_fmllr.sh: computing fMLLR transforms
+steps/align_fmllr.sh: doing final alignment.
+steps/align_fmllr.sh: done aligning data.
+steps/diagnostic/analyze_alignments.sh --cmd run.pl alignme/lang alignme/results/tri3b_ali
+analyze_phone_length_stats.py: WARNING: optional-silence sil is seen only 2.77078085642% of the time at utterance begin.  This may not be optimal.
+analyze_phone_length_stats.py: WARNING: optional-silence sil is seen only 51.1335012594% of the time at utterance end.  This may not be optimal.
+steps/diagnostic/analyze_alignments.sh: see stats in alignme/results/tri3b_ali/log/analyze_alignments.log
+8 warnings in alignme/results/tri3b_ali/log/align_pass2.*.log
+4 warnings in alignme/results/tri3b_ali/log/fmllr.*.log
+2 warnings in alignme/results/tri3b_ali/log/analyze_alignments.log
+16 warnings in alignme/results/tri3b_ali/log/align_pass1.*.log
+fblocal/ali2ctm2pts.sh: file missing: female_F-101
+fblocal/ali2ctm2pts.sh: file missing: male_M-101
+
+steps/get_train_ctm.sh alignme alignme/lang alignme/results/tri3b_ali ctm_tmp
+[fblocal/ctm2pts.py] mapping file 'alignme/lang/phones.txt'
+
+[fblocal/ctm2pts.py] done. 398 ctm files processed
+
+[33mfblocal/pts2pb.py: file sizes differ: 25 vs 0. this should not be happening[0m
+ok	output written to alignme/results/tri3b_ali/ali_m.pb
+
+[33mfblocal/pts2pb.py: file sizes differ: 25 vs 0. this should not be happening[0m
+ok	output written to alignme/results/tri3b_ali/ali_f.pb
+--------------------------------------------------------------------------------------
+dataset                       	μ     	med   	σ      | <10ms 	<25ms 	<50ms 	<100ms
+--------------------------------------------------------------------------------------
+ali_m                         	15.153	10.000	17.531 | 47.21%	81.93%	96.07%	99.32%	
+ali_f                         	14.767	10.000	17.493 | 47.65%	84.12%	96.25%	99.55%	
+--------------------------------------------------------------------------------------
+[91m[2021-10-24 19:29:14] [run_align.sh] align tri-sat (2nd)[0m
+steps/align_fmllr.sh --nj 2 alignme_lores alignme/lang exp/tri4b alignme/results/tri4b_ali
+steps/align_fmllr.sh: feature type is lda
+steps/align_fmllr.sh: compiling training graphs
+steps/align_fmllr.sh: aligning data in alignme_lores using exp/tri4b/final.alimdl and speaker-independent features.
+steps/align_fmllr.sh: computing fMLLR transforms
+steps/align_fmllr.sh: doing final alignment.
+steps/align_fmllr.sh: done aligning data.
+steps/diagnostic/analyze_alignments.sh --cmd run.pl alignme/lang alignme/results/tri4b_ali
+analyze_phone_length_stats.py: WARNING: optional-silence sil is seen only 2.51256281407% of the time at utterance begin.  This may not be optimal.
+analyze_phone_length_stats.py: WARNING: optional-silence sil is seen only 55.527638191% of the time at utterance end.  This may not be optimal.
+steps/diagnostic/analyze_alignments.sh: see stats in alignme/results/tri4b_ali/log/analyze_alignments.log
+24 warnings in alignme/results/tri4b_ali/log/align_pass1.*.log
+2 warnings in alignme/results/tri4b_ali/log/analyze_alignments.log
+4 warnings in alignme/results/tri4b_ali/log/fmllr.*.log
+5 warnings in alignme/results/tri4b_ali/log/align_pass2.*.log
+fblocal/ali2ctm2pts.sh: file missing: female_F-101
+
+steps/get_train_ctm.sh alignme alignme/lang alignme/results/tri4b_ali ctm_tmp
+[fblocal/ctm2pts.py] mapping file 'alignme/lang/phones.txt'
+
+[fblocal/ctm2pts.py] done. 398 ctm files processed
+ok	output written to alignme/results/tri4b_ali/ali_m.pb
+
+[33mfblocal/pts2pb.py: file sizes differ: 25 vs 0. this should not be happening[0m
+ok	output written to alignme/results/tri4b_ali/ali_f.pb
+--------------------------------------------------------------------------------------
+dataset                       	μ     	med   	σ      | <10ms 	<25ms 	<50ms 	<100ms
+--------------------------------------------------------------------------------------
+ali_m                         	15.397	10.000	17.551 | 46.47%	81.92%	95.77%	99.34%	
+ali_f                         	14.738	10.000	16.174 | 47.44%	84.08%	96.10%	99.55%	
+--------------------------------------------------------------------------------------
+run_align.sh: ########################################################
+run_align.sh: ### align with mono-based TDNN-F mono models routine ###
+run_align.sh: ########################################################
+[93m[2021-10-24 19:29:21] run_align.sh: align tdnn_mono_chain_delta_ivector_fs3_sp (mono chain)[0m
+steps/nnet3/align.sh --nj 2 --use-gpu true --online-ivector-dir alignme/ivectors_hires --scale-opts --transition-scale=1.0 --acoustic-scale=1.0 --self-loop-scale=1.0 alignme_hires alignme/lang exp/chain/tdnn_mono_chain_delta_ivector_fs3_sp alignme/results/tdnn_mono_chain_delta_ivector_fs3_sp_ali
+steps/nnet3/align.sh: feature type is raw
+steps/nnet3/align.sh: aligning data in alignme_hires using model from exp/chain/tdnn_mono_chain_delta_ivector_fs3_sp, putting alignments in alignme/results/tdnn_mono_chain_delta_ivector_fs3_sp_ali
+steps/diagnostic/analyze_alignments.sh --cmd run.pl alignme/lang alignme/results/tdnn_mono_chain_delta_ivector_fs3_sp_ali
+analyze_phone_length_stats.py: WARNING: optional-silence sil is seen only 18.045112782% of the time at utterance begin.  This may not be optimal.
+analyze_phone_length_stats.py: WARNING: optional-silence sil is seen only 71.1779448622% of the time at utterance end.  This may not be optimal.
+steps/diagnostic/analyze_alignments.sh: see stats in alignme/results/tdnn_mono_chain_delta_ivector_fs3_sp_ali/log/analyze_alignments.log
+steps/nnet3/align.sh: done aligning data.
+fblocal/ali2ctm2pts.sh: chain selected
+
+steps/get_train_ctm.sh alignme alignme/lang alignme/results/tdnn_mono_chain_delta_ivector_fs3_sp_ali ctm_tmp
+[fblocal/ctm2pts.py] mapping file 'alignme/lang/phones.txt'
+
+[fblocal/ctm2pts.py] done. 398 ctm files processed
+ok	output written to alignme/results/tdnn_mono_chain_delta_ivector_fs3_sp_ali/ali_m.pb
+ok	output written to alignme/results/tdnn_mono_chain_delta_ivector_fs3_sp_ali/ali_f.pb
+--------------------------------------------------------------------------------------
+dataset                       	μ     	med   	σ      | <10ms 	<25ms 	<50ms 	<100ms
+--------------------------------------------------------------------------------------
+ali_m                         	18.658	14.000	17.950 | 37.25%	73.62%	93.59%	99.51%	
+ali_f                         	18.443	14.000	18.311 | 36.73%	75.84%	94.14%	99.25%	
+--------------------------------------------------------------------------------------
+[93m[2021-10-24 19:29:28] run_align.sh: align tdnn_mono_chain_delta_ivector_nofs_sp (mono chain)[0m
+steps/nnet3/align.sh --nj 2 --use-gpu true --online-ivector-dir alignme/ivectors_hires --scale-opts --transition-scale=1.0 --acoustic-scale=1.0 --self-loop-scale=1.0 alignme_hires alignme/lang exp/chain/tdnn_mono_chain_delta_ivector_nofs_sp alignme/results/tdnn_mono_chain_delta_ivector_nofs_sp_ali
+steps/nnet3/align.sh: feature type is raw
+steps/nnet3/align.sh: aligning data in alignme_hires using model from exp/chain/tdnn_mono_chain_delta_ivector_nofs_sp, putting alignments in alignme/results/tdnn_mono_chain_delta_ivector_nofs_sp_ali
+steps/diagnostic/analyze_alignments.sh --cmd run.pl alignme/lang alignme/results/tdnn_mono_chain_delta_ivector_nofs_sp_ali
+analyze_phone_length_stats.py: WARNING: optional-silence sil is seen only 40.1002506266% of the time at utterance begin.  This may not be optimal.
+analyze_phone_length_stats.py: WARNING: optional-silence sil is seen only 76.1904761905% of the time at utterance end.  This may not be optimal.
+steps/diagnostic/analyze_alignments.sh: see stats in alignme/results/tdnn_mono_chain_delta_ivector_nofs_sp_ali/log/analyze_alignments.log
+steps/nnet3/align.sh: done aligning data.
+fblocal/ali2ctm2pts.sh: chain selected
+
+steps/get_train_ctm.sh alignme alignme/lang alignme/results/tdnn_mono_chain_delta_ivector_nofs_sp_ali ctm_tmp
+[fblocal/ctm2pts.py] mapping file 'alignme/lang/phones.txt'
+
+[fblocal/ctm2pts.py] done. 398 ctm files processed
+ok	output written to alignme/results/tdnn_mono_chain_delta_ivector_nofs_sp_ali/ali_m.pb
+ok	output written to alignme/results/tdnn_mono_chain_delta_ivector_nofs_sp_ali/ali_f.pb
+--------------------------------------------------------------------------------------
+dataset                       	μ     	med   	σ      | <10ms 	<25ms 	<50ms 	<100ms
+--------------------------------------------------------------------------------------
+ali_m                         	47.944	36.000	48.625 | 12.20%	33.80%	64.66%	90.37%	
+ali_f                         	46.632	37.000	43.066 | 11.34%	33.73%	65.55%	90.73%	
+--------------------------------------------------------------------------------------
+[93m[2021-10-24 19:29:37] run_align.sh: align tdnn_mono_chain_lda_ivector_fs3_sp (mono chain)[0m
+steps/nnet3/align.sh --nj 2 --use-gpu true --online-ivector-dir alignme/ivectors_hires --scale-opts --transition-scale=1.0 --acoustic-scale=1.0 --self-loop-scale=1.0 alignme_hires alignme/lang exp/chain/tdnn_mono_chain_lda_ivector_fs3_sp alignme/results/tdnn_mono_chain_lda_ivector_fs3_sp_ali
+steps/nnet3/align.sh: feature type is raw
+steps/nnet3/align.sh: aligning data in alignme_hires using model from exp/chain/tdnn_mono_chain_lda_ivector_fs3_sp, putting alignments in alignme/results/tdnn_mono_chain_lda_ivector_fs3_sp_ali
+steps/diagnostic/analyze_alignments.sh --cmd run.pl alignme/lang alignme/results/tdnn_mono_chain_lda_ivector_fs3_sp_ali
+analyze_phone_length_stats.py: WARNING: optional-silence sil is seen only 20.5513784461% of the time at utterance begin.  This may not be optimal.
+analyze_phone_length_stats.py: WARNING: optional-silence sil is seen only 76.6917293233% of the time at utterance end.  This may not be optimal.
+steps/diagnostic/analyze_alignments.sh: see stats in alignme/results/tdnn_mono_chain_lda_ivector_fs3_sp_ali/log/analyze_alignments.log
+steps/nnet3/align.sh: done aligning data.
+fblocal/ali2ctm2pts.sh: chain selected
+
+steps/get_train_ctm.sh alignme alignme/lang alignme/results/tdnn_mono_chain_lda_ivector_fs3_sp_ali ctm_tmp
+[fblocal/ctm2pts.py] mapping file 'alignme/lang/phones.txt'
+
+[fblocal/ctm2pts.py] done. 398 ctm files processed
+ok	output written to alignme/results/tdnn_mono_chain_lda_ivector_fs3_sp_ali/ali_m.pb
+ok	output written to alignme/results/tdnn_mono_chain_lda_ivector_fs3_sp_ali/ali_f.pb
+--------------------------------------------------------------------------------------
+dataset                       	μ     	med   	σ      | <10ms 	<25ms 	<50ms 	<100ms
+--------------------------------------------------------------------------------------
+ali_m                         	20.179	15.000	19.765 | 34.10%	70.75%	93.01%	98.97%	
+ali_f                         	39.655	19.000	64.803 | 27.62%	61.15%	81.36%	89.88%	
+--------------------------------------------------------------------------------------
+[91m[2021-10-24 19:29:44] run_align.sh: align tdnn_mono_chain_lda_ivector_nofs_sp (mono chain)[0m
+steps/nnet3/align.sh --nj 2 --use-gpu true --online-ivector-dir alignme/ivectors_hires --scale-opts --transition-scale=1.0 --acoustic-scale=1.0 --self-loop-scale=1.0 alignme_hires alignme/lang exp/chain/tdnn_mono_chain_lda_ivector_nofs_sp alignme/results/tdnn_mono_chain_lda_ivector_nofs_sp_ali
+steps/nnet3/align.sh: feature type is raw
+steps/nnet3/align.sh: aligning data in alignme_hires using model from exp/chain/tdnn_mono_chain_lda_ivector_nofs_sp, putting alignments in alignme/results/tdnn_mono_chain_lda_ivector_nofs_sp_ali
+steps/diagnostic/analyze_alignments.sh --cmd run.pl alignme/lang alignme/results/tdnn_mono_chain_lda_ivector_nofs_sp_ali
+analyze_phone_length_stats.py: WARNING: optional-silence sil is seen only 34.0852130326% of the time at utterance begin.  This may not be optimal.
+analyze_phone_length_stats.py: WARNING: optional-silence sil is seen only 59.8997493734% of the time at utterance end.  This may not be optimal.
+steps/diagnostic/analyze_alignments.sh: see stats in alignme/results/tdnn_mono_chain_lda_ivector_nofs_sp_ali/log/analyze_alignments.log
+steps/nnet3/align.sh: done aligning data.
+fblocal/ali2ctm2pts.sh: chain selected
+
+steps/get_train_ctm.sh alignme alignme/lang alignme/results/tdnn_mono_chain_lda_ivector_nofs_sp_ali ctm_tmp
+[fblocal/ctm2pts.py] mapping file 'alignme/lang/phones.txt'
+
+[fblocal/ctm2pts.py] done. 398 ctm files processed
+ok	output written to alignme/results/tdnn_mono_chain_lda_ivector_nofs_sp_ali/ali_m.pb
+ok	output written to alignme/results/tdnn_mono_chain_lda_ivector_nofs_sp_ali/ali_f.pb
+--------------------------------------------------------------------------------------
+dataset                       	μ     	med   	σ      | <10ms 	<25ms 	<50ms 	<100ms
+--------------------------------------------------------------------------------------
+ali_m                         	42.857	32.000	41.323 | 12.59%	37.64%	71.48%	91.98%	
+ali_f                         	80.713	41.000	117.170 | 11.44%	31.56%	56.53%	78.69%	
+--------------------------------------------------------------------------------------
+[91m[2021-10-24 19:29:51] run_align.sh: align tdnn_mono_chain_delta_noivector_fs3_sp (mono chain)[0m
+steps/nnet3/align.sh --nj 2 --use-gpu true --scale-opts --transition-scale=1.0 --acoustic-scale=1.0 --self-loop-scale=1.0 alignme_hires alignme/lang exp/chain/tdnn_mono_chain_delta_noivector_fs3_sp alignme/results/tdnn_mono_chain_delta_noivector_fs3_sp_ali
+steps/nnet3/align.sh: feature type is raw
+steps/nnet3/align.sh: aligning data in alignme_hires using model from exp/chain/tdnn_mono_chain_delta_noivector_fs3_sp, putting alignments in alignme/results/tdnn_mono_chain_delta_noivector_fs3_sp_ali
+steps/diagnostic/analyze_alignments.sh --cmd run.pl alignme/lang alignme/results/tdnn_mono_chain_delta_noivector_fs3_sp_ali
+analyze_phone_length_stats.py: WARNING: optional-silence sil is seen only 17.7944862155% of the time at utterance begin.  This may not be optimal.
+analyze_phone_length_stats.py: WARNING: optional-silence sil is seen only 72.1804511278% of the time at utterance end.  This may not be optimal.
+steps/diagnostic/analyze_alignments.sh: see stats in alignme/results/tdnn_mono_chain_delta_noivector_fs3_sp_ali/log/analyze_alignments.log
+steps/nnet3/align.sh: done aligning data.
+fblocal/ali2ctm2pts.sh: chain selected
+
+steps/get_train_ctm.sh alignme alignme/lang alignme/results/tdnn_mono_chain_delta_noivector_fs3_sp_ali ctm_tmp
+[fblocal/ctm2pts.py] mapping file 'alignme/lang/phones.txt'
+
+[fblocal/ctm2pts.py] done. 398 ctm files processed
+ok	output written to alignme/results/tdnn_mono_chain_delta_noivector_fs3_sp_ali/ali_m.pb
+ok	output written to alignme/results/tdnn_mono_chain_delta_noivector_fs3_sp_ali/ali_f.pb
+--------------------------------------------------------------------------------------
+dataset                       	μ     	med   	σ      | <10ms 	<25ms 	<50ms 	<100ms
+--------------------------------------------------------------------------------------
+ali_m                         	18.910	14.000	18.166 | 36.44%	73.11%	93.48%	99.44%	
+ali_f                         	18.941	14.000	18.301 | 35.24%	74.13%	94.05%	99.19%	
+--------------------------------------------------------------------------------------
+[96m[2021-10-24 19:29:59] run_align.sh: align tdnn_mono_chain_delta_noivector_nofs_sp (mono chain)[0m
+steps/nnet3/align.sh --nj 2 --use-gpu true --scale-opts --transition-scale=1.0 --acoustic-scale=1.0 --self-loop-scale=1.0 alignme_hires alignme/lang exp/chain/tdnn_mono_chain_delta_noivector_nofs_sp alignme/results/tdnn_mono_chain_delta_noivector_nofs_sp_ali
+steps/nnet3/align.sh: feature type is raw
+steps/nnet3/align.sh: aligning data in alignme_hires using model from exp/chain/tdnn_mono_chain_delta_noivector_nofs_sp, putting alignments in alignme/results/tdnn_mono_chain_delta_noivector_nofs_sp_ali
+steps/diagnostic/analyze_alignments.sh --cmd run.pl alignme/lang alignme/results/tdnn_mono_chain_delta_noivector_nofs_sp_ali
+analyze_phone_length_stats.py: WARNING: optional-silence sil is seen only 39.3483709273% of the time at utterance begin.  This may not be optimal.
+analyze_phone_length_stats.py: WARNING: optional-silence sil is seen only 68.1704260652% of the time at utterance end.  This may not be optimal.
+steps/diagnostic/analyze_alignments.sh: see stats in alignme/results/tdnn_mono_chain_delta_noivector_nofs_sp_ali/log/analyze_alignments.log
+steps/nnet3/align.sh: done aligning data.
+fblocal/ali2ctm2pts.sh: chain selected
+
+steps/get_train_ctm.sh alignme alignme/lang alignme/results/tdnn_mono_chain_delta_noivector_nofs_sp_ali ctm_tmp
+[fblocal/ctm2pts.py] mapping file 'alignme/lang/phones.txt'
+
+[fblocal/ctm2pts.py] done. 398 ctm files processed
+ok	output written to alignme/results/tdnn_mono_chain_delta_noivector_nofs_sp_ali/ali_m.pb
+ok	output written to alignme/results/tdnn_mono_chain_delta_noivector_nofs_sp_ali/ali_f.pb
+--------------------------------------------------------------------------------------
+dataset                       	μ     	med   	σ      | <10ms 	<25ms 	<50ms 	<100ms
+--------------------------------------------------------------------------------------
+ali_m                         	46.303	36.000	46.635 | 12.07%	34.51%	66.01%	91.64%	
+ali_f                         	45.806	36.000	44.656 | 11.91%	33.69%	66.35%	91.60%	
+--------------------------------------------------------------------------------------
+[96m[2021-10-24 19:30:08] run_align.sh: align tdnn_mono_chain_lda_noivector_fs3_sp (mono chain)[0m
+steps/nnet3/align.sh --nj 2 --use-gpu true --scale-opts --transition-scale=1.0 --acoustic-scale=1.0 --self-loop-scale=1.0 alignme_hires alignme/lang exp/chain/tdnn_mono_chain_lda_noivector_fs3_sp alignme/results/tdnn_mono_chain_lda_noivector_fs3_sp_ali
+steps/nnet3/align.sh: feature type is raw
+steps/nnet3/align.sh: aligning data in alignme_hires using model from exp/chain/tdnn_mono_chain_lda_noivector_fs3_sp, putting alignments in alignme/results/tdnn_mono_chain_lda_noivector_fs3_sp_ali
+steps/diagnostic/analyze_alignments.sh --cmd run.pl alignme/lang alignme/results/tdnn_mono_chain_lda_noivector_fs3_sp_ali
+analyze_phone_length_stats.py: WARNING: optional-silence sil is seen only 16.5413533835% of the time at utterance begin.  This may not be optimal.
+analyze_phone_length_stats.py: WARNING: optional-silence sil is seen only 62.9072681704% of the time at utterance end.  This may not be optimal.
+steps/diagnostic/analyze_alignments.sh: see stats in alignme/results/tdnn_mono_chain_lda_noivector_fs3_sp_ali/log/analyze_alignments.log
+steps/nnet3/align.sh: done aligning data.
+fblocal/ali2ctm2pts.sh: chain selected
+
+steps/get_train_ctm.sh alignme alignme/lang alignme/results/tdnn_mono_chain_lda_noivector_fs3_sp_ali ctm_tmp
+[fblocal/ctm2pts.py] mapping file 'alignme/lang/phones.txt'
+
+[fblocal/ctm2pts.py] done. 398 ctm files processed
+ok	output written to alignme/results/tdnn_mono_chain_lda_noivector_fs3_sp_ali/ali_m.pb
+ok	output written to alignme/results/tdnn_mono_chain_lda_noivector_fs3_sp_ali/ali_f.pb
+--------------------------------------------------------------------------------------
+dataset                       	μ     	med   	σ      | <10ms 	<25ms 	<50ms 	<100ms
+--------------------------------------------------------------------------------------
+ali_m                         	21.633	15.000	23.729 | 33.78%	69.33%	91.31%	98.44%	
+ali_f                         	19.470	15.000	18.444 | 33.56%	72.19%	94.10%	99.17%	
+--------------------------------------------------------------------------------------
+[95m[2021-10-24 19:30:15] run_align.sh: align tdnn_mono_chain_lda_noivector_nofs_sp (mono chain)[0m
+steps/nnet3/align.sh --nj 2 --use-gpu true --scale-opts --transition-scale=1.0 --acoustic-scale=1.0 --self-loop-scale=1.0 alignme_hires alignme/lang exp/chain/tdnn_mono_chain_lda_noivector_nofs_sp alignme/results/tdnn_mono_chain_lda_noivector_nofs_sp_ali
+steps/nnet3/align.sh: feature type is raw
+steps/nnet3/align.sh: aligning data in alignme_hires using model from exp/chain/tdnn_mono_chain_lda_noivector_nofs_sp, putting alignments in alignme/results/tdnn_mono_chain_lda_noivector_nofs_sp_ali
+steps/diagnostic/analyze_alignments.sh --cmd run.pl alignme/lang alignme/results/tdnn_mono_chain_lda_noivector_nofs_sp_ali
+analyze_phone_length_stats.py: WARNING: optional-silence sil is seen only 38.5964912281% of the time at utterance begin.  This may not be optimal.
+analyze_phone_length_stats.py: WARNING: optional-silence sil is seen only 63.9097744361% of the time at utterance end.  This may not be optimal.
+steps/diagnostic/analyze_alignments.sh: see stats in alignme/results/tdnn_mono_chain_lda_noivector_nofs_sp_ali/log/analyze_alignments.log
+steps/nnet3/align.sh: done aligning data.
+fblocal/ali2ctm2pts.sh: chain selected
+
+steps/get_train_ctm.sh alignme alignme/lang alignme/results/tdnn_mono_chain_lda_noivector_nofs_sp_ali ctm_tmp
+[fblocal/ctm2pts.py] mapping file 'alignme/lang/phones.txt'
+
+[fblocal/ctm2pts.py] done. 398 ctm files processed
+ok	output written to alignme/results/tdnn_mono_chain_lda_noivector_nofs_sp_ali/ali_m.pb
+ok	output written to alignme/results/tdnn_mono_chain_lda_noivector_nofs_sp_ali/ali_f.pb
+--------------------------------------------------------------------------------------
+dataset                       	μ     	med   	σ      | <10ms 	<25ms 	<50ms 	<100ms
+--------------------------------------------------------------------------------------
+ali_m                         	46.141	32.000	74.274 | 13.88%	38.71%	69.61%	92.00%	
+ali_f                         	44.245	33.000	59.738 | 12.81%	35.76%	70.91%	93.14%	
+--------------------------------------------------------------------------------------
+[91m[2021-10-24 19:30:24] run_align.sh: align tdnn_mono_nochain_delta_ivector_sp (mono no chain)[0m
+steps/nnet3/align.sh --nj 2 --use-gpu true --online-ivector-dir alignme/ivectors_hires alignme_hires alignme/lang exp/nnet3/tdnn_mono_nochain_delta_ivector_sp alignme/results/tdnn_mono_nochain_delta_ivector_sp_ali
+steps/nnet3/align.sh: feature type is raw
+steps/nnet3/align.sh: aligning data in alignme_hires using model from exp/nnet3/tdnn_mono_nochain_delta_ivector_sp, putting alignments in alignme/results/tdnn_mono_nochain_delta_ivector_sp_ali
+steps/diagnostic/analyze_alignments.sh --cmd run.pl alignme/lang alignme/results/tdnn_mono_nochain_delta_ivector_sp_ali
+analyze_phone_length_stats.py: WARNING: optional-silence sil is seen only 0.0% of the time at utterance begin.  This may not be optimal.
+analyze_phone_length_stats.py: WARNING: optional-silence sil is seen only 14.2857142857% of the time at utterance end.  This may not be optimal.
+steps/diagnostic/analyze_alignments.sh: see stats in alignme/results/tdnn_mono_nochain_delta_ivector_sp_ali/log/analyze_alignments.log
+steps/nnet3/align.sh: done aligning data.
+fblocal/ali2ctm2pts.sh: nnet3 selected
+
+steps/get_train_ctm.sh alignme alignme/lang alignme/results/tdnn_mono_nochain_delta_ivector_sp_ali ctm_tmp
+[fblocal/ctm2pts.py] mapping file 'alignme/lang/phones.txt'
+
+[fblocal/ctm2pts.py] done. 398 ctm files processed
+ok	output written to alignme/results/tdnn_mono_nochain_delta_ivector_sp_ali/ali_m.pb
+ok	output written to alignme/results/tdnn_mono_nochain_delta_ivector_sp_ali/ali_f.pb
+--------------------------------------------------------------------------------------
+dataset                       	μ     	med   	σ      | <10ms 	<25ms 	<50ms 	<100ms
+--------------------------------------------------------------------------------------
+ali_m                         	15.440	11.000	16.308 | 45.14%	81.43%	96.36%	99.38%	
+ali_f                         	14.910	10.000	17.110 | 46.96%	83.66%	96.46%	99.49%	
+--------------------------------------------------------------------------------------
+[96m[2021-10-24 19:30:32] run_align.sh: align tdnn_mono_nochain_lda_ivector_sp (mono no chain)[0m
+steps/nnet3/align.sh --nj 2 --use-gpu true --online-ivector-dir alignme/ivectors_hires alignme_hires alignme/lang exp/nnet3/tdnn_mono_nochain_lda_ivector_sp alignme/results/tdnn_mono_nochain_lda_ivector_sp_ali
+steps/nnet3/align.sh: feature type is raw
+steps/nnet3/align.sh: aligning data in alignme_hires using model from exp/nnet3/tdnn_mono_nochain_lda_ivector_sp, putting alignments in alignme/results/tdnn_mono_nochain_lda_ivector_sp_ali
+steps/diagnostic/analyze_alignments.sh --cmd run.pl alignme/lang alignme/results/tdnn_mono_nochain_lda_ivector_sp_ali
+analyze_phone_length_stats.py: WARNING: optional-silence sil is seen only 0.250626566416% of the time at utterance begin.  This may not be optimal.
+analyze_phone_length_stats.py: WARNING: optional-silence sil is seen only 5.51378446115% of the time at utterance end.  This may not be optimal.
+steps/diagnostic/analyze_alignments.sh: see stats in alignme/results/tdnn_mono_nochain_lda_ivector_sp_ali/log/analyze_alignments.log
+steps/nnet3/align.sh: done aligning data.
+fblocal/ali2ctm2pts.sh: nnet3 selected
+
+steps/get_train_ctm.sh alignme alignme/lang alignme/results/tdnn_mono_nochain_lda_ivector_sp_ali ctm_tmp
+[fblocal/ctm2pts.py] mapping file 'alignme/lang/phones.txt'
+
+[fblocal/ctm2pts.py] done. 398 ctm files processed
+ok	output written to alignme/results/tdnn_mono_nochain_lda_ivector_sp_ali/ali_m.pb
+ok	output written to alignme/results/tdnn_mono_nochain_lda_ivector_sp_ali/ali_f.pb
+--------------------------------------------------------------------------------------
+dataset                       	μ     	med   	σ      | <10ms 	<25ms 	<50ms 	<100ms
+--------------------------------------------------------------------------------------
+ali_m                         	16.298	11.000	18.058 | 44.33%	80.44%	95.54%	99.08%	
+ali_f                         	15.890	11.000	17.346 | 44.11%	80.74%	96.19%	99.42%	
+--------------------------------------------------------------------------------------
+[95m[2021-10-24 19:30:40] run_align.sh: align tdnn_mono_nochain_delta_noivector_sp (mono no chain)[0m
+steps/nnet3/align.sh --nj 2 --use-gpu true alignme_hires alignme/lang exp/nnet3/tdnn_mono_nochain_delta_noivector_sp alignme/results/tdnn_mono_nochain_delta_noivector_sp_ali
+steps/nnet3/align.sh: feature type is raw
+steps/nnet3/align.sh: aligning data in alignme_hires using model from exp/nnet3/tdnn_mono_nochain_delta_noivector_sp, putting alignments in alignme/results/tdnn_mono_nochain_delta_noivector_sp_ali
+steps/diagnostic/analyze_alignments.sh --cmd run.pl alignme/lang alignme/results/tdnn_mono_nochain_delta_noivector_sp_ali
+analyze_phone_length_stats.py: WARNING: optional-silence sil is seen only 0.250626566416% of the time at utterance begin.  This may not be optimal.
+analyze_phone_length_stats.py: WARNING: optional-silence sil is seen only 8.02005012531% of the time at utterance end.  This may not be optimal.
+steps/diagnostic/analyze_alignments.sh: see stats in alignme/results/tdnn_mono_nochain_delta_noivector_sp_ali/log/analyze_alignments.log
+steps/nnet3/align.sh: done aligning data.
+fblocal/ali2ctm2pts.sh: nnet3 selected
+
+steps/get_train_ctm.sh alignme alignme/lang alignme/results/tdnn_mono_nochain_delta_noivector_sp_ali ctm_tmp
+[fblocal/ctm2pts.py] mapping file 'alignme/lang/phones.txt'
+
+[fblocal/ctm2pts.py] done. 398 ctm files processed
+ok	output written to alignme/results/tdnn_mono_nochain_delta_noivector_sp_ali/ali_m.pb
+ok	output written to alignme/results/tdnn_mono_nochain_delta_noivector_sp_ali/ali_f.pb
+--------------------------------------------------------------------------------------
+dataset                       	μ     	med   	σ      | <10ms 	<25ms 	<50ms 	<100ms
+--------------------------------------------------------------------------------------
+ali_m                         	15.651	11.000	15.994 | 43.49%	81.23%	96.31%	99.46%	
+ali_f                         	14.580	10.000	15.047 | 45.98%	83.72%	97.00%	99.60%	
+--------------------------------------------------------------------------------------
+[93m[2021-10-24 19:30:48] run_align.sh: align tdnn_mono_nochain_lda_noivector_sp (mono no chain)[0m
+steps/nnet3/align.sh --nj 2 --use-gpu true alignme_hires alignme/lang exp/nnet3/tdnn_mono_nochain_lda_noivector_sp alignme/results/tdnn_mono_nochain_lda_noivector_sp_ali
+steps/nnet3/align.sh: feature type is raw
+steps/nnet3/align.sh: aligning data in alignme_hires using model from exp/nnet3/tdnn_mono_nochain_lda_noivector_sp, putting alignments in alignme/results/tdnn_mono_nochain_lda_noivector_sp_ali
+steps/diagnostic/analyze_alignments.sh --cmd run.pl alignme/lang alignme/results/tdnn_mono_nochain_lda_noivector_sp_ali
+analyze_phone_length_stats.py: WARNING: optional-silence sil is seen only 0.250626566416% of the time at utterance begin.  This may not be optimal.
+analyze_phone_length_stats.py: WARNING: optional-silence sil is seen only 9.77443609023% of the time at utterance end.  This may not be optimal.
+steps/diagnostic/analyze_alignments.sh: see stats in alignme/results/tdnn_mono_nochain_lda_noivector_sp_ali/log/analyze_alignments.log
+steps/nnet3/align.sh: done aligning data.
+fblocal/ali2ctm2pts.sh: nnet3 selected
+
+steps/get_train_ctm.sh alignme alignme/lang alignme/results/tdnn_mono_nochain_lda_noivector_sp_ali ctm_tmp
+[fblocal/ctm2pts.py] mapping file 'alignme/lang/phones.txt'
+
+[fblocal/ctm2pts.py] done. 398 ctm files processed
+ok	output written to alignme/results/tdnn_mono_nochain_lda_noivector_sp_ali/ali_m.pb
+ok	output written to alignme/results/tdnn_mono_nochain_lda_noivector_sp_ali/ali_f.pb
+--------------------------------------------------------------------------------------
+dataset                       	μ     	med   	σ      | <10ms 	<25ms 	<50ms 	<100ms
+--------------------------------------------------------------------------------------
+ali_m                         	16.837	12.000	18.542 | 42.27%	79.91%	95.07%	98.99%	
+ali_f                         	15.879	11.000	18.332 | 44.66%	82.63%	95.61%	99.21%	
+--------------------------------------------------------------------------------------
+run_align.sh: ###################################################################
+run_align.sh: ### align with trideltas-based TDNN-F tri-deltas models routine ###
+run_align.sh: ###################################################################
+[92m[2021-10-24 19:30:56] run_align.sh: align tdnn_trideltas_chain_delta_ivector_fs3_sp (tri-deltas chain)[0m
+steps/nnet3/align.sh --nj 2 --use-gpu true --online-ivector-dir alignme/ivectors_hires --scale-opts --transition-scale=1.0 --acoustic-scale=1.0 --self-loop-scale=1.0 alignme_hires alignme/lang exp/chain/tdnn_trideltas_chain_delta_ivector_fs3_sp alignme/results/tdnn_trideltas_chain_delta_ivector_fs3_sp_ali
+steps/nnet3/align.sh: feature type is raw
+steps/nnet3/align.sh: aligning data in alignme_hires using model from exp/chain/tdnn_trideltas_chain_delta_ivector_fs3_sp, putting alignments in alignme/results/tdnn_trideltas_chain_delta_ivector_fs3_sp_ali
+steps/diagnostic/analyze_alignments.sh --cmd run.pl alignme/lang alignme/results/tdnn_trideltas_chain_delta_ivector_fs3_sp_ali
+analyze_phone_length_stats.py: WARNING: optional-silence sil is seen only 21.5538847118% of the time at utterance begin.  This may not be optimal.
+analyze_phone_length_stats.py: WARNING: optional-silence sil is seen only 75.4385964912% of the time at utterance end.  This may not be optimal.
+steps/diagnostic/analyze_alignments.sh: see stats in alignme/results/tdnn_trideltas_chain_delta_ivector_fs3_sp_ali/log/analyze_alignments.log
+steps/nnet3/align.sh: done aligning data.
+fblocal/ali2ctm2pts.sh: chain selected
+
+steps/get_train_ctm.sh alignme alignme/lang alignme/results/tdnn_trideltas_chain_delta_ivector_fs3_sp_ali ctm_tmp
+[fblocal/ctm2pts.py] mapping file 'alignme/lang/phones.txt'
+
+[fblocal/ctm2pts.py] done. 398 ctm files processed
+ok	output written to alignme/results/tdnn_trideltas_chain_delta_ivector_fs3_sp_ali/ali_m.pb
+ok	output written to alignme/results/tdnn_trideltas_chain_delta_ivector_fs3_sp_ali/ali_f.pb
+--------------------------------------------------------------------------------------
+dataset                       	μ     	med   	σ      | <10ms 	<25ms 	<50ms 	<100ms
+--------------------------------------------------------------------------------------
+ali_m                         	19.257	14.000	18.230 | 35.64%	72.21%	93.22%	99.46%	
+ali_f                         	19.222	14.000	18.349 | 34.45%	73.34%	93.84%	99.32%	
+--------------------------------------------------------------------------------------
+[92m[2021-10-24 19:31:04] run_align.sh: align tdnn_trideltas_chain_delta_ivector_nofs_sp (tri-deltas chain)[0m
+steps/nnet3/align.sh --nj 2 --use-gpu true --online-ivector-dir alignme/ivectors_hires --scale-opts --transition-scale=1.0 --acoustic-scale=1.0 --self-loop-scale=1.0 alignme_hires alignme/lang exp/chain/tdnn_trideltas_chain_delta_ivector_nofs_sp alignme/results/tdnn_trideltas_chain_delta_ivector_nofs_sp_ali
+steps/nnet3/align.sh: feature type is raw
+steps/nnet3/align.sh: aligning data in alignme_hires using model from exp/chain/tdnn_trideltas_chain_delta_ivector_nofs_sp, putting alignments in alignme/results/tdnn_trideltas_chain_delta_ivector_nofs_sp_ali
+steps/diagnostic/analyze_alignments.sh --cmd run.pl alignme/lang alignme/results/tdnn_trideltas_chain_delta_ivector_nofs_sp_ali
+analyze_phone_length_stats.py: WARNING: optional-silence sil is seen only 23.0576441103% of the time at utterance begin.  This may not be optimal.
+steps/diagnostic/analyze_alignments.sh: see stats in alignme/results/tdnn_trideltas_chain_delta_ivector_nofs_sp_ali/log/analyze_alignments.log
+steps/nnet3/align.sh: done aligning data.
+fblocal/ali2ctm2pts.sh: chain selected
+
+steps/get_train_ctm.sh alignme alignme/lang alignme/results/tdnn_trideltas_chain_delta_ivector_nofs_sp_ali ctm_tmp
+[fblocal/ctm2pts.py] mapping file 'alignme/lang/phones.txt'
+
+[fblocal/ctm2pts.py] done. 398 ctm files processed
+ok	output written to alignme/results/tdnn_trideltas_chain_delta_ivector_nofs_sp_ali/ali_m.pb
+ok	output written to alignme/results/tdnn_trideltas_chain_delta_ivector_nofs_sp_ali/ali_f.pb
+--------------------------------------------------------------------------------------
+dataset                       	μ     	med   	σ      | <10ms 	<25ms 	<50ms 	<100ms
+--------------------------------------------------------------------------------------
+ali_m                         	52.867	38.000	73.514 | 11.13%	31.44%	63.05%	88.91%	
+ali_f                         	47.523	37.000	45.878 | 11.64%	32.30%	65.72%	90.64%	
+--------------------------------------------------------------------------------------
+[91m[2021-10-24 19:31:13] run_align.sh: align tdnn_trideltas_chain_lda_ivector_fs3_sp (tri-deltas chain)[0m
+steps/nnet3/align.sh --nj 2 --use-gpu true --online-ivector-dir alignme/ivectors_hires --scale-opts --transition-scale=1.0 --acoustic-scale=1.0 --self-loop-scale=1.0 alignme_hires alignme/lang exp/chain/tdnn_trideltas_chain_lda_ivector_fs3_sp alignme/results/tdnn_trideltas_chain_lda_ivector_fs3_sp_ali
+steps/nnet3/align.sh: feature type is raw
+steps/nnet3/align.sh: aligning data in alignme_hires using model from exp/chain/tdnn_trideltas_chain_lda_ivector_fs3_sp, putting alignments in alignme/results/tdnn_trideltas_chain_lda_ivector_fs3_sp_ali
+steps/diagnostic/analyze_alignments.sh --cmd run.pl alignme/lang alignme/results/tdnn_trideltas_chain_lda_ivector_fs3_sp_ali
+analyze_phone_length_stats.py: WARNING: optional-silence sil is seen only 24.0601503759% of the time at utterance begin.  This may not be optimal.
+analyze_phone_length_stats.py: WARNING: optional-silence sil is seen only 64.9122807018% of the time at utterance end.  This may not be optimal.
+steps/diagnostic/analyze_alignments.sh: see stats in alignme/results/tdnn_trideltas_chain_lda_ivector_fs3_sp_ali/log/analyze_alignments.log
+steps/nnet3/align.sh: done aligning data.
+fblocal/ali2ctm2pts.sh: chain selected
+
+steps/get_train_ctm.sh alignme alignme/lang alignme/results/tdnn_trideltas_chain_lda_ivector_fs3_sp_ali ctm_tmp
+[fblocal/ctm2pts.py] mapping file 'alignme/lang/phones.txt'
+
+[fblocal/ctm2pts.py] done. 398 ctm files processed
+ok	output written to alignme/results/tdnn_trideltas_chain_lda_ivector_fs3_sp_ali/ali_m.pb
+ok	output written to alignme/results/tdnn_trideltas_chain_lda_ivector_fs3_sp_ali/ali_f.pb
+--------------------------------------------------------------------------------------
+dataset                       	μ     	med   	σ      | <10ms 	<25ms 	<50ms 	<100ms
+--------------------------------------------------------------------------------------
+ali_m                         	19.976	15.000	20.033 | 34.44%	71.18%	93.50%	98.99%	
+ali_f                         	24.914	17.000	32.469 | 30.32%	66.99%	89.41%	96.82%	
+--------------------------------------------------------------------------------------
+[94m[2021-10-24 19:31:21] run_align.sh: align tdnn_trideltas_chain_lda_ivector_nofs_sp (tri-deltas chain)[0m
+steps/nnet3/align.sh --nj 2 --use-gpu true --online-ivector-dir alignme/ivectors_hires --scale-opts --transition-scale=1.0 --acoustic-scale=1.0 --self-loop-scale=1.0 alignme_hires alignme/lang exp/chain/tdnn_trideltas_chain_lda_ivector_nofs_sp alignme/results/tdnn_trideltas_chain_lda_ivector_nofs_sp_ali
+steps/nnet3/align.sh: feature type is raw
+steps/nnet3/align.sh: aligning data in alignme_hires using model from exp/chain/tdnn_trideltas_chain_lda_ivector_nofs_sp, putting alignments in alignme/results/tdnn_trideltas_chain_lda_ivector_nofs_sp_ali
+steps/diagnostic/analyze_alignments.sh --cmd run.pl alignme/lang alignme/results/tdnn_trideltas_chain_lda_ivector_nofs_sp_ali
+analyze_phone_length_stats.py: WARNING: optional-silence sil is seen only 38.8471177945% of the time at utterance begin.  This may not be optimal.
+analyze_phone_length_stats.py: WARNING: optional-silence sil is seen only 53.1328320802% of the time at utterance end.  This may not be optimal.
+steps/diagnostic/analyze_alignments.sh: see stats in alignme/results/tdnn_trideltas_chain_lda_ivector_nofs_sp_ali/log/analyze_alignments.log
+steps/nnet3/align.sh: done aligning data.
+fblocal/ali2ctm2pts.sh: chain selected
+
+steps/get_train_ctm.sh alignme alignme/lang alignme/results/tdnn_trideltas_chain_lda_ivector_nofs_sp_ali ctm_tmp
+[fblocal/ctm2pts.py] mapping file 'alignme/lang/phones.txt'
+
+[fblocal/ctm2pts.py] done. 398 ctm files processed
+ok	output written to alignme/results/tdnn_trideltas_chain_lda_ivector_nofs_sp_ali/ali_m.pb
+ok	output written to alignme/results/tdnn_trideltas_chain_lda_ivector_nofs_sp_ali/ali_f.pb
+--------------------------------------------------------------------------------------
+dataset                       	μ     	med   	σ      | <10ms 	<25ms 	<50ms 	<100ms
+--------------------------------------------------------------------------------------
+ali_m                         	47.870	34.000	70.634 | 12.83%	36.63%	69.53%	91.32%	
+ali_f                         	84.110	41.000	137.906 | 10.95%	30.66%	57.92%	79.95%	
+--------------------------------------------------------------------------------------
+[95m[2021-10-24 19:31:29] run_align.sh: align tdnn_trideltas_chain_delta_noivector_fs3_sp (tri-deltas chain)[0m
+steps/nnet3/align.sh --nj 2 --use-gpu true --scale-opts --transition-scale=1.0 --acoustic-scale=1.0 --self-loop-scale=1.0 alignme_hires alignme/lang exp/chain/tdnn_trideltas_chain_delta_noivector_fs3_sp alignme/results/tdnn_trideltas_chain_delta_noivector_fs3_sp_ali
+steps/nnet3/align.sh: feature type is raw
+steps/nnet3/align.sh: aligning data in alignme_hires using model from exp/chain/tdnn_trideltas_chain_delta_noivector_fs3_sp, putting alignments in alignme/results/tdnn_trideltas_chain_delta_noivector_fs3_sp_ali
+steps/diagnostic/analyze_alignments.sh --cmd run.pl alignme/lang alignme/results/tdnn_trideltas_chain_delta_noivector_fs3_sp_ali
+analyze_phone_length_stats.py: WARNING: optional-silence sil is seen only 17.7944862155% of the time at utterance begin.  This may not be optimal.
+analyze_phone_length_stats.py: WARNING: optional-silence sil is seen only 78.6967418546% of the time at utterance end.  This may not be optimal.
+steps/diagnostic/analyze_alignments.sh: see stats in alignme/results/tdnn_trideltas_chain_delta_noivector_fs3_sp_ali/log/analyze_alignments.log
+steps/nnet3/align.sh: done aligning data.
+fblocal/ali2ctm2pts.sh: chain selected
+
+steps/get_train_ctm.sh alignme alignme/lang alignme/results/tdnn_trideltas_chain_delta_noivector_fs3_sp_ali ctm_tmp
+[fblocal/ctm2pts.py] mapping file 'alignme/lang/phones.txt'
+
+[fblocal/ctm2pts.py] done. 398 ctm files processed
+ok	output written to alignme/results/tdnn_trideltas_chain_delta_noivector_fs3_sp_ali/ali_m.pb
+ok	output written to alignme/results/tdnn_trideltas_chain_delta_noivector_fs3_sp_ali/ali_f.pb
+--------------------------------------------------------------------------------------
+dataset                       	μ     	med   	σ      | <10ms 	<25ms 	<50ms 	<100ms
+--------------------------------------------------------------------------------------
+ali_m                         	19.315	14.000	18.205 | 35.73%	72.04%	93.27%	99.55%	
+ali_f                         	19.526	15.000	18.869 | 34.48%	73.05%	93.22%	99.23%	
+--------------------------------------------------------------------------------------
+[94m[2021-10-24 19:31:36] run_align.sh: align tdnn_trideltas_chain_delta_noivector_nofs_sp (tri-deltas chain)[0m
+steps/nnet3/align.sh --nj 2 --use-gpu true --scale-opts --transition-scale=1.0 --acoustic-scale=1.0 --self-loop-scale=1.0 alignme_hires alignme/lang exp/chain/tdnn_trideltas_chain_delta_noivector_nofs_sp alignme/results/tdnn_trideltas_chain_delta_noivector_nofs_sp_ali
+steps/nnet3/align.sh: feature type is raw
+steps/nnet3/align.sh: aligning data in alignme_hires using model from exp/chain/tdnn_trideltas_chain_delta_noivector_nofs_sp, putting alignments in alignme/results/tdnn_trideltas_chain_delta_noivector_nofs_sp_ali
+steps/diagnostic/analyze_alignments.sh --cmd run.pl alignme/lang alignme/results/tdnn_trideltas_chain_delta_noivector_nofs_sp_ali
+analyze_phone_length_stats.py: WARNING: optional-silence sil is seen only 30.5764411028% of the time at utterance begin.  This may not be optimal.
+analyze_phone_length_stats.py: WARNING: optional-silence sil is seen only 73.4335839599% of the time at utterance end.  This may not be optimal.
+steps/diagnostic/analyze_alignments.sh: see stats in alignme/results/tdnn_trideltas_chain_delta_noivector_nofs_sp_ali/log/analyze_alignments.log
+steps/nnet3/align.sh: done aligning data.
+fblocal/ali2ctm2pts.sh: chain selected
+
+steps/get_train_ctm.sh alignme alignme/lang alignme/results/tdnn_trideltas_chain_delta_noivector_nofs_sp_ali ctm_tmp
+[fblocal/ctm2pts.py] mapping file 'alignme/lang/phones.txt'
+
+[fblocal/ctm2pts.py] done. 398 ctm files processed
+ok	output written to alignme/results/tdnn_trideltas_chain_delta_noivector_nofs_sp_ali/ali_m.pb
+ok	output written to alignme/results/tdnn_trideltas_chain_delta_noivector_nofs_sp_ali/ali_f.pb
+--------------------------------------------------------------------------------------
+dataset                       	μ     	med   	σ      | <10ms 	<25ms 	<50ms 	<100ms
+--------------------------------------------------------------------------------------
+ali_m                         	48.633	37.000	49.470 | 10.76%	31.10%	63.67%	90.69%	
+ali_f                         	47.132	38.000	42.772 | 10.63%	30.56%	65.08%	91.43%	
+--------------------------------------------------------------------------------------
+[92m[2021-10-24 19:31:44] run_align.sh: align tdnn_trideltas_chain_lda_noivector_fs3_sp (tri-deltas chain)[0m
+steps/nnet3/align.sh --nj 2 --use-gpu true --scale-opts --transition-scale=1.0 --acoustic-scale=1.0 --self-loop-scale=1.0 alignme_hires alignme/lang exp/chain/tdnn_trideltas_chain_lda_noivector_fs3_sp alignme/results/tdnn_trideltas_chain_lda_noivector_fs3_sp_ali
+steps/nnet3/align.sh: feature type is raw
+steps/nnet3/align.sh: aligning data in alignme_hires using model from exp/chain/tdnn_trideltas_chain_lda_noivector_fs3_sp, putting alignments in alignme/results/tdnn_trideltas_chain_lda_noivector_fs3_sp_ali
+steps/diagnostic/analyze_alignments.sh --cmd run.pl alignme/lang alignme/results/tdnn_trideltas_chain_lda_noivector_fs3_sp_ali
+analyze_phone_length_stats.py: WARNING: optional-silence sil is seen only 19.298245614% of the time at utterance begin.  This may not be optimal.
+analyze_phone_length_stats.py: WARNING: optional-silence sil is seen only 62.9072681704% of the time at utterance end.  This may not be optimal.
+steps/diagnostic/analyze_alignments.sh: see stats in alignme/results/tdnn_trideltas_chain_lda_noivector_fs3_sp_ali/log/analyze_alignments.log
+steps/nnet3/align.sh: done aligning data.
+fblocal/ali2ctm2pts.sh: chain selected
+
+steps/get_train_ctm.sh alignme alignme/lang alignme/results/tdnn_trideltas_chain_lda_noivector_fs3_sp_ali ctm_tmp
+[fblocal/ctm2pts.py] mapping file 'alignme/lang/phones.txt'
+
+[fblocal/ctm2pts.py] done. 398 ctm files processed
+ok	output written to alignme/results/tdnn_trideltas_chain_lda_noivector_fs3_sp_ali/ali_m.pb
+ok	output written to alignme/results/tdnn_trideltas_chain_lda_noivector_fs3_sp_ali/ali_f.pb
+--------------------------------------------------------------------------------------
+dataset                       	μ     	med   	σ      | <10ms 	<25ms 	<50ms 	<100ms
+--------------------------------------------------------------------------------------
+ali_m                         	21.773	16.000	22.140 | 32.96%	68.47%	91.12%	98.54%	
+ali_f                         	20.364	15.000	19.711 | 32.64%	70.64%	93.16%	98.91%	
+--------------------------------------------------------------------------------------
+[92m[2021-10-24 19:31:51] run_align.sh: align tdnn_trideltas_chain_lda_noivector_nofs_sp (tri-deltas chain)[0m
+steps/nnet3/align.sh --nj 2 --use-gpu true --scale-opts --transition-scale=1.0 --acoustic-scale=1.0 --self-loop-scale=1.0 alignme_hires alignme/lang exp/chain/tdnn_trideltas_chain_lda_noivector_nofs_sp alignme/results/tdnn_trideltas_chain_lda_noivector_nofs_sp_ali
+steps/nnet3/align.sh: feature type is raw
+steps/nnet3/align.sh: aligning data in alignme_hires using model from exp/chain/tdnn_trideltas_chain_lda_noivector_nofs_sp, putting alignments in alignme/results/tdnn_trideltas_chain_lda_noivector_nofs_sp_ali
+steps/diagnostic/analyze_alignments.sh --cmd run.pl alignme/lang alignme/results/tdnn_trideltas_chain_lda_noivector_nofs_sp_ali
+analyze_phone_length_stats.py: WARNING: optional-silence sil is seen only 40.6015037594% of the time at utterance begin.  This may not be optimal.
+analyze_phone_length_stats.py: WARNING: optional-silence sil is seen only 49.6240601504% of the time at utterance end.  This may not be optimal.
+steps/diagnostic/analyze_alignments.sh: see stats in alignme/results/tdnn_trideltas_chain_lda_noivector_nofs_sp_ali/log/analyze_alignments.log
+steps/nnet3/align.sh: done aligning data.
+fblocal/ali2ctm2pts.sh: chain selected
+
+steps/get_train_ctm.sh alignme alignme/lang alignme/results/tdnn_trideltas_chain_lda_noivector_nofs_sp_ali ctm_tmp
+[fblocal/ctm2pts.py] mapping file 'alignme/lang/phones.txt'
+
+[fblocal/ctm2pts.py] done. 398 ctm files processed
+ok	output written to alignme/results/tdnn_trideltas_chain_lda_noivector_nofs_sp_ali/ali_m.pb
+ok	output written to alignme/results/tdnn_trideltas_chain_lda_noivector_nofs_sp_ali/ali_f.pb
+--------------------------------------------------------------------------------------
+dataset                       	μ     	med   	σ      | <10ms 	<25ms 	<50ms 	<100ms
+--------------------------------------------------------------------------------------
+ali_m                         	45.533	33.000	50.632 | 13.47%	37.57%	68.97%	90.99%	
+ali_f                         	46.660	34.000	58.838 | 12.61%	34.93%	69.61%	92.05%	
+--------------------------------------------------------------------------------------
+[95m[2021-10-24 19:31:59] run_align.sh: align tdnn_trideltas_nochain_delta_ivector_sp (tri-deltas no chain)[0m
+steps/nnet3/align.sh --nj 2 --use-gpu true --online-ivector-dir alignme/ivectors_hires alignme_hires alignme/lang exp/nnet3/tdnn_trideltas_nochain_delta_ivector_sp alignme/results/tdnn_trideltas_nochain_delta_ivector_sp_ali
+steps/nnet3/align.sh: feature type is raw
+steps/nnet3/align.sh: aligning data in alignme_hires using model from exp/nnet3/tdnn_trideltas_nochain_delta_ivector_sp, putting alignments in alignme/results/tdnn_trideltas_nochain_delta_ivector_sp_ali
+steps/diagnostic/analyze_alignments.sh --cmd run.pl alignme/lang alignme/results/tdnn_trideltas_nochain_delta_ivector_sp_ali
+analyze_phone_length_stats.py: WARNING: optional-silence sil is seen only 1.25313283208% of the time at utterance begin.  This may not be optimal.
+analyze_phone_length_stats.py: WARNING: optional-silence sil is seen only 44.3609022556% of the time at utterance end.  This may not be optimal.
+steps/diagnostic/analyze_alignments.sh: see stats in alignme/results/tdnn_trideltas_nochain_delta_ivector_sp_ali/log/analyze_alignments.log
+steps/nnet3/align.sh: done aligning data.
+fblocal/ali2ctm2pts.sh: nnet3 selected
+
+steps/get_train_ctm.sh alignme alignme/lang alignme/results/tdnn_trideltas_nochain_delta_ivector_sp_ali ctm_tmp
+[fblocal/ctm2pts.py] mapping file 'alignme/lang/phones.txt'
+
+[fblocal/ctm2pts.py] done. 398 ctm files processed
+ok	output written to alignme/results/tdnn_trideltas_nochain_delta_ivector_sp_ali/ali_m.pb
+ok	output written to alignme/results/tdnn_trideltas_nochain_delta_ivector_sp_ali/ali_f.pb
+--------------------------------------------------------------------------------------
+dataset                       	μ     	med   	σ      | <10ms 	<25ms 	<50ms 	<100ms
+--------------------------------------------------------------------------------------
+ali_m                         	14.915	10.000	15.915 | 47.50%	82.39%	95.97%	99.51%	
+ali_f                         	14.721	10.000	17.965 | 49.03%	84.45%	95.95%	99.32%	
+--------------------------------------------------------------------------------------
+[93m[2021-10-24 19:32:06] run_align.sh: align tdnn_trideltas_nochain_lda_ivector_sp (tri-deltas no chain)[0m
+steps/nnet3/align.sh --nj 2 --use-gpu true --online-ivector-dir alignme/ivectors_hires alignme_hires alignme/lang exp/nnet3/tdnn_trideltas_nochain_lda_ivector_sp alignme/results/tdnn_trideltas_nochain_lda_ivector_sp_ali
+steps/nnet3/align.sh: feature type is raw
+steps/nnet3/align.sh: aligning data in alignme_hires using model from exp/nnet3/tdnn_trideltas_nochain_lda_ivector_sp, putting alignments in alignme/results/tdnn_trideltas_nochain_lda_ivector_sp_ali
+steps/diagnostic/analyze_alignments.sh --cmd run.pl alignme/lang alignme/results/tdnn_trideltas_nochain_lda_ivector_sp_ali
+analyze_phone_length_stats.py: WARNING: optional-silence sil is seen only 1.75438596491% of the time at utterance begin.  This may not be optimal.
+analyze_phone_length_stats.py: WARNING: optional-silence sil is seen only 15.037593985% of the time at utterance end.  This may not be optimal.
+steps/diagnostic/analyze_alignments.sh: see stats in alignme/results/tdnn_trideltas_nochain_lda_ivector_sp_ali/log/analyze_alignments.log
+steps/nnet3/align.sh: done aligning data.
+fblocal/ali2ctm2pts.sh: nnet3 selected
+
+steps/get_train_ctm.sh alignme alignme/lang alignme/results/tdnn_trideltas_nochain_lda_ivector_sp_ali ctm_tmp
+[fblocal/ctm2pts.py] mapping file 'alignme/lang/phones.txt'
+
+[fblocal/ctm2pts.py] done. 398 ctm files processed
+ok	output written to alignme/results/tdnn_trideltas_nochain_lda_ivector_sp_ali/ali_m.pb
+ok	output written to alignme/results/tdnn_trideltas_nochain_lda_ivector_sp_ali/ali_f.pb
+--------------------------------------------------------------------------------------
+dataset                       	μ     	med   	σ      | <10ms 	<25ms 	<50ms 	<100ms
+--------------------------------------------------------------------------------------
+ali_m                         	15.121	10.000	16.566 | 47.18%	82.20%	96.12%	99.51%	
+ali_f                         	17.637	10.000	57.328 | 46.75%	83.31%	95.63%	99.10%	
+--------------------------------------------------------------------------------------
+[94m[2021-10-24 19:32:15] run_align.sh: align tdnn_trideltas_nochain_delta_noivector_sp (tri-deltas no chain)[0m
+steps/nnet3/align.sh --nj 2 --use-gpu true alignme_hires alignme/lang exp/nnet3/tdnn_trideltas_nochain_delta_noivector_sp alignme/results/tdnn_trideltas_nochain_delta_noivector_sp_ali
+steps/nnet3/align.sh: feature type is raw
+steps/nnet3/align.sh: aligning data in alignme_hires using model from exp/nnet3/tdnn_trideltas_nochain_delta_noivector_sp, putting alignments in alignme/results/tdnn_trideltas_nochain_delta_noivector_sp_ali
+steps/diagnostic/analyze_alignments.sh --cmd run.pl alignme/lang alignme/results/tdnn_trideltas_nochain_delta_noivector_sp_ali
+analyze_phone_length_stats.py: WARNING: optional-silence sil is seen only 1.75438596491% of the time at utterance begin.  This may not be optimal.
+analyze_phone_length_stats.py: WARNING: optional-silence sil is seen only 32.0802005013% of the time at utterance end.  This may not be optimal.
+steps/diagnostic/analyze_alignments.sh: see stats in alignme/results/tdnn_trideltas_nochain_delta_noivector_sp_ali/log/analyze_alignments.log
+steps/nnet3/align.sh: done aligning data.
+fblocal/ali2ctm2pts.sh: nnet3 selected
+
+steps/get_train_ctm.sh alignme alignme/lang alignme/results/tdnn_trideltas_nochain_delta_noivector_sp_ali ctm_tmp
+[fblocal/ctm2pts.py] mapping file 'alignme/lang/phones.txt'
+
+[fblocal/ctm2pts.py] done. 398 ctm files processed
+ok	output written to alignme/results/tdnn_trideltas_nochain_delta_noivector_sp_ali/ali_m.pb
+ok	output written to alignme/results/tdnn_trideltas_nochain_delta_noivector_sp_ali/ali_f.pb
+--------------------------------------------------------------------------------------
+dataset                       	μ     	med   	σ      | <10ms 	<25ms 	<50ms 	<100ms
+--------------------------------------------------------------------------------------
+ali_m                         	14.620	10.000	14.988 | 46.94%	83.16%	96.63%	99.61%	
+ali_f                         	14.331	10.000	15.892 | 48.75%	84.77%	96.48%	99.47%	
+--------------------------------------------------------------------------------------
+[94m[2021-10-24 19:32:22] run_align.sh: align tdnn_trideltas_nochain_lda_noivector_sp (tri-deltas no chain)[0m
+steps/nnet3/align.sh --nj 2 --use-gpu true alignme_hires alignme/lang exp/nnet3/tdnn_trideltas_nochain_lda_noivector_sp alignme/results/tdnn_trideltas_nochain_lda_noivector_sp_ali
+steps/nnet3/align.sh: feature type is raw
+steps/nnet3/align.sh: aligning data in alignme_hires using model from exp/nnet3/tdnn_trideltas_nochain_lda_noivector_sp, putting alignments in alignme/results/tdnn_trideltas_nochain_lda_noivector_sp_ali
+steps/diagnostic/analyze_alignments.sh --cmd run.pl alignme/lang alignme/results/tdnn_trideltas_nochain_lda_noivector_sp_ali
+analyze_phone_length_stats.py: WARNING: optional-silence sil is seen only 2.50626566416% of the time at utterance begin.  This may not be optimal.
+analyze_phone_length_stats.py: WARNING: optional-silence sil is seen only 15.5388471178% of the time at utterance end.  This may not be optimal.
+steps/diagnostic/analyze_alignments.sh: see stats in alignme/results/tdnn_trideltas_nochain_lda_noivector_sp_ali/log/analyze_alignments.log
+steps/nnet3/align.sh: done aligning data.
+fblocal/ali2ctm2pts.sh: nnet3 selected
+
+steps/get_train_ctm.sh alignme alignme/lang alignme/results/tdnn_trideltas_nochain_lda_noivector_sp_ali ctm_tmp
+[fblocal/ctm2pts.py] mapping file 'alignme/lang/phones.txt'
+
+[fblocal/ctm2pts.py] done. 398 ctm files processed
+ok	output written to alignme/results/tdnn_trideltas_nochain_lda_noivector_sp_ali/ali_m.pb
+ok	output written to alignme/results/tdnn_trideltas_nochain_lda_noivector_sp_ali/ali_f.pb
+--------------------------------------------------------------------------------------
+dataset                       	μ     	med   	σ      | <10ms 	<25ms 	<50ms 	<100ms
+--------------------------------------------------------------------------------------
+ali_m                         	15.881	11.000	18.169 | 45.91%	80.89%	95.65%	99.12%	
+ali_f                         	14.927	10.000	18.706 | 48.14%	84.51%	96.27%	99.15%	
+--------------------------------------------------------------------------------------
+run_align.sh: ################################################
+run_align.sh: ### align with TDNN-F tri-sat models routine ###
+run_align.sh: ################################################
+[94m[2021-10-24 19:32:30] run_align.sh: align tdnn_trisat_chain_delta_ivector_fs3_sp (tri-sat chain)[0m
+steps/nnet3/align.sh --nj 2 --use-gpu true --online-ivector-dir alignme/ivectors_hires --scale-opts --transition-scale=1.0 --acoustic-scale=1.0 --self-loop-scale=1.0 alignme_hires alignme/lang exp/chain/tdnn_trisat_chain_delta_ivector_fs3_sp alignme/results/tdnn_trisat_chain_delta_ivector_fs3_sp_ali
+steps/nnet3/align.sh: feature type is raw
+steps/nnet3/align.sh: aligning data in alignme_hires using model from exp/chain/tdnn_trisat_chain_delta_ivector_fs3_sp, putting alignments in alignme/results/tdnn_trisat_chain_delta_ivector_fs3_sp_ali
+steps/diagnostic/analyze_alignments.sh --cmd run.pl alignme/lang alignme/results/tdnn_trisat_chain_delta_ivector_fs3_sp_ali
+analyze_phone_length_stats.py: WARNING: optional-silence sil is seen only 25.313283208% of the time at utterance begin.  This may not be optimal.
+analyze_phone_length_stats.py: WARNING: optional-silence sil is seen only 69.1729323308% of the time at utterance end.  This may not be optimal.
+steps/diagnostic/analyze_alignments.sh: see stats in alignme/results/tdnn_trisat_chain_delta_ivector_fs3_sp_ali/log/analyze_alignments.log
+steps/nnet3/align.sh: done aligning data.
+fblocal/ali2ctm2pts.sh: chain selected
+
+steps/get_train_ctm.sh alignme alignme/lang alignme/results/tdnn_trisat_chain_delta_ivector_fs3_sp_ali ctm_tmp
+[fblocal/ctm2pts.py] mapping file 'alignme/lang/phones.txt'
+
+[fblocal/ctm2pts.py] done. 398 ctm files processed
+ok	output written to alignme/results/tdnn_trisat_chain_delta_ivector_fs3_sp_ali/ali_m.pb
+ok	output written to alignme/results/tdnn_trisat_chain_delta_ivector_fs3_sp_ali/ali_f.pb
+--------------------------------------------------------------------------------------
+dataset                       	μ     	med   	σ      | <10ms 	<25ms 	<50ms 	<100ms
+--------------------------------------------------------------------------------------
+ali_m                         	20.731	15.000	19.791 | 34.14%	69.51%	91.42%	99.23%	
+ali_f                         	20.527	15.000	19.869 | 33.09%	70.49%	92.37%	99.08%	
+--------------------------------------------------------------------------------------
+[92m[2021-10-24 19:32:37] run_align.sh: align tdnn_trisat_chain_delta_ivector_nofs_sp (tri-sat chain)[0m
+steps/nnet3/align.sh --nj 2 --use-gpu true --online-ivector-dir alignme/ivectors_hires --scale-opts --transition-scale=1.0 --acoustic-scale=1.0 --self-loop-scale=1.0 alignme_hires alignme/lang exp/chain/tdnn_trisat_chain_delta_ivector_nofs_sp alignme/results/tdnn_trisat_chain_delta_ivector_nofs_sp_ali
+steps/nnet3/align.sh: feature type is raw
+steps/nnet3/align.sh: aligning data in alignme_hires using model from exp/chain/tdnn_trisat_chain_delta_ivector_nofs_sp, putting alignments in alignme/results/tdnn_trisat_chain_delta_ivector_nofs_sp_ali
+steps/diagnostic/analyze_alignments.sh --cmd run.pl alignme/lang alignme/results/tdnn_trisat_chain_delta_ivector_nofs_sp_ali
+analyze_phone_length_stats.py: WARNING: optional-silence sil is seen only 44.8621553885% of the time at utterance begin.  This may not be optimal.
+analyze_phone_length_stats.py: WARNING: optional-silence sil is seen only 69.9248120301% of the time at utterance end.  This may not be optimal.
+steps/diagnostic/analyze_alignments.sh: see stats in alignme/results/tdnn_trisat_chain_delta_ivector_nofs_sp_ali/log/analyze_alignments.log
+steps/nnet3/align.sh: done aligning data.
+fblocal/ali2ctm2pts.sh: chain selected
+
+steps/get_train_ctm.sh alignme alignme/lang alignme/results/tdnn_trisat_chain_delta_ivector_nofs_sp_ali ctm_tmp
+[fblocal/ctm2pts.py] mapping file 'alignme/lang/phones.txt'
+
+[fblocal/ctm2pts.py] done. 398 ctm files processed
+ok	output written to alignme/results/tdnn_trisat_chain_delta_ivector_nofs_sp_ali/ali_m.pb
+ok	output written to alignme/results/tdnn_trisat_chain_delta_ivector_nofs_sp_ali/ali_f.pb
+--------------------------------------------------------------------------------------
+dataset                       	μ     	med   	σ      | <10ms 	<25ms 	<50ms 	<100ms
+--------------------------------------------------------------------------------------
+ali_m                         	54.381	42.000	55.467 | 10.62%	29.02%	58.25%	87.46%	
+ali_f                         	52.959	40.000	57.377 | 11.14%	30.56%	60.56%	88.34%	
+--------------------------------------------------------------------------------------
+[95m[2021-10-24 19:32:45] run_align.sh: align tdnn_trisat_chain_lda_ivector_fs3_sp (tri-sat chain)[0m
+steps/nnet3/align.sh --nj 2 --use-gpu true --online-ivector-dir alignme/ivectors_hires --scale-opts --transition-scale=1.0 --acoustic-scale=1.0 --self-loop-scale=1.0 alignme_hires alignme/lang exp/chain/tdnn_trisat_chain_lda_ivector_fs3_sp alignme/results/tdnn_trisat_chain_lda_ivector_fs3_sp_ali
+steps/nnet3/align.sh: feature type is raw
+steps/nnet3/align.sh: aligning data in alignme_hires using model from exp/chain/tdnn_trisat_chain_lda_ivector_fs3_sp, putting alignments in alignme/results/tdnn_trisat_chain_lda_ivector_fs3_sp_ali
+steps/diagnostic/analyze_alignments.sh --cmd run.pl alignme/lang alignme/results/tdnn_trisat_chain_lda_ivector_fs3_sp_ali
+analyze_phone_length_stats.py: WARNING: optional-silence sil is seen only 33.3333333333% of the time at utterance begin.  This may not be optimal.
+analyze_phone_length_stats.py: WARNING: optional-silence sil is seen only 48.6215538847% of the time at utterance end.  This may not be optimal.
+steps/diagnostic/analyze_alignments.sh: see stats in alignme/results/tdnn_trisat_chain_lda_ivector_fs3_sp_ali/log/analyze_alignments.log
+steps/nnet3/align.sh: done aligning data.
+fblocal/ali2ctm2pts.sh: chain selected
+
+steps/get_train_ctm.sh alignme alignme/lang alignme/results/tdnn_trisat_chain_lda_ivector_fs3_sp_ali ctm_tmp
+[fblocal/ctm2pts.py] mapping file 'alignme/lang/phones.txt'
+
+[fblocal/ctm2pts.py] done. 398 ctm files processed
+ok	output written to alignme/results/tdnn_trisat_chain_lda_ivector_fs3_sp_ali/ali_m.pb
+ok	output written to alignme/results/tdnn_trisat_chain_lda_ivector_fs3_sp_ali/ali_f.pb
+--------------------------------------------------------------------------------------
+dataset                       	μ     	med   	σ      | <10ms 	<25ms 	<50ms 	<100ms
+--------------------------------------------------------------------------------------
+ali_m                         	20.936	15.000	21.886 | 34.05%	70.45%	91.89%	98.46%	
+ali_f                         	38.851	20.000	62.072 | 25.70%	57.23%	79.93%	91.01%	
+--------------------------------------------------------------------------------------
+[91m[2021-10-24 19:32:52] run_align.sh: align tdnn_trisat_chain_lda_ivector_nofs_sp (tri-sat chain)[0m
+steps/nnet3/align.sh --nj 2 --use-gpu true --online-ivector-dir alignme/ivectors_hires --scale-opts --transition-scale=1.0 --acoustic-scale=1.0 --self-loop-scale=1.0 alignme_hires alignme/lang exp/chain/tdnn_trisat_chain_lda_ivector_nofs_sp alignme/results/tdnn_trisat_chain_lda_ivector_nofs_sp_ali
+steps/nnet3/align.sh: feature type is raw
+steps/nnet3/align.sh: aligning data in alignme_hires using model from exp/chain/tdnn_trisat_chain_lda_ivector_nofs_sp, putting alignments in alignme/results/tdnn_trisat_chain_lda_ivector_nofs_sp_ali
+steps/diagnostic/analyze_alignments.sh --cmd run.pl alignme/lang alignme/results/tdnn_trisat_chain_lda_ivector_nofs_sp_ali
+analyze_phone_length_stats.py: WARNING: optional-silence sil is seen only 35.8778625954% of the time at utterance begin.  This may not be optimal.
+analyze_phone_length_stats.py: WARNING: optional-silence sil is seen only 31.0432569975% of the time at utterance end.  This may not be optimal.
+steps/diagnostic/analyze_alignments.sh: see stats in alignme/results/tdnn_trisat_chain_lda_ivector_nofs_sp_ali/log/analyze_alignments.log
+steps/nnet3/align.sh: done aligning data.
+fblocal/ali2ctm2pts.sh: chain selected
+fblocal/ali2ctm2pts.sh: file missing: female_F-035
+fblocal/ali2ctm2pts.sh: file missing: female_F-065
+fblocal/ali2ctm2pts.sh: file missing: female_F-130
+fblocal/ali2ctm2pts.sh: file missing: female_F-152
+fblocal/ali2ctm2pts.sh: file missing: female_F-178
+fblocal/ali2ctm2pts.sh: file missing: female_F-199
+
+steps/get_train_ctm.sh alignme alignme/lang alignme/results/tdnn_trisat_chain_lda_ivector_nofs_sp_ali ctm_tmp
+[fblocal/ctm2pts.py] mapping file 'alignme/lang/phones.txt'
+
+[fblocal/ctm2pts.py] done. 398 ctm files processed
+ok	output written to alignme/results/tdnn_trisat_chain_lda_ivector_nofs_sp_ali/ali_m.pb
+
+[33mfblocal/pts2pb.py: file sizes differ: 27 vs 0. this should not be happening[0m
+
+[33mfblocal/pts2pb.py: file sizes differ: 26 vs 0. this should not be happening[0m
+
+[33mfblocal/pts2pb.py: file sizes differ: 32 vs 0. this should not be happening[0m
+
+[33mfblocal/pts2pb.py: file sizes differ: 34 vs 0. this should not be happening[0m
+
+[33mfblocal/pts2pb.py: file sizes differ: 40 vs 0. this should not be happening[0m
+
+[33mfblocal/pts2pb.py: file sizes differ: 30 vs 0. this should not be happening[0m
+ok	output written to alignme/results/tdnn_trisat_chain_lda_ivector_nofs_sp_ali/ali_f.pb
+--------------------------------------------------------------------------------------
+dataset                       	μ     	med   	σ      | <10ms 	<25ms 	<50ms 	<100ms
+--------------------------------------------------------------------------------------
+ali_m                         	49.491	35.000	76.878 | 11.60%	34.18%	67.58%	91.16%	
+ali_f                         	153.344	51.000	253.075 |  8.52%	26.20%	48.98%	68.56%	
+--------------------------------------------------------------------------------------
+[93m[2021-10-24 19:33:01] run_align.sh: align tdnn_trisat_chain_delta_noivector_fs3_sp (tri-sat chain)[0m
+steps/nnet3/align.sh --nj 2 --use-gpu true --scale-opts --transition-scale=1.0 --acoustic-scale=1.0 --self-loop-scale=1.0 alignme_hires alignme/lang exp/chain/tdnn_trisat_chain_delta_noivector_fs3_sp alignme/results/tdnn_trisat_chain_delta_noivector_fs3_sp_ali
+steps/nnet3/align.sh: feature type is raw
+steps/nnet3/align.sh: aligning data in alignme_hires using model from exp/chain/tdnn_trisat_chain_delta_noivector_fs3_sp, putting alignments in alignme/results/tdnn_trisat_chain_delta_noivector_fs3_sp_ali
+steps/diagnostic/analyze_alignments.sh --cmd run.pl alignme/lang alignme/results/tdnn_trisat_chain_delta_noivector_fs3_sp_ali
+analyze_phone_length_stats.py: WARNING: optional-silence sil is seen only 31.328320802% of the time at utterance begin.  This may not be optimal.
+analyze_phone_length_stats.py: WARNING: optional-silence sil is seen only 74.4360902256% of the time at utterance end.  This may not be optimal.
+steps/diagnostic/analyze_alignments.sh: see stats in alignme/results/tdnn_trisat_chain_delta_noivector_fs3_sp_ali/log/analyze_alignments.log
+steps/nnet3/align.sh: done aligning data.
+fblocal/ali2ctm2pts.sh: chain selected
+
+steps/get_train_ctm.sh alignme alignme/lang alignme/results/tdnn_trisat_chain_delta_noivector_fs3_sp_ali ctm_tmp
+[fblocal/ctm2pts.py] mapping file 'alignme/lang/phones.txt'
+
+[fblocal/ctm2pts.py] done. 398 ctm files processed
+ok	output written to alignme/results/tdnn_trisat_chain_delta_noivector_fs3_sp_ali/ali_m.pb
+ok	output written to alignme/results/tdnn_trisat_chain_delta_noivector_fs3_sp_ali/ali_f.pb
+--------------------------------------------------------------------------------------
+dataset                       	μ     	med   	σ      | <10ms 	<25ms 	<50ms 	<100ms
+--------------------------------------------------------------------------------------
+ali_m                         	20.943	15.000	19.818 | 33.67%	68.84%	91.38%	99.25%	
+ali_f                         	21.111	16.000	20.521 | 32.24%	68.76%	91.84%	99.02%	
+--------------------------------------------------------------------------------------
+[95m[2021-10-24 19:33:09] run_align.sh: align tdnn_trisat_chain_delta_noivector_nofs_sp (tri-sat chain)[0m
+steps/nnet3/align.sh --nj 2 --use-gpu true --scale-opts --transition-scale=1.0 --acoustic-scale=1.0 --self-loop-scale=1.0 alignme_hires alignme/lang exp/chain/tdnn_trisat_chain_delta_noivector_nofs_sp alignme/results/tdnn_trisat_chain_delta_noivector_nofs_sp_ali
+steps/nnet3/align.sh: feature type is raw
+steps/nnet3/align.sh: aligning data in alignme_hires using model from exp/chain/tdnn_trisat_chain_delta_noivector_nofs_sp, putting alignments in alignme/results/tdnn_trisat_chain_delta_noivector_nofs_sp_ali
+steps/diagnostic/analyze_alignments.sh --cmd run.pl alignme/lang alignme/results/tdnn_trisat_chain_delta_noivector_nofs_sp_ali
+analyze_phone_length_stats.py: WARNING: optional-silence sil is seen only 41.3533834586% of the time at utterance begin.  This may not be optimal.
+analyze_phone_length_stats.py: WARNING: optional-silence sil is seen only 74.9373433584% of the time at utterance end.  This may not be optimal.
+steps/diagnostic/analyze_alignments.sh: see stats in alignme/results/tdnn_trisat_chain_delta_noivector_nofs_sp_ali/log/analyze_alignments.log
+steps/nnet3/align.sh: done aligning data.
+fblocal/ali2ctm2pts.sh: chain selected
+
+steps/get_train_ctm.sh alignme alignme/lang alignme/results/tdnn_trisat_chain_delta_noivector_nofs_sp_ali ctm_tmp
+[fblocal/ctm2pts.py] mapping file 'alignme/lang/phones.txt'
+
+[fblocal/ctm2pts.py] done. 398 ctm files processed
+ok	output written to alignme/results/tdnn_trisat_chain_delta_noivector_nofs_sp_ali/ali_m.pb
+ok	output written to alignme/results/tdnn_trisat_chain_delta_noivector_nofs_sp_ali/ali_f.pb
+--------------------------------------------------------------------------------------
+dataset                       	μ     	med   	σ      | <10ms 	<25ms 	<50ms 	<100ms
+--------------------------------------------------------------------------------------
+ali_m                         	53.498	41.000	56.856 | 10.21%	29.42%	60.07%	88.18%	
+ali_f                         	52.579	41.000	56.697 | 10.04%	29.43%	61.33%	89.03%	
+--------------------------------------------------------------------------------------
+[92m[2021-10-24 19:33:17] run_align.sh: align tdnn_trisat_chain_lda_noivector_fs3_sp (tri-sat chain)[0m
+steps/nnet3/align.sh --nj 2 --use-gpu true --scale-opts --transition-scale=1.0 --acoustic-scale=1.0 --self-loop-scale=1.0 alignme_hires alignme/lang exp/chain/tdnn_trisat_chain_lda_noivector_fs3_sp alignme/results/tdnn_trisat_chain_lda_noivector_fs3_sp_ali
+steps/nnet3/align.sh: feature type is raw
+steps/nnet3/align.sh: aligning data in alignme_hires using model from exp/chain/tdnn_trisat_chain_lda_noivector_fs3_sp, putting alignments in alignme/results/tdnn_trisat_chain_lda_noivector_fs3_sp_ali
+steps/diagnostic/analyze_alignments.sh --cmd run.pl alignme/lang alignme/results/tdnn_trisat_chain_lda_noivector_fs3_sp_ali
+analyze_phone_length_stats.py: WARNING: optional-silence sil is seen only 25.313283208% of the time at utterance begin.  This may not be optimal.
+analyze_phone_length_stats.py: WARNING: optional-silence sil is seen only 44.1102756892% of the time at utterance end.  This may not be optimal.
+steps/diagnostic/analyze_alignments.sh: see stats in alignme/results/tdnn_trisat_chain_lda_noivector_fs3_sp_ali/log/analyze_alignments.log
+steps/nnet3/align.sh: done aligning data.
+fblocal/ali2ctm2pts.sh: chain selected
+
+steps/get_train_ctm.sh alignme alignme/lang alignme/results/tdnn_trisat_chain_lda_noivector_fs3_sp_ali ctm_tmp
+[fblocal/ctm2pts.py] mapping file 'alignme/lang/phones.txt'
+
+[fblocal/ctm2pts.py] done. 398 ctm files processed
+ok	output written to alignme/results/tdnn_trisat_chain_lda_noivector_fs3_sp_ali/ali_m.pb
+ok	output written to alignme/results/tdnn_trisat_chain_lda_noivector_fs3_sp_ali/ali_f.pb
+--------------------------------------------------------------------------------------
+dataset                       	μ     	med   	σ      | <10ms 	<25ms 	<50ms 	<100ms
+--------------------------------------------------------------------------------------
+ali_m                         	22.686	16.000	25.030 | 32.57%	67.72%	90.46%	98.16%	
+ali_f                         	21.486	16.000	22.598 | 31.92%	69.27%	91.78%	98.64%	
+--------------------------------------------------------------------------------------
+[95m[2021-10-24 19:33:24] run_align.sh: align tdnn_trisat_chain_lda_noivector_nofs_sp (tri-sat chain)[0m
+steps/nnet3/align.sh --nj 2 --use-gpu true --scale-opts --transition-scale=1.0 --acoustic-scale=1.0 --self-loop-scale=1.0 alignme_hires alignme/lang exp/chain/tdnn_trisat_chain_lda_noivector_nofs_sp alignme/results/tdnn_trisat_chain_lda_noivector_nofs_sp_ali
+steps/nnet3/align.sh: feature type is raw
+steps/nnet3/align.sh: aligning data in alignme_hires using model from exp/chain/tdnn_trisat_chain_lda_noivector_nofs_sp, putting alignments in alignme/results/tdnn_trisat_chain_lda_noivector_nofs_sp_ali
+steps/diagnostic/analyze_alignments.sh --cmd run.pl alignme/lang alignme/results/tdnn_trisat_chain_lda_noivector_nofs_sp_ali
+analyze_phone_length_stats.py: WARNING: optional-silence sil is seen only 41.1027568922% of the time at utterance begin.  This may not be optimal.
+analyze_phone_length_stats.py: WARNING: optional-silence sil is seen only 51.8796992481% of the time at utterance end.  This may not be optimal.
+steps/diagnostic/analyze_alignments.sh: see stats in alignme/results/tdnn_trisat_chain_lda_noivector_nofs_sp_ali/log/analyze_alignments.log
+steps/nnet3/align.sh: done aligning data.
+fblocal/ali2ctm2pts.sh: chain selected
+
+steps/get_train_ctm.sh alignme alignme/lang alignme/results/tdnn_trisat_chain_lda_noivector_nofs_sp_ali ctm_tmp
+[fblocal/ctm2pts.py] mapping file 'alignme/lang/phones.txt'
+
+[fblocal/ctm2pts.py] done. 398 ctm files processed
+ok	output written to alignme/results/tdnn_trisat_chain_lda_noivector_nofs_sp_ali/ali_m.pb
+ok	output written to alignme/results/tdnn_trisat_chain_lda_noivector_nofs_sp_ali/ali_f.pb
+--------------------------------------------------------------------------------------
+dataset                       	μ     	med   	σ      | <10ms 	<25ms 	<50ms 	<100ms
+--------------------------------------------------------------------------------------
+ali_m                         	54.618	36.000	85.314 | 11.99%	34.05%	64.31%	88.48%	
+ali_f                         	50.223	36.000	71.220 | 12.42%	33.05%	66.25%	90.84%	
+--------------------------------------------------------------------------------------
+[96m[2021-10-24 19:33:32] run_align.sh: align tdnn_trisat_nochain_delta_ivector_sp (tri-sat no chain)[0m
+steps/nnet3/align.sh --nj 2 --use-gpu true --online-ivector-dir alignme/ivectors_hires alignme_hires alignme/lang exp/nnet3/tdnn_trisat_nochain_delta_ivector_sp alignme/results/tdnn_trisat_nochain_delta_ivector_sp_ali
+steps/nnet3/align.sh: feature type is raw
+steps/nnet3/align.sh: aligning data in alignme_hires using model from exp/nnet3/tdnn_trisat_nochain_delta_ivector_sp, putting alignments in alignme/results/tdnn_trisat_nochain_delta_ivector_sp_ali
+steps/diagnostic/analyze_alignments.sh --cmd run.pl alignme/lang alignme/results/tdnn_trisat_nochain_delta_ivector_sp_ali
+analyze_phone_length_stats.py: WARNING: optional-silence sil is seen only 1.5037593985% of the time at utterance begin.  This may not be optimal.
+analyze_phone_length_stats.py: WARNING: optional-silence sil is seen only 41.1027568922% of the time at utterance end.  This may not be optimal.
+steps/diagnostic/analyze_alignments.sh: see stats in alignme/results/tdnn_trisat_nochain_delta_ivector_sp_ali/log/analyze_alignments.log
+steps/nnet3/align.sh: done aligning data.
+fblocal/ali2ctm2pts.sh: nnet3 selected
+
+steps/get_train_ctm.sh alignme alignme/lang alignme/results/tdnn_trisat_nochain_delta_ivector_sp_ali ctm_tmp
+[fblocal/ctm2pts.py] mapping file 'alignme/lang/phones.txt'
+
+[fblocal/ctm2pts.py] done. 398 ctm files processed
+ok	output written to alignme/results/tdnn_trisat_nochain_delta_ivector_sp_ali/ali_m.pb
+ok	output written to alignme/results/tdnn_trisat_nochain_delta_ivector_sp_ali/ali_f.pb
+--------------------------------------------------------------------------------------
+dataset                       	μ     	med   	σ      | <10ms 	<25ms 	<50ms 	<100ms
+--------------------------------------------------------------------------------------
+ali_m                         	14.899	10.000	16.195 | 46.60%	83.14%	96.16%	99.34%	
+ali_f                         	15.140	10.000	17.261 | 47.05%	83.46%	96.08%	99.36%	
+--------------------------------------------------------------------------------------
+[94m[2021-10-24 19:33:40] run_align.sh: align tdnn_trisat_nochain_lda_ivector_sp (tri-sat no chain)[0m
+steps/nnet3/align.sh --nj 2 --use-gpu true --online-ivector-dir alignme/ivectors_hires alignme_hires alignme/lang exp/nnet3/tdnn_trisat_nochain_lda_ivector_sp alignme/results/tdnn_trisat_nochain_lda_ivector_sp_ali
+steps/nnet3/align.sh: feature type is raw
+steps/nnet3/align.sh: aligning data in alignme_hires using model from exp/nnet3/tdnn_trisat_nochain_lda_ivector_sp, putting alignments in alignme/results/tdnn_trisat_nochain_lda_ivector_sp_ali
+steps/diagnostic/analyze_alignments.sh --cmd run.pl alignme/lang alignme/results/tdnn_trisat_nochain_lda_ivector_sp_ali
+analyze_phone_length_stats.py: WARNING: optional-silence sil is seen only 3.75939849624% of the time at utterance begin.  This may not be optimal.
+analyze_phone_length_stats.py: WARNING: optional-silence sil is seen only 21.5538847118% of the time at utterance end.  This may not be optimal.
+steps/diagnostic/analyze_alignments.sh: see stats in alignme/results/tdnn_trisat_nochain_lda_ivector_sp_ali/log/analyze_alignments.log
+steps/nnet3/align.sh: done aligning data.
+fblocal/ali2ctm2pts.sh: nnet3 selected
+
+steps/get_train_ctm.sh alignme alignme/lang alignme/results/tdnn_trisat_nochain_lda_ivector_sp_ali ctm_tmp
+[fblocal/ctm2pts.py] mapping file 'alignme/lang/phones.txt'
+
+[fblocal/ctm2pts.py] done. 398 ctm files processed
+ok	output written to alignme/results/tdnn_trisat_nochain_lda_ivector_sp_ali/ali_m.pb
+ok	output written to alignme/results/tdnn_trisat_nochain_lda_ivector_sp_ali/ali_f.pb
+--------------------------------------------------------------------------------------
+dataset                       	μ     	med   	σ      | <10ms 	<25ms 	<50ms 	<100ms
+--------------------------------------------------------------------------------------
+ali_m                         	15.278	11.000	16.729 | 46.02%	82.11%	96.22%	99.53%	
+ali_f                         	17.869	10.000	48.925 | 46.22%	83.38%	95.14%	98.51%	
+--------------------------------------------------------------------------------------
+[93m[2021-10-24 19:33:48] run_align.sh: align tdnn_trisat_nochain_delta_noivector_sp (tri-sat no chain)[0m
+steps/nnet3/align.sh --nj 2 --use-gpu true alignme_hires alignme/lang exp/nnet3/tdnn_trisat_nochain_delta_noivector_sp alignme/results/tdnn_trisat_nochain_delta_noivector_sp_ali
+steps/nnet3/align.sh: feature type is raw
+steps/nnet3/align.sh: aligning data in alignme_hires using model from exp/nnet3/tdnn_trisat_nochain_delta_noivector_sp, putting alignments in alignme/results/tdnn_trisat_nochain_delta_noivector_sp_ali
+steps/diagnostic/analyze_alignments.sh --cmd run.pl alignme/lang alignme/results/tdnn_trisat_nochain_delta_noivector_sp_ali
+analyze_phone_length_stats.py: WARNING: optional-silence sil is seen only 6.2656641604% of the time at utterance begin.  This may not be optimal.
+analyze_phone_length_stats.py: WARNING: optional-silence sil is seen only 24.8120300752% of the time at utterance end.  This may not be optimal.
+steps/diagnostic/analyze_alignments.sh: see stats in alignme/results/tdnn_trisat_nochain_delta_noivector_sp_ali/log/analyze_alignments.log
+steps/nnet3/align.sh: done aligning data.
+fblocal/ali2ctm2pts.sh: nnet3 selected
+
+steps/get_train_ctm.sh alignme alignme/lang alignme/results/tdnn_trisat_nochain_delta_noivector_sp_ali ctm_tmp
+[fblocal/ctm2pts.py] mapping file 'alignme/lang/phones.txt'
+
+[fblocal/ctm2pts.py] done. 398 ctm files processed
+ok	output written to alignme/results/tdnn_trisat_nochain_delta_noivector_sp_ali/ali_m.pb
+ok	output written to alignme/results/tdnn_trisat_nochain_delta_noivector_sp_ali/ali_f.pb
+--------------------------------------------------------------------------------------
+dataset                       	μ     	med   	σ      | <10ms 	<25ms 	<50ms 	<100ms
+--------------------------------------------------------------------------------------
+ali_m                         	14.429	10.000	14.905 | 46.75%	83.59%	96.87%	99.68%	
+ali_f                         	14.092	10.000	15.265 | 48.78%	85.30%	96.80%	99.64%	
+--------------------------------------------------------------------------------------
+[96m[2021-10-24 19:33:56] run_align.sh: align tdnn_trisat_nochain_lda_noivector_sp (tri-sat no chain)[0m
+steps/nnet3/align.sh --nj 2 --use-gpu true alignme_hires alignme/lang exp/nnet3/tdnn_trisat_nochain_lda_noivector_sp alignme/results/tdnn_trisat_nochain_lda_noivector_sp_ali
+steps/nnet3/align.sh: feature type is raw
+steps/nnet3/align.sh: aligning data in alignme_hires using model from exp/nnet3/tdnn_trisat_nochain_lda_noivector_sp, putting alignments in alignme/results/tdnn_trisat_nochain_lda_noivector_sp_ali
+steps/diagnostic/analyze_alignments.sh --cmd run.pl alignme/lang alignme/results/tdnn_trisat_nochain_lda_noivector_sp_ali
+analyze_phone_length_stats.py: WARNING: optional-silence sil is seen only 3.75939849624% of the time at utterance begin.  This may not be optimal.
+analyze_phone_length_stats.py: WARNING: optional-silence sil is seen only 17.7944862155% of the time at utterance end.  This may not be optimal.
+steps/diagnostic/analyze_alignments.sh: see stats in alignme/results/tdnn_trisat_nochain_lda_noivector_sp_ali/log/analyze_alignments.log
+steps/nnet3/align.sh: done aligning data.
+fblocal/ali2ctm2pts.sh: nnet3 selected
+
+steps/get_train_ctm.sh alignme alignme/lang alignme/results/tdnn_trisat_nochain_lda_noivector_sp_ali ctm_tmp
+[fblocal/ctm2pts.py] mapping file 'alignme/lang/phones.txt'
+
+[fblocal/ctm2pts.py] done. 398 ctm files processed
+ok	output written to alignme/results/tdnn_trisat_nochain_lda_noivector_sp_ali/ali_m.pb
+ok	output written to alignme/results/tdnn_trisat_nochain_lda_noivector_sp_ali/ali_f.pb
+--------------------------------------------------------------------------------------
+dataset                       	μ     	med   	σ      | <10ms 	<25ms 	<50ms 	<100ms
+--------------------------------------------------------------------------------------
+ali_m                         	16.542	11.000	22.012 | 44.93%	81.97%	95.09%	98.86%	
+ali_f                         	17.505	10.000	54.720 | 46.15%	84.12%	95.61%	99.08%	
+--------------------------------------------------------------------------------------
+[93m[2021-10-24 19:34:04] run_align.sh: success![0m
