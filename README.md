@@ -149,37 +149,53 @@ $ bash ufpalign.sh $HOME/kaldi demo/ex.wav demo/ex.txt mono
 O arquivo [`demo/M-001.log`](demo/M-001.log) contém um exemplo de saída
 completa do comando funcionando.
 
+### Docker :whale:
+
+Mais detalhes no diretório `docker/execution`.
+
+
+## Simulação e Resultados
+
+Com o intuito de prover um nível mínimo de reproducibilidade dos resultados,
+o diretório `simulation` foi criado com scripts para executar o MFA e outros
+alinhadores mais antigos baseados no HTK sobre a mesma base de teste, a fim de
+avaliar a "acurácia" do UFPAlign por comparação.
+
+Recomenda-se o uso da imagem docker em `docker/simulation`.
+
+
 ## Citação
 
 Se utilizares qualquer recurso disponível nesse repositório, por favor nos cite
-com as seguintes referências:
+com a seguinte referência:
 
-### [BRACIS 2020](https://link.springer.com/chapter/10.1007/978-3-030-61377-8_44)
+### [EURASIP 2022](https://asp-eurasipjournals.springeropen.com/articles/10.1186/s13634-022-00844-9)
 
-> Dias A.L., Batista C., Santana D., Neto N. (2020)
-> Towards a Free, Forced Phonetic Aligner for Brazilian Portuguese Using Kaldi Tools.
-> In: Cerri R., Prati R.C. (eds) Intelligent Systems. BRACIS 2020.
-> Lecture Notes in Computer Science, vol 12319. Springer, Cham.
-> https://doi.org/10.1007/978-3-030-61377-8_44
+> Batista, C., Dias, A.L. & Neto, N.
+> Free resources for forced phonetic alignment in Brazilian Portuguese based on Kaldi toolkit.
+> EURASIP J. Adv. Signal Process. 2022, 11 (2022).
+> https://doi.org/10.1186/s13634-022-00844-9
 
 ```bibtex
-@InProceedings{Dias20,
-    author     = {Dias, Ana Larissa and Batista, Cassio and Santana, Daniel and Neto, Nelson},
-    editor     = {Cerri, Ricardo and Prati, Ronaldo C.},
-    title      = {Towards a Free, Forced Phonetic Aligner for Brazilian Portuguese Using Kaldi Tools},
-    booktitle  = {Intelligent Systems},
-    year       = {2020},
-    publisher  = {Springer International Publishing},
-    address    = {Cham},
-    pages      = {621--635},
-    isbn       = {978-3-030-61377-8}
+@article{Batista22a,
+		author     = {Batista, Cassio and Dias, Ana Larissa and Neto, Nelson},
+		title      = {Free resources for forced phonetic alignment in Brazilian Portuguese based on Kaldi toolkit},
+		journal    = {EURASIP Journal on Advances in Signal Processing},
+		year       = {2022},
+		month      = {Feb},
+		day        = {19},
+		volume     = {2022},
+		number     = {1},
+		pages      = {11},
+		issn       = {1687-6180},
+		doi        = {10.1186/s13634-022-00844-9},
+		url        = {https://doi.org/10.1186/s13634-022-00844-9}
 }
 ```
 
-:warning: Este artigo usa as receitas `nnet2` desatualizadas, porém este
-repositório foi atualizado para a receita dos chain models por meio de scripts
-`nnet3`. O `nnet2` scripts, podem ser encontrados na tag `nnet2` no
-[repositório do FalaBrasil com os scripts de treinamento de modelos acústicos usando o Kaldi](https://github.com/falabrasil/kaldi-br).
+Verifica também o
+[repositório do FalaBrasil para treino de modelos acústicos com o Kaldi](https://github.com/falabrasil/kaldi-br).
+
 
 [![FalaBrasil](https://gitlab.com/falabrasil/avatars/-/raw/main/logo_fb_git_footer.png)](https://ufpafalabrasil.gitlab.io/ "Visite o site do Grupo FalaBrasil") [![UFPA](https://gitlab.com/falabrasil/avatars/-/raw/main/logo_ufpa_git_footer.png)](https://portal.ufpa.br/ "Visite o site da UFPA")
 
