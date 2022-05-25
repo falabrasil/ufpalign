@@ -6,29 +6,16 @@
 # cassio batista - https://cassota.gitlab.io
 # last update: nov 2021
 
-BASE_URL="https://drive.google.com/uc?export=download&"
-
 # https://stackoverflow.com/questions/1494178/how-to-define-hash-tables-in-bash
 declare -A files=(
   ["data.tar.gz"]="1YiZ9zzRHQNcQYFRwXzTKJ9RAZbdlyS7N"
   ["mono.tar.gz"]="1y9E1HATkxVn_MkGa4vsJyEvHa8X_rfgb"
-  ["tri1.tar.gz"]="1gL_AmKvWFyqCdysk33X8V6-nJnqb1CiT"
-  ["tri2.tar.gz"]="1LBz3_5VhQMMkWZZRuPKCyWpVl6t-xgfO"
-  ["tri3.tar.gz"]="1qSrAZJ7Y8Mihgd9R9zSfdhsuaQBsX0fX"
+  ["tri1b.tar.gz"]="1gL_AmKvWFyqCdysk33X8V6-nJnqb1CiT"
+  ["tri2b.tar.gz"]="1LBz3_5VhQMMkWZZRuPKCyWpVl6t-xgfO"
+  ["tri3b.tar.gz"]="1qSrAZJ7Y8Mihgd9R9zSfdhsuaQBsX0fX"
   ["tdnn.tar.gz"]="11oWQfUxK8wMztyMypbcDBCRrxVZEKzPZ"
   ["ie.tar.gz"]="1K1BpN0yleASVQPPM8XTUORjg8LU-ykYp"
 )
-
-# https://stackoverflow.com/questions/48133080/how-to-download-a-google-drive-url-via-curl-or-wget/48133859
-fetch() {
-  filename="$1"
-  filehash="$2"
-  echo "$0: downloading '$filename' from Google Drive"
-  curl -c  ./cookie -s -L "$BASE_URL&id=$filehash" > /dev/null
-  curl -L --progress-bar -b ./cookie \
-    "$BASE_URL&confirm=$(awk '/download/ {print $NF}' ./cookie)&id=$filehash" \
-    -o $filename || exit 1
-}
 
 # main
 if [ $# -ne 2 ] ; then
@@ -42,17 +29,12 @@ tag=$1
 dir=$2
 mkdir -p $dir || exit 1
 
-trap 'rm -f cookie' SIGINT
-
 filename=$tag.tar.gz
 filehash=${files[$filename]}
 
-[ -f $dir/$filename ] && \
-  echo "$0: file '$dir/$filename' exists. skipping download" || \
-  { fetch $filename $filehash && mv $filename $dir ; }
+[ ! -f $dir/$filename ] && gdown -O $dir/$filename "$filehash" || \
+  echo "$0: file '$dir/$filename' exists. skipping download"
 tar xf $dir/$filename -C $dir || exit 1
-
-rm -f cookie
 
 if [ ! -f $dir/fb_nlplib.jar ] ; then
   echo "$0: downloading FalaBrasil tagger lib from GitLab"

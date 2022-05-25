@@ -2,7 +2,8 @@
 #
 # author: apr 2021
 # cassio batista - https://cassota.gitlab.io
-# last update: oct 2021
+# last update: may 2022
+
 
 function log { echo -e "\e[$(shuf -i 91-96 -n 1)m[$(date +'%F %T')] $1\e[0m" ; }
 UFPALIGN_DIR=/opt/UFPAlign
@@ -16,16 +17,16 @@ if [ $# -ne 4 ] ; then
   echo
   echo "  e.g.: $0 $HOME/kaldi demo/audio.wav demo/trans.txt tdnn"
   echo
-  echo "  valid am tags: mono, tri1, tri2, tri3, tdnn"
+  echo "  valid am tags: mono, tri1, tri2b, tri3b, tdnn"
   exit 1
 fi
 
 [ ! -d $UFPALIGN_DIR ] && sudo mkdir -pv $UFPALIGN_DIR && \
-    sudo chown -Rv $(whoami):$(whoami) $UFPALIGN_DIR
+  sudo chown -Rv $(whoami):$(whoami) $UFPALIGN_DIR
 
 # check dependencies
 ok=true
-for f in tar java wget curl python3 ; do
+for f in tar java wget curl python3 gdown ; do
   type -f $f > /dev/null 2>&1 || { echo "$0: $f not installed" && ok=false ; }
 done
 $ok || exit 1
@@ -42,7 +43,7 @@ for f in $wav_file $txt_file ; do
   [ ! -f "$wav_file" ] && echo "$0: error: file '$f' does not exist" && exit 1
 done
 # https://stackoverflow.com/questions/12454731/meaning-of-operator-in-shell-script
-[[ "$am_tag" =~ ("mono"|"tri"[1-3]|"tdnn") ]] || \
+[[ "$am_tag" =~ ("mono"|"tri1"|"tri"[2-3]"b"|"tdnn") ]] || \
   { echo "$0: error: bad acoustic model tag '$am_tag'" && exit 1 ; }
 
 # fetch model
@@ -83,24 +84,20 @@ local/ext_dict.sh $UFPALIGN_DIR $txt_file data/dict/{lexicon,syllables}.txt || e
 log "$0: extracting mfccs"
 conf=conf/mfcc.conf 
 [[ "$am_tag" == "tdnn" ]] && conf=conf/mfcc_hires.conf
-(
-  steps/make_mfcc.sh --nj 1 --mfcc-config $conf data/alignme || touch .err
-  steps/compute_cmvn_stats.sh data/alignme || touch .err
-  utils/fix_data_dir.sh data/alignme || touch .err
-)&
+steps/make_mfcc.sh --nj 1 --mfcc-config $conf data/alignme || exit 1
+steps/compute_cmvn_stats.sh data/alignme || exit 1
+utils/fix_data_dir.sh data/alignme || exit 1
 
 # extract ivector features (for tdnn model only)
 if [[ "$am_tag" == "tdnn" ]] ; then
   log "$0: extracting ivectors"
-  ( steps/online/nnet2/extract_ivectors_online.sh --nj 1 \
-    data/alignme $UFPALIGN_DIR/ie data/alignme/ivector_hires || touch .err )&
+  steps/online/nnet2/extract_ivectors_online.sh --nj 1 \
+    data/alignme $UFPALIGN_DIR/ie data/alignme/ivector_hires || exit 1
 fi
-wait
-[ -f .err ] && rm .err && echo "$0: error at feat extraction" && exit 1
 
 # align
 log "$0: aligning"
-if [[ "$am_tag" =~ ("mono"|"tri"[1-3]) ]] ; then
+if [[ "$am_tag" =~ ("mono"|"tri1"|"tri"[2-3]"b") ]] ; then
   steps/align_si.sh --nj 1 \
     data/alignme data/lang $UFPALIGN_DIR/$am_tag data/alignme_ali
 elif [[ "$am_tag" == "tdnn" ]] ; then
@@ -113,7 +110,7 @@ fi
 # create phoneids.ctm
 log "$0: creating ctm"
 for ali in data/alignme_ali/ali.*.gz ; do
-  if [[ "$am_tag" =~ ("mono"|"tri"[1-3]) ]] ; then
+  if [[ "$am_tag" =~ ("mono"|"tri1"|"tri"[2-3]"b") ]] ; then
     ali-to-phones --ctm-output $UFPALIGN_DIR/$am_tag/final.mdl \
       ark:"gunzip -c $ali |" - > ${ali%.gz}.ctm
   elif [[ "$am_tag" == "tdnn" ]] ; then
