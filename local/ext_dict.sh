@@ -5,6 +5,7 @@
 #
 # author: apr 2021
 # cassio batista - https://cassota.gitlab.io
+# last update: jan 2023
 
 update=false
 
@@ -34,12 +35,14 @@ export LC_ALL=pt_BR.utf8
 rm -f *.tmp
 trap "rm -f *.tmp" SIGINT
 for word in $(cat $txt_file) ; do
-  echo $word >> wlist.tmp
-done
+  echo $word
+done > wlist.tmp
 
 # FIXME this should be part of data.tar.gz
 echo "$0: creating syllphones"
-java -jar $jar_path/fb_nlplib.jar -G -i wlist.tmp -o $(dirname $lex_file)/syllphones.txt
+dir=$(dirname $lex_file)
+java -jar $jar_path/fb_nlplib.jar -G -i wlist.tmp -o $dir/syllphones.tmp
+local/parse_abbrev.py < $dir/syllphones.tmp > $dir/syllphones.txt
 
 awk '{print $1}' $lex_file | python -c "
 import sys
@@ -63,13 +66,13 @@ java -jar $jar_path/fb_nlplib.jar -g -i wlist.tmp -o dict.tmp
 head -2 $lex_file > unk.tmp    # first get only unk tokens from lexicon
 tail +3 $lex_file >> dict.tmp  # finally get phones from lexicon
 sort -u dict.tmp -o dict.tmp
-cat unk.tmp dict.tmp > $lex_file || exit 1
+cat unk.tmp dict.tmp | local/parse_abbrev.py > $lex_file || exit 1
 
 # then syll
 echo "$0: extending syll"
 java -jar $jar_path/fb_nlplib.jar -s -i wlist.tmp -o syll.tmp
 cat $syll_file >> syll.tmp
-sort -u syll.tmp > $syll_file || exit 1
+sort -u syll.tmp | local/fix_syll.py > $syll_file || exit 1
 
 rm -f *.tmp
 

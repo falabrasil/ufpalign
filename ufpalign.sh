@@ -2,14 +2,19 @@
 #
 # author: apr 2021
 # cassio batista - https://cassota.gitlab.io
-# last update: may 2022
+# last update: jan 2023
 
+
+UFPALIGN_DIR=/opt/UFPAlign
+beam=10
+retry_beam=40
 
 function log { echo -e "\e[$(shuf -i 91-96 -n 1)m[$(date +'%F %T')] $1\e[0m" ; }
-UFPALIGN_DIR=/opt/UFPAlign
+
+. util/parse_options.sh || exit 1
 
 if [ $# -ne 4 ] ; then
-  echo "usage: $0 <kaldi-root> <wav-file> <txt-file> <am-tag>"
+  echo "usage: $0 [options] <kaldi-root> <wav-file> <txt-file> <am-tag>"
   echo "  <kaldi-root> is a dir where Kaldi has been previously installed"
   echo "  <wav-file> is the audio input file"
   echo "  <txt-file> is the transcription input file"
@@ -21,15 +26,12 @@ if [ $# -ne 4 ] ; then
   exit 1
 fi
 
-[ ! -d $UFPALIGN_DIR ] && sudo mkdir -pv $UFPALIGN_DIR && \
+[ ! -d $UFPALIGN_DIR ] && \
+  sudo mkdir -pv $UFPALIGN_DIR && \
   sudo chown -Rv $(whoami):$(whoami) $UFPALIGN_DIR
 
 # check dependencies
-ok=true
-for f in tar java wget curl python3 gdown ; do
-  type -f $f > /dev/null 2>&1 || { echo "$0: $f not installed" && ok=false ; }
-done
-$ok || exit 1
+util/check_dependencies.sh || exit 1
 
 kaldi_root=$(readlink -f $1)
 wav_file=$(readlink -f $2)
@@ -98,13 +100,13 @@ fi
 # align
 log "$0: aligning"
 if [[ "$am_tag" =~ ("mono"|"tri1"|"tri"[2-3]"b") ]] ; then
-  steps/align_si.sh --nj 1 \
-    data/alignme data/lang $UFPALIGN_DIR/$am_tag data/alignme_ali
+  steps/align_si.sh --nj 1 --beam $beam --retry-beam $retry_beam \
+    data/alignme data/lang $UFPALIGN_DIR/$am_tag data/alignme_ali || exit 1
 elif [[ "$am_tag" == "tdnn" ]] ; then
-  steps/nnet3/align.sh --nj 1 --use-gpu false \
+  steps/nnet3/align.sh --nj 1 --use-gpu false --beam $beam --retry-beam $retry_beam \
     --online-ivector-dir data/alignme/ivector_hires \
     --scale-opts '--transition-scale=1.0 --acoustic-scale=1.0 --self-loop-scale=1.0' \
-    data/alignme data/lang $UFPALIGN_DIR/$am_tag data/alignme_ali
+    data/alignme data/lang $UFPALIGN_DIR/$am_tag data/alignme_ali || exit 1
 fi
 
 # create phoneids.ctm
@@ -112,11 +114,11 @@ log "$0: creating ctm"
 for ali in data/alignme_ali/ali.*.gz ; do
   if [[ "$am_tag" =~ ("mono"|"tri1"|"tri"[2-3]"b") ]] ; then
     ali-to-phones --ctm-output $UFPALIGN_DIR/$am_tag/final.mdl \
-      ark:"gunzip -c $ali |" - > ${ali%.gz}.ctm
+      ark:"gunzip -c $ali |" - > ${ali%.gz}.ctm || exit 1
   elif [[ "$am_tag" == "tdnn" ]] ; then
     ali-to-phones --frame-shift="0.03" --ctm-output \
       $UFPALIGN_DIR/$am_tag/final.mdl \
-      ark:"gunzip -c $ali |" - > ${ali%.gz}.ctm
+      ark:"gunzip -c $ali |" - > ${ali%.gz}.ctm || exit 1
   fi
 done
 cat data/alignme_ali/*.ctm > data/$am_tag.phoneids.ctm
