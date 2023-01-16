@@ -11,16 +11,15 @@ retry_beam=40
 
 function log { echo -e "\e[$(shuf -i 91-96 -n 1)m[$(date +'%F %T')] $1\e[0m" ; }
 
-. util/parse_options.sh || exit 1
+. utils/parse_options.sh || exit 1
 
-if [ $# -ne 4 ] ; then
-  echo "usage: $0 [options] <kaldi-root> <wav-file> <txt-file> <am-tag>"
-  echo "  <kaldi-root> is a dir where Kaldi has been previously installed"
+if [ $# -ne 3 ] ; then
+  echo "usage: $0 [options] <wav-file> <txt-file> <am-tag>"
   echo "  <wav-file> is the audio input file"
   echo "  <txt-file> is the transcription input file"
   echo "  <am-tag> is the tag corresponding to the acoustic model"
   echo
-  echo "  e.g.: $0 $HOME/kaldi demo/audio.wav demo/trans.txt tdnn"
+  echo "  e.g.: KALDI_ROOT=$HOME/kaldi $0 demo/audio.wav demo/trans.txt tdnn"
   echo
   echo "  valid am tags: mono, tri1, tri2b, tri3b, tdnn"
   exit 1
@@ -31,16 +30,15 @@ fi
   sudo chown -Rv $(whoami):$(whoami) $UFPALIGN_DIR
 
 # check dependencies
-util/check_dependencies.sh || exit 1
+utils/check_dependencies.sh || exit 1
 
-kaldi_root=$(readlink -f $1)
-wav_file=$(readlink -f $2)
-txt_file=$(readlink -f $3)
-am_tag=$4
+wav_file=$(readlink -f $1)
+txt_file=$(readlink -f $2)
+am_tag=$3
 
 # sanity check
-[ ! -d "$kaldi_root/egs" ] && \
-  echo "$0: error: bad kaldi root dir: '$kaldi_root'" && exit 1
+[[ -z "$KALDI_ROOT" || ! -d "$KALDI_ROOT/egs" ]] && \
+  echo "$0: error: bad kaldi root dir: '$KALDI_ROOT'" && exit 1
 for f in $wav_file $txt_file ; do
   [ ! -f "$wav_file" ] && echo "$0: error: file '$f' does not exist" && exit 1
 done
@@ -50,17 +48,17 @@ done
 
 # fetch model
 log "$0: downloading models"
-util/download_model.sh "data" $UFPALIGN_DIR || exit 1
-util/download_model.sh $am_tag $UFPALIGN_DIR || exit 1
+utils/download_model.sh "data" $UFPALIGN_DIR || exit 1
+utils/download_model.sh $am_tag $UFPALIGN_DIR || exit 1
 [[ "$am_tag" == "tdnn" ]] && { util/download_model.sh "ie" $UFPALIGN_DIR || exit 1 ; }
 
-egs_dir=$kaldi_root/egs/UFPAlign/s5
+egs_dir=$KALDI_ROOT/egs/UFPAlign/s5
 rm -rf $egs_dir/data  # safety?
 mkdir -p $egs_dir/data/local || exit 1
 
 cp -r conf local $egs_dir
 cp -r $UFPALIGN_DIR/data $egs_dir
-ln -rsf $kaldi_root/egs/wsj/s5/{steps,utils,path.sh} $egs_dir
+ln -rsf $KALDI_ROOT/egs/wsj/s5/{steps,utils,path.sh} $egs_dir
 
 ########################################
 ### kaldi-like scripting starts here ###

@@ -17,10 +17,8 @@ from collections import OrderedDict
 
 import unidecode
 
-logging.basicConfig(
-    format="%(filename)s %(levelname)8s %(message)s",
-    level=logging.INFO
-)
+logging.basicConfig(format="%(filename)s %(levelname)8s %(message)s",
+                    level=logging.INFO)
 
 
 if __name__ == "__main__":
@@ -38,4 +36,4 @@ if __name__ == "__main__":
 
     # write new lexicon
     for key, value in new_dict.items():
-        print("%s\t%s" % (key, value))
+        print(f"{key}\t{value}")

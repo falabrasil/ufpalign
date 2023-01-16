@@ -42,7 +42,7 @@ done > wlist.tmp
 echo "$0: creating syllphones"
 dir=$(dirname $lex_file)
 java -jar $jar_path/fb_nlplib.jar -G -i wlist.tmp -o $dir/syllphones.tmp
-local/parse_abbrev.py < $dir/syllphones.tmp > $dir/syllphones.txt
+local/parse_abbrev.py --syllphones < $dir/syllphones.tmp > $dir/syllphones.txt || exit 1
 
 awk '{print $1}' $lex_file | python -c "
 import sys

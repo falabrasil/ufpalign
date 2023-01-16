@@ -17,14 +17,13 @@
 import sys
 import os
 import logging
+import argparse
 from collections import OrderedDict
 
 import unidecode
 
-logging.basicConfig(
-    format="%(filename)s %(levelname)8s %(message)s",
-    level=logging.INFO
-)
+logging.basicConfig(format="%(filename)s %(levelname)8s %(message)s",
+                    level=logging.INFO)
 
 # letter to phoneme mapping
 L2P = {
@@ -60,6 +59,12 @@ L2P = {
 
 
 if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="eita")
+    parser.add_argument("--syllphones", action="store_true",
+                        help="""whether to use it for syllphnoes or std g2p.
+                        basically strips the whitespace among phones if true.
+                        """)
+    args = parser.parse_args()
 
     # scan lexicon for abbrevs: if it has at least one vowel, it isn't
     # NOTE: partition() doesn't raise if phonemes are null; split() does
@@ -86,10 +91,12 @@ if __name__ == "__main__":
             logging.warning(f"potential abbrev: {graph}")
             try:
                 new_dict[graph] = " ".join(L2P[c] for c in list(graph))
+                if args.syllphones: 
+                    new_dict[graph] = new_dict[graph].replace(" ", "")
             except KeyError:  # e.g.: "pç", "abç"
                 logging.error(f"unfixable phones in {graph}")
                 raise
 
     # write new lexicon
     for key, value in new_dict.items():
-        print("%s\t%s" % (key, value))
+        print(f"{key}\t{value}")
