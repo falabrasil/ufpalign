@@ -10,12 +10,15 @@
 #
 # author: apr 2019
 # cassio batista - https://cassota.gitlab.io
-# updated on apr 2021
+# updated on jan 2023
 
 import sys
 import os
 import shutil
+import logging
 
+logging.basicConfig(format="%(filename)s %(levelname)8s %(message)s",
+                    level=logging.INFO)
 TG_NAMES = [
     'fonemeas', 'silabas-fonemas', 'palavras-grafemas',
     'frase-fonemas', 'frase-grafemas',
@@ -26,18 +29,14 @@ CTM_SIL_ID = '1' # TODO: keep an eye on sil id occurrences -- CB
 
 def check_ctm(filetype, filename):
     if filetype != 'graphemes' and filetype != 'phoneids':
-        print('error: filetype %s is not acceptable' % filetype)
-        sys.exit(1)
+        raise ValueError(f'filetype {filetype} is not accepted')
     if not os.path.isfile(filename):
-        print('error: input file "%s" does not exist' % filename)
-        sys.exit(1)
+        raise ValueError(f'input file "{filename}" does not exist')
     elif not filename.endswith('%s.ctm' % filetype):
-        print('error: input file "%s" does not have "%s.ctm" extension' % (filename, filetype))
-        sys.exit(1)
+        raise ValueError(f'"{filename}" doesnt have "{filetype}.ctm" extension')
     # https://stackoverflow.com/questions/2507808/how-to-check-whether-a-file-is-empty-or-not
     elif not os.stat(filename).st_size:
-        print('error: input file "%s" appears to be empty' % filename)
-        sys.exit(1)
+        raise ValueError(f'input file "{filename}" appears to be empty')
 
 
 def get_file_numlines(fp):
@@ -54,15 +53,16 @@ class TextGrid:
     def check_outputdir(self, dirname):
         if os.path.isdir(dirname):
             if len(os.listdir(dirname)):
-                ans = input('warning: dir "%s" is not empty. overwrite? [y/N] ' % dirname)
+                logging.warning(f'dir "{dirname}" is not empty!')
+                ans = input(f'overwrite {dirname}? [y/N] ')
                 if ans == 'y':
                     shutil.rmtree(dirname)
                     os.mkdir(dirname)
                 else:
-                    print('aborted.')
+                    logging.info('aborted.')
                     sys.exit(1)
         else:
-            print('info: textgrid files will be stored under "%s" dir' % os.path.realpath(dirname))
+            logging.info('textgrid files will be stored under "%s" dir' % os.path.realpath(dirname))
             os.mkdir(dirname)
 
     def get_mainheader(self, xmax):
@@ -129,10 +129,20 @@ class TextGrid:
                 else:
                     token = tokenlist['sylph'].pop(0)
                     phone = tokenlist['phone'].pop(0)
+                    logging.debug(f'processing {token} {phone}')
+                    i=0
                     while phone != token:
-                        phone += tokenlist['phone'].pop(0)
-                        tokenlist['phnid'].pop(0) # FIXME
-                        e += 1
+                        logging.debug(f'{token} != {phone}')
+                        i += 1
+                        if i == 10:
+                            raise ValueError('ok this is odd. probably a bug')
+                        try:
+                            phone += tokenlist['phone'].pop(0)
+                            tokenlist['phnid'].pop(0) # FIXME
+                            e += 1
+                        except IndexError as e:
+                            logging.error(f'should not be happening')
+                            raise
                 interval_content += self.get_intervalcontent(i+1,
                             start['phnid'][b], finish['phnid'][e], token)
                 i += 1
@@ -153,7 +163,7 @@ class TextGrid:
             interval_content = self.get_intervalcontent(i+1,
                         start['graph'][0], finish['graph'][-1], token)
         else:
-            print('wait a minute... there is something really wrong here.')
+            logging.error('wait a minute... there is something really wrong here.')
         return item_header + interval_content
 
 if __name__=='__main__':
@@ -181,15 +191,16 @@ if __name__=='__main__':
     tg.check_outputdir(tg_output_dirname)
 
     ctm = {
-        'graph':open(ctm_graph_filename, 'r', encoding='utf-8'),
-        'phnid':open(ctm_phone_filename, 'r', encoding='utf-8')
+        'graph': open(ctm_graph_filename, 'r', encoding='utf-8'),
+        'phnid': open(ctm_phone_filename, 'r', encoding='utf-8')
     }
 
     ctm_lines = {
-        'graph':get_file_numlines(ctm['graph']),
-        'phnid':get_file_numlines(ctm['phnid'])
+        'graph': get_file_numlines(ctm['graph']),
+        'phnid': get_file_numlines(ctm['phnid'])
     }
 
+    logging.info(f'loading lex from {lex_filename}')
     lex = {}
     with open(lex_filename, encoding='utf-8') as f:
         for line in f:
@@ -197,9 +208,11 @@ if __name__=='__main__':
                 grapheme, phonemes = line.split('\t')
                 lex[grapheme.strip()] = phonemes.strip()
             except ValueError:
-                print('**lex problem: %s' % line, '\t' in line)
+                has_tab = '\t' in line
+                logging.error(f'lex problem: {line} {has_tab}')
                 lex[line.strip()] = line.strip()
 
+    logging.info(f'loading syll from {syll_filename}')
     syll = {}
     with open(syll_filename, encoding='utf-8') as f:
         for line in f:
@@ -207,7 +220,7 @@ if __name__=='__main__':
                 grapheme, syllables = line.split('\t')
                 syll[grapheme.strip()] = syllables.strip()
             except ValueError:
-                print('**syll problem: %s' % line)
+                logging.error(f'syll problem: {line}')
                 syll[line.strip()] = line.strip()
 
     fp_index = { 'graph': 0,  'phnid': 0  }
@@ -217,15 +230,16 @@ if __name__=='__main__':
     dur      = { 'graph': 0,  'phnid': 0  }
 
     tokenlist = {
-        'phnid':[], # 0 (1) phoneme ids as they appear in the CTM file
-        'sylph':[], # 1 (2) phonemes separated by syllabification of graphemes
-        'graph':[], # 2 (3) graphemes (words)
-        'phrph':[], # 4 (5) phrase of phonemes separated by the space between graphemes
-        'phrgr':[], # 3 (4) phrase of graphemes (words) 
-        'phone':[], #       phonemes as they occur in the list of words
+        'phnid': [], # 0 (1) phoneme ids as they appear in the CTM file
+        'sylph': [], # 1 (2) phonemes separated by syllabification of graphemes
+        'graph': [], # 2 (3) graphemes (words)
+        'phrph': [], # 4 (5) phrase of phonemes separated by the space between graphemes
+        'phrgr': [], # 3 (4) phrase of graphemes (words) 
+        'phone': [], #       phonemes as they occur in the list of words
     }
 
     # treat .grapheme file
+    logging.info(f'processing .grapheme file')
     filepath, chn, bt['graph'], dur['graph'], grapheme = ctm['graph'].readline().split()
     old_name = curr_name = filepath.split(sep='_', maxsplit=1).pop()
     start['graph'].append(float(bt['graph']))
@@ -302,12 +316,13 @@ if __name__=='__main__':
             tokenlist['phrgr'].append(word)
 
         # write things to textgrid file
+        logging.info(f'writing {tg_output_dirname}/{old_name} textgrid file')
         with open('%s/%s.TextGrid' % (tg_output_dirname, old_name), 'w',
                 encoding='utf-8') as f:
-            sys.stdout.write('\r%s' % old_name)
-            sys.stdout.flush()
+            logging.info(f'processing file {old_name}')
             f.write(tg.get_mainheader(finish['graph'][-1]))
             for item in range(5):
+                logging.info(f'writing tier {item} ({TG_NAMES[item]})')
                 f.write(tg.get_itemcontent(item, tokenlist, start, finish))
 
         # flush vars
@@ -323,7 +338,6 @@ if __name__=='__main__':
         tokenlist['phrph'] = []
         tokenlist['phrgr'] = []
 
-    print('\tdone!')
+    logging.info('done!')
     ctm['graph'].close()
     ctm['phnid'].close()
-### EOF ###
