@@ -50,7 +50,7 @@ done
 log "$0: downloading models"
 utils/download_model.sh "data" $UFPALIGN_DIR || exit 1
 utils/download_model.sh $am_tag $UFPALIGN_DIR || exit 1
-[[ "$am_tag" == "tdnn" ]] && { util/download_model.sh "ie" $UFPALIGN_DIR || exit 1 ; }
+[[ "$am_tag" == "tdnn" ]] && { utils/download_model.sh "ie" $UFPALIGN_DIR || exit 1 ; }
 
 egs_dir=$KALDI_ROOT/egs/UFPAlign/s5
 rm -rf $egs_dir/data  # safety?
