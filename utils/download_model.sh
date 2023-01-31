@@ -4,17 +4,17 @@
 # 
 # author: apr 2021
 # cassio batista - https://cassota.gitlab.io
-# last update: nov 2021
+# last update: jan 2023
 
 # https://stackoverflow.com/questions/1494178/how-to-define-hash-tables-in-bash
 declare -A files=(
-  ["data.tar.gz"]="1YiZ9zzRHQNcQYFRwXzTKJ9RAZbdlyS7N"
-  ["mono.tar.gz"]="1y9E1HATkxVn_MkGa4vsJyEvHa8X_rfgb"
-  ["tri1b.tar.gz"]="1gL_AmKvWFyqCdysk33X8V6-nJnqb1CiT"
-  ["tri2b.tar.gz"]="1LBz3_5VhQMMkWZZRuPKCyWpVl6t-xgfO"
-  ["tri3b.tar.gz"]="1qSrAZJ7Y8Mihgd9R9zSfdhsuaQBsX0fX"
-  ["tdnn.tar.gz"]="11oWQfUxK8wMztyMypbcDBCRrxVZEKzPZ"
-  ["ie.tar.gz"]="1K1BpN0yleASVQPPM8XTUORjg8LU-ykYp"
+  ["data.tar.gz"]="1677Chb1JDCttzBwyRm5_P-3ELoj6VaYH"
+  ["mono.tar.gz"]="1WlOMnb0P_VNVwHs1iII78aMNjND6finP"
+  ["tri1b.tar.gz"]="1ie3NXKKfmk4bPHcnhIW4v0zelXmcjKIl"
+  ["tri2b.tar.gz"]="11rR2UtJahj7KHbW0hRfm55HFNm6pvCcP"
+  ["tri3b.tar.gz"]="1IlBnLNabDnEY3rVBdz9g3P4g1wyD1Cxl"
+  ["tdnn.tar.gz"]="10ru1CW221TzZGUdcCXTaZlw7H8nszvwP"
+  ["ie.tar.gz"]="19VyLt6GpPJQmPdEwbsGuwiufdEUS5E_f"
 )
 
 # main
@@ -37,8 +37,8 @@ filehash=${files[$filename]}
 tar xf $dir/$filename -C $dir || exit 1
 
 if [ ! -f $dir/fb_nlplib.jar ] ; then
-  echo "$0: downloading FalaBrasil tagger lib from GitLab"
+  echo "$0: downloading FalaBrasil annotator lib from GitHub"
   wget -q --show-progress \
-    https://gitlab.com/fb-nlp/nlp-generator/-/raw/master/fb_nlplib.jar \
+    https://github.com/falabrasil/annotator/raw/master/fb_nlplib.jar \
     -P $dir || exit 1
 fi
