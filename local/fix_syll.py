@@ -17,8 +17,10 @@ from collections import OrderedDict
 
 import unidecode
 
-logging.basicConfig(format="%(filename)s %(levelname)8s %(message)s",
-                    level=logging.INFO)
+logging.basicConfig(
+    format="%(filename)s %(levelname)8s %(message)s",
+    level=logging.INFO
+)
 
 
 if __name__ == "__main__":
@@ -30,7 +32,7 @@ if __name__ == "__main__":
         graph, _, syllables = line.strip().partition("\t")
         graph, syllables = graph.strip(), syllables.strip()
         if syllables == "":
-            logging.warning(f"empty syllables for {graph}. fixing...")
+            logging.debug(f"empty syllables for {graph}. fixing...")
             syllables = graph
         new_dict[graph] = syllables
 

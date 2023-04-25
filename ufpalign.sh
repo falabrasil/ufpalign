@@ -8,6 +8,7 @@
 UFPALIGN_DIR=/opt/UFPAlign
 beam=10
 retry_beam=40
+no_syllphones=false
 
 function log { echo -e "\e[$(shuf -i 91-96 -n 1)m[$(date +'%F %T')] $1\e[0m" ; }
 
@@ -126,11 +127,19 @@ steps/get_train_ctm.sh data/alignme data/lang data/alignme_ali data/ctm_tmp || e
 cat data/ctm_tmp/ctm > data/$am_tag.graphemes.ctm || exit 1
 
 # ctm 2 textgrid
-log "$0: creating textgrid"
-local/ctm2tg.py \
-  data/$am_tag.{graphemes,phoneids}.ctm \
-  data/dict/{lexicon,syllphones}.txt \
-  data/tg || exit 1
+if $no_syllphones ; then
+  log "$0: creating textgrid with *no* syllphones tier"
+  local/ctm2tg_nosyllphones.py \
+    data/$am_tag.{graphemes,phoneids}.ctm \
+    data/dict/{lexicon,syllphones}.txt \
+    data/tg || exit 1
+else
+  log "$0: creating textgrid *with* syllphones tier"
+  local/ctm2tg.py \
+    data/$am_tag.{graphemes,phoneids}.ctm \
+    data/dict/{lexicon,syllphones}.txt \
+    data/tg || exit 1
+fi
 
 cd - > /dev/null
 
