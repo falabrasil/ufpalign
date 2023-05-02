@@ -22,8 +22,10 @@ from collections import OrderedDict
 
 import unidecode
 
-logging.basicConfig(format="%(filename)s %(levelname)8s %(message)s",
-                    level=logging.INFO)
+logging.basicConfig(
+    format="%(filename)s %(levelname)8s %(message)s",
+    level=logging.INFO
+)
 
 # letter to phoneme mapping
 L2P = {
@@ -73,11 +75,11 @@ if __name__ == "__main__":
         graph, _, phones = line.strip().partition("\t")
         graph, phones = graph.strip(), phones.strip()
         if graph in ("!SIL", "<UNK>"):
-            logging.info(f"skipping special symbol {graph}")
+            logging.debug(f"skipping special symbol {graph}")
             new_dict[graph] = phones
             continue
         if phones == "":
-            logging.warning(f"empty phones for {graph}. fixing...")
+            logging.debug(f"empty phones for {graph}. fixing...")
             phones = " ".join(L2P[unidecode.unidecode(c)] for c in list(graph))
         is_abbrev = True
         for char in list(graph):
@@ -88,7 +90,7 @@ if __name__ == "__main__":
                 is_abbrev = False
                 break
         if is_abbrev:
-            logging.warning(f"potential abbrev: {graph}")
+            logging.debug(f"potential abbrev: {graph}")
             try:
                 new_dict[graph] = " ".join(L2P[c] for c in list(graph))
                 if args.syllphones: 
