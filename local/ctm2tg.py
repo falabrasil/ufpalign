@@ -10,15 +10,18 @@
 #
 # author: apr 2019
 # cassio batista - https://cassota.gitlab.io
-# updated on jan 2023
+# last update on jan 2024
 
-import sys
+import logging
+import math
 import os
 import shutil
-import logging
+import sys
 
-logging.basicConfig(format="%(filename)s %(levelname)8s %(message)s",
-                    level=logging.INFO)
+logging.basicConfig(
+    format="%(filename)s %(levelname)8s %(message)s",
+    level=logging.INFO
+)
 TG_NAMES = [
     'fonemeas', 'silabas-fonemas', 'palavras-grafemas',
     'frase-fonemas', 'frase-grafemas',
@@ -44,6 +47,12 @@ def get_file_numlines(fp):
         pass
     fp.seek(0)
     return linenumber + 1
+
+
+# https://stackoverflow.com/questions/41383787/round-down-to-2-decimal-in-python
+# See #16
+def float_floor(val):
+    return math.floor(float(val) * 100)/100.0
 
 
 class TextGrid:
@@ -242,8 +251,8 @@ if __name__=='__main__':
     logging.info(f'processing .grapheme file')
     filepath, chn, bt['graph'], dur['graph'], grapheme = ctm['graph'].readline().split()
     old_name = curr_name = filepath.split(sep='_', maxsplit=1).pop()
-    start['graph'].append(float(bt['graph']))
-    finish['graph'].append(float(bt['graph']) + float(dur['graph']))
+    start['graph'].append(float_floor(bt['graph']))
+    finish['graph'].append(float_floor(bt['graph']) + float_floor(dur['graph']))
     tokenlist['graph'].append(grapheme)
     fp_index['graph'] += 1
     while fp_index['phnid'] < ctm_lines['phnid']:
@@ -252,8 +261,8 @@ if __name__=='__main__':
                 break
             filepath, chn, bt['graph'], dur['graph'], grapheme = ctm['graph'].readline().split()
             curr_name = filepath.split(sep='_', maxsplit=1).pop()
-            start['graph'].append(float(bt['graph']))
-            finish['graph'].append(float(bt['graph']) + float(dur['graph']))
+            start['graph'].append(float_floor(bt['graph']))
+            finish['graph'].append(float_floor(bt['graph']) + float_floor(dur['graph']))
             tokenlist['graph'].append(grapheme)
             fp_index['graph'] += 1
 
@@ -267,8 +276,8 @@ if __name__=='__main__':
         # treat .phoneids file
         filepath, chn, bt['phnid'], dur['phnid'], phoneme = ctm['phnid'].readline().split()
         curr_name = filepath.split(sep='_', maxsplit=1).pop()
-        start['phnid'].append(float(bt['phnid']))
-        finish['phnid'].append(float(bt['phnid']) + float(dur['phnid']))
+        start['phnid'].append(float_floor(bt['phnid']))
+        finish['phnid'].append(float_floor(bt['phnid']) + float_floor(dur['phnid']))
         tokenlist['phnid'].append(phoneme)
         fp_index['phnid'] += 1
         while curr_name == old_name:
@@ -276,8 +285,8 @@ if __name__=='__main__':
                 break
             filepath, chn, bt['phnid'], dur['phnid'], phoneme = ctm['phnid'].readline().split()
             curr_name = filepath.split(sep='_', maxsplit=1).pop()
-            start['phnid'].append(float(bt['phnid']))
-            finish['phnid'].append(float(bt['phnid']) + float(dur['phnid']))
+            start['phnid'].append(float_floor(bt['phnid']))
+            finish['phnid'].append(float_floor(bt['phnid']) + float_floor(dur['phnid']))
             tokenlist['phnid'].append(phoneme)
             fp_index['phnid'] += 1
 
@@ -326,12 +335,12 @@ if __name__=='__main__':
                 f.write(tg.get_itemcontent(item, tokenlist, start, finish))
 
         # flush vars
-        start['graph']     = [float(bt['graph'])]
-        finish['graph']    = [float(bt['graph']) + float(dur['graph'])]
+        start['graph']     = [float_floor(bt['graph'])]
+        finish['graph']    = [float_floor(bt['graph']) + float_floor(dur['graph'])]
         tokenlist['graph'] = [grapheme]
         old_name           = curr_name
-        start['phnid']     = [float(bt['phnid'])]
-        finish['phnid']    = [float(bt['phnid']) + float(dur['phnid'])]
+        start['phnid']     = [float_floor(bt['phnid'])]
+        finish['phnid']    = [float_floor(bt['phnid']) + float_floor(dur['phnid'])]
         tokenlist['phnid'] = [phoneme]
 
         tokenlist['sylph'] = []
