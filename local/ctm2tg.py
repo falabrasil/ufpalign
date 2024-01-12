@@ -51,8 +51,9 @@ def get_file_numlines(fp):
 
 # https://stackoverflow.com/questions/41383787/round-down-to-2-decimal-in-python
 # See #16
-def float_floor(val):
-    return math.floor(float(val) * 100)/100.0
+def float_floor(val, eps=1e-5):
+    val = float(val) + eps
+    return math.floor(val * 100)/100.0
 
 
 class TextGrid:
