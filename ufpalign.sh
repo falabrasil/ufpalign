@@ -2,13 +2,13 @@
 #
 # author: apr 2021
 # cassio batista - https://cassota.gitlab.io
-# last update: jan 2023
+# last update: apr 2024
 
 
 UFPALIGN_DIR=/opt/UFPAlign
 beam=10
 retry_beam=40
-no_syllphones=false
+no_syllphones=false  # deprecated
 
 function log { echo -e "\e[$(shuf -i 91-96 -n 1)m[$(date +'%F %T')] $1\e[0m" ; }
 
@@ -51,7 +51,8 @@ done
 log "$0: downloading models"
 utils/download_model.sh "data" $UFPALIGN_DIR || exit 1
 utils/download_model.sh $am_tag $UFPALIGN_DIR || exit 1
-[[ "$am_tag" == "tdnn" ]] && { utils/download_model.sh "ie" $UFPALIGN_DIR || exit 1 ; }
+[[ "$am_tag" == "tdnn" ]] && \
+  { utils/download_model.sh "ie" $UFPALIGN_DIR || exit 1 ; }
 
 egs_dir=$KALDI_ROOT/egs/UFPAlign/s5
 rm -rf $egs_dir/data  # safety?
@@ -75,11 +76,13 @@ utt_id=$(basename $wav_file | sed 's/\.wav//g')
 echo "$utt_id $wav_file" > data/alignme/wav.scp
 echo "$utt_id $(cat $txt_file)" > data/alignme/text
 echo "$utt_id $utt_id" > data/alignme/utt2spk
-utils/utt2spk_to_spk2utt.pl data/alignme/utt2spk > data/alignme/spk2utt || exit 1
+utils/utt2spk_to_spk2utt.pl \
+  data/alignme/utt2spk > data/alignme/spk2utt || exit 1
 
 # extend lexicon & lang
 log "$0: extending lexicon and lang"
-local/ext_dict.sh $UFPALIGN_DIR $txt_file data/dict/{lexicon,syllables}.txt || exit 1
+local/ext_dict.sh \
+  $UFPALIGN_DIR $txt_file data/dict/{lexicon,syllables}.txt || exit 1
 
 # extract mfcc features: low resolution for gmm, high for tdnn
 log "$0: extracting mfccs"
@@ -102,44 +105,53 @@ if [[ "$am_tag" =~ ("mono"|"tri1"|"tri"[2-3]"b") ]] ; then
   steps/align_si.sh --nj 1 --beam $beam --retry-beam $retry_beam \
     data/alignme data/lang $UFPALIGN_DIR/$am_tag data/alignme_ali || exit 1
 elif [[ "$am_tag" == "tdnn" ]] ; then
-  steps/nnet3/align.sh --nj 1 --use-gpu false --beam $beam --retry-beam $retry_beam \
+  steps/nnet3/align.sh --nj 1 --use-gpu false \
+    --beam $beam --retry-beam $retry_beam \
     --online-ivector-dir data/alignme/ivector_hires \
     --scale-opts '--transition-scale=1.0 --acoustic-scale=1.0 --self-loop-scale=1.0' \
     data/alignme data/lang $UFPALIGN_DIR/$am_tag data/alignme_ali || exit 1
 fi
 
-# create phoneids.ctm
+# create ctm
 log "$0: creating ctm"
+frame_shift_opts=
+[[ "$am_tag" == "tdnn" ]] && frame_shift_opts="--frame-shift='0.03'"
 for ali in data/alignme_ali/ali.*.gz ; do
-  if [[ "$am_tag" =~ ("mono"|"tri1"|"tri"[2-3]"b") ]] ; then
-    ali-to-phones --ctm-output $UFPALIGN_DIR/$am_tag/final.mdl \
-      ark:"gunzip -c $ali |" - > ${ali%.gz}.ctm || exit 1
-  elif [[ "$am_tag" == "tdnn" ]] ; then
-    ali-to-phones --frame-shift="0.03" --ctm-output \
-      $UFPALIGN_DIR/$am_tag/final.mdl \
-      ark:"gunzip -c $ali |" - > ${ali%.gz}.ctm || exit 1
-  fi
+  # phonemes
+  ali-to-phones $frame_shift_opts --ctm-output=true \
+    $UFPALIGN_DIR/$am_tag/final.mdl \
+    ark:"gunzip -c $ali |" \
+    - | \
+    tee ${ali%.gz}_p.ctm | \
+    utils/int2sym.pl -f 5 data/lang/phones.txt | \
+    local/strip.py > data/$am_tag.phonemes.ctm
+  # graphemes
+  linear-to-nbest \
+    "ark:gunzip -c $ali |" \
+    "ark:utils/sym2int.pl --map-oov 2 -f 2- data/lang/words.txt < data/alignme/text |" \
+    '' \
+    '' \
+    ark:- | \
+  lattice-align-words \
+    data/lang/phones/word_boundary.int \
+    $UFPALIGN_DIR/$am_tag/final.mdl \
+    ark:- \
+    ark:- | \
+  nbest-to-ctm $frame_shift_opts --precision=3 --print-silence=true \
+    ark:- \
+    - | \
+  tee ${ali%.gz}_w.ctm | \
+  utils/int2sym.pl -f 5 data/lang/words.txt | \
+  local/strip.py > data/$am_tag.graphemes.ctm
 done
-cat data/alignme_ali/*.ctm > data/$am_tag.phoneids.ctm
 
-# create graphemes.ctm
-steps/get_train_ctm.sh data/alignme data/lang data/alignme_ali data/ctm_tmp || exit 1
-cat data/ctm_tmp/ctm > data/$am_tag.graphemes.ctm || exit 1
-
-# ctm 2 textgrid
-if $no_syllphones ; then
-  log "$0: creating textgrid with *no* syllphones tier"
-  local/ctm2tg_nosyllphones.py \
-    data/$am_tag.{graphemes,phoneids}.ctm \
-    data/dict/{lexicon,syllphones}.txt \
-    data/tg || exit 1
-else
-  log "$0: creating textgrid *with* syllphones tier"
-  local/ctm2tg.py \
-    data/$am_tag.{graphemes,phoneids}.ctm \
-    data/dict/{lexicon,syllphones}.txt \
-    data/tg || exit 1
-fi
+# NOTE syllphones still not implemented in v2, so this flag is ignored for now
+local/ctm2tg.py \
+  --graphemes-ctm-file data/mono.graphemes.ctm \
+  --phonemes-ctm-file data/mono.phonemes.ctm \
+  --phonetic-dictionary data/dict/lexicon.txt \
+  --output-dir data/tg || exit 1
+  #-s data/dict/syllables.txt \
 
 cd - > /dev/null
 

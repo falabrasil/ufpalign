@@ -10,6 +10,8 @@ orthographic transcription with a few minor manual steps. The result is a
 multi-level annotation TextGrid containing phonemes, syllables, words, 
 phonetic and orthographic information as below. 
 
+:warning: The routine that generates the syllabic tier was discontinued.
+
 ![](doc/textgrid.png)
 
 :brazil: [Acesse a documentação em Português Brasileiro](README.md)
@@ -85,7 +87,8 @@ The last line should print the word error rate:
 
 <details>
 <summary>Praat Installation</summary>
-To install the Linux version of Praat, you can either use `apt-get` by typing into a shell:
+To install the Linux version of Praat, you can either use `apt-get` by typing
+into a shell:
 
 ```bash
 $ sudo apt-get install praat
@@ -95,6 +98,15 @@ Or you can download a 64-bit binary executable on the
 [Praat download page](https://www.fon.hum.uva.nl/praat/praat6141_linux64.tar.gz).
 Then, unpack it, creating the executable file praat. You can remove the tar
 file.
+</details>
+
+<details>
+<summary>Python dependencies</summary>
+Other dependencies can be installed using Python's `pip` utility:
+
+```bash
+$ pip install requirements.txt
+```
 </details>
 
 
@@ -140,7 +152,7 @@ Just execute file `ufpalign.sh`. With no arguments, it prints a help message.
 The following command works perfectly using the monophone model, though:
 
 ```bash
-$ bash ufpalign.sh $HOME/kaldi demo/ex.wav demo/ex.txt mono
+$ KALDI_ROOT=$HOME/kaldi bash ufpalign.sh demo/ex.wav demo/ex.txt mono
 ```
 
 File [`demo/M-001.log`](demo/M-001.log) contains an example of output from a
@@ -175,18 +187,18 @@ as the following:
 
 ```bibtex
 @article{Batista22a,
-		author     = {Batista, Cassio and Dias, Ana Larissa and Neto, Nelson},
-		title      = {Free resources for forced phonetic alignment in Brazilian Portuguese based on Kaldi toolkit},
-		journal    = {EURASIP Journal on Advances in Signal Processing},
-		year       = {2022},
-		month      = {Feb},
-		day        = {19},
-		volume     = {2022},
-		number     = {1},
-		pages      = {11},
-		issn       = {1687-6180},
-		doi        = {10.1186/s13634-022-00844-9},
-		url        = {https://doi.org/10.1186/s13634-022-00844-9}
+    author     = {Batista, Cassio and Dias, Ana Larissa and Neto, Nelson},
+    title      = {Free resources for forced phonetic alignment in Brazilian Portuguese based on Kaldi toolkit},
+    journal    = {EURASIP Journal on Advances in Signal Processing},
+    year       = {2022},
+    month      = {Feb},
+    day        = {19},
+    volume     = {2022},
+    number     = {1},
+    pages      = {11},
+    issn       = {1687-6180},
+    doi        = {10.1186/s13634-022-00844-9},
+    url        = {https://doi.org/10.1186/s13634-022-00844-9}
 }
 ```
 
@@ -196,7 +208,7 @@ Check also the
 
 [![FalaBrasil](https://gitlab.com/falabrasil/avatars/-/raw/main/logo_fb_git_footer.png)](https://ufpafalabrasil.gitlab.io/ "Visite o site do Grupo FalaBrasil") [![UFPA](https://gitlab.com/falabrasil/avatars/-/raw/main/logo_ufpa_git_footer.png)](https://portal.ufpa.br/ "Visite o site da UFPA")
 
-__Grupo FalaBrasil (2022)__ - https://ufpafalabrasil.gitlab.io/      
+__Grupo FalaBrasil (2024)__ - https://ufpafalabrasil.gitlab.io/      
 __Universidade Federal do Pará (UFPA)__ - https://portal.ufpa.br/     
-Cassio Batista - https://cassota.gitlab.io/    
+Cassio Batista - https://cassiotbatista.github.io    
 Larissa Dias   - larissa.engcomp@gmail.com     

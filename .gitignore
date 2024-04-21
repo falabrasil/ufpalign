@@ -1,2 +1,3 @@
 HTK-3.4.1.tar.gz
 *.swp
+*.wav *.TextGrid

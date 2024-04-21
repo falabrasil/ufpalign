@@ -1,343 +1,260 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
-# vim: set fileencoding=utf-8
 #
-# ctm2tg: a script to convert CTM files from Kaldi aligner 
+# ctm2tg: a script to convert CTM files from Kaldi aligner
 # to Praat's TextGrid format
 #
-# Grupo FalaBrasil (2021)
+# Grupo FalaBrasil (2024)
 # Universidade Federal do Pará
 #
-# author: apr 2019
-# cassio batista - https://cassota.gitlab.io
-# updated on jan 2023
+# author: apr 2024
+# Cassio Batista - https://cassiotbatista.github.io
 
-import sys
-import os
-import shutil
+import argparse
 import logging
+import os
+from collections import OrderedDict
+from typing import Dict, List, Tuple, Optional, Union
 
-logging.basicConfig(format="%(filename)s %(levelname)8s %(message)s",
-                    level=logging.INFO)
-TG_NAMES = [
-    'fonemeas', 'silabas-fonemas', 'palavras-grafemas',
-    'frase-fonemas', 'frase-grafemas',
-]
-
-CTM_SIL_ID = '1' # TODO: keep an eye on sil id occurrences -- CB
+import pandas as pd
+from textgrid import TextGrid, IntervalTier
 
 
-def check_ctm(filetype, filename):
-    if filetype != 'graphemes' and filetype != 'phoneids':
-        raise ValueError(f'filetype {filetype} is not accepted')
+def get_args():
+    parser = argparse.ArgumentParser()
+    # https://stackoverflow.com/questions/14097061/easier-way-to-enable-verbose-logging
+    parser.add_argument(
+        "-d", "--debug", action="store_const", dest="loglevel",
+        const=logging.DEBUG, default=logging.INFO,
+        help="something like 'mono.graphemes.ctm'"
+    )
+    parser.add_argument(
+        "-g", "--graphemes-ctm-file", type=str, required=True,
+        help="something like 'mono.graphemes.ctm'"
+    )
+    parser.add_argument(
+        "-p", "--phonemes-ctm-file", type=str, required=True,
+        help="something like 'mono.phonemes.ctm'"
+    )
+    parser.add_argument(
+        "-l", "--phonetic-dictionary", type=str, required=True,
+        help="something like 'lexicon.txt'"
+    )
+    #parser.add_argument(
+    #    "-s", "--syllabic-dictionary", type=str, required=True,
+    #    help="something like 'syll.txt'"
+    #)
+    #parser.add_argument(
+    #    "-i", "--ignore-syllphones", action="store_true",
+    #    help="whether to ignore the syllabe-phonemes tier"
+    #)
+    parser.add_argument(
+        "-o", "--output-dir", type=str, required=True,
+        help="directory to dump TextGrid files"
+    )
+    return parser.parse_args()
+
+
+# https://stackoverflow.com/questions/2507808/how-to-check-whether-a-file-is-empty-or-not
+def check_ctm(filename: str) -> None:
     if not os.path.isfile(filename):
-        raise ValueError(f'input file "{filename}" does not exist')
-    elif not filename.endswith('%s.ctm' % filetype):
-        raise ValueError(f'"{filename}" doesnt have "{filetype}.ctm" extension')
-    # https://stackoverflow.com/questions/2507808/how-to-check-whether-a-file-is-empty-or-not
-    elif not os.stat(filename).st_size:
-        raise ValueError(f'input file "{filename}" appears to be empty')
+        raise ValueError(f"{filename} does not exist")
+    if not filename.endswith(".ctm"):
+        raise ValueError(f"{filename} doesn't have a *.ctm extension")
+    if not os.stat(filename).st_size:
+        raise ValueError(f"{filename} appears to be empty")
+    logging.debug(f"{filename} is juicy good!")
 
 
-def get_file_numlines(fp):
-    for linenumber, content in enumerate(fp):
-        pass
-    fp.seek(0)
-    return linenumber + 1
+# https://stackoverflow.com/questions/13479163/round-float-to-x-decimals (#16)
+def floatify(val: Union[str, float]) -> float:
+    """Convert a string or float to a special kind of float.
+
+    The idea is having only two decimals, and some special rules are applied
+    to strings based on observations on how Kaldi provides the float numbers
+    in timestamps.
+
+    See https://github.com/falabrasil/ufpalign/issues/16
+
+    Args:
+        val: string or float to be floatified
+    Returns:
+        float: two-decimal floating point timestamp
+    """
+    if isinstance(val, float):
+        return round(float(val), 2)
+    if val.endswith("0"):
+        return float(val)
+    if val.endswith("5"):
+        return float(val) - 0.005
+    return round(float(val), 2)
 
 
-class TextGrid:
-    def __init__(self):
-        super(TextGrid, self).__init__()
+# ctm2tg.py    DEBUG phonemes i=7293 bos=754.24 eos=754.34 a_E
+# ctm2tg.py    DEBUG phonemes i=7294 bos=754.34 eos=754.38 k_B
+# ctm2tg.py    DEBUG phonemes i=7295 bos=754.37 eos=754.44 o_I
+# Traceback (most recent call last):
+def compute_eos_and_ensure_causality(
+    bos: List[float],
+    dur: List[float],
+    tokens: List[str]
+) -> Tuple[List[float], List[float]]:
+    """Compute EOS values and fix BOS in order to ensure causality.
 
-    def check_outputdir(self, dirname):
-        if os.path.isdir(dirname):
-            if len(os.listdir(dirname)):
-                logging.warning(f'dir "{dirname}" is not empty!')
-                ans = input(f'overwrite {dirname}? [y/N] ')
-                if ans == 'y':
-                    shutil.rmtree(dirname)
-                    os.mkdir(dirname)
-                else:
-                    logging.info('aborted.')
-                    sys.exit(1)
-        else:
-            logging.info('textgrid files will be stored under "%s" dir' % os.path.realpath(dirname))
-            os.mkdir(dirname)
+    Some tools apply sanity checks over Textgrid files like asserting
+    whether the current phone's BOS is smaller than the previous phone's EOS.
+    Due to numerical precision problems, Kaldi cannot always assert that, and
+    apparently parameter tweaking is no help, which only leave us with the
+    option of changing the C++ code and recompiling the binaries, which for
+    now is infeasible.
 
-    def get_mainheader(self, xmax):
-        return u'File type = "ooTextFile"'              + '\n' + \
-            u'Object class = "TextGrid"'                + '\n' + \
-            u'xmin = 0.00'                              + '\n' + \
-            u'xmax = %.2f'                  % xmax      + '\n' + \
-            u'tiers? <exists>'                          + '\n' + \
-            u'size = 5'                                 + '\n' + \
-            u'item []:'                                 + '\n'
+    See https://github.com/falabrasil/ufpalign/issues/16
 
-    def get_itemheader(self, itm_id, name, xmax, intv_size):
-        return u'\titem[%d]:'               % itm_id    + '\n' + \
-            u'\t\tclass = "IntervalTier"'               + '\n' + \
-            u'\t\tname  = "%s"'             % name      + '\n' + \
-            u'\t\txmin  = 0.00'                         + '\n' + \
-            u'\t\txmax  = %.2f'             % xmax      + '\n' + \
-            u'\t\tintervals: size = %d'     % intv_size + '\n'
+    Args:
+        bos: list of beginning of speech floating point timestamps, from CTM
+        dur: list of durations of each phone, from CTM
+        tokens: phone symbols
+    Returns:
+        A tuple with fixed bos and new eos, which is the sum of bos and dur.
+    """
+    assert len(bos) == len(dur)
+    eos = [floatify(b + d) for b, d in zip(bos, dur)]
+    for i in range(1, len(bos)):
+        prev_bos, curr_bos = bos[i-1], bos[i]
+        prev_eos, curr_eos = eos[i-1], eos[i]
+        prev_tok, curr_tok = tokens[i-1], tokens[i]
+        if curr_bos < prev_eos:
+            logging.warning(
+                f"causality problem at frame {i=}: "
+                f"{prev_bos=:.2f} {prev_eos=:.2f} {prev_tok:4s} | "
+                f"{curr_bos=:.2f} {curr_eos=:.2f} {curr_tok:4s}"
+            )
+            bos[i] = prev_eos
+    return bos, eos
 
-    def get_intervalcontent(self, intv_id, begin, end, token):
-        return u'\t\tintervals[%d]'         % intv_id   + '\n' + \
-            u'\t\t\txmin = %.2f'            % begin     + '\n' + \
-            u'\t\t\txmax = %.2f'            % end       + '\n' + \
-            u'\t\t\ttext = "%s"'            % token     + '\n' 
 
-    def get_intervalsize(self, itm_id, tokenlist):
-        if itm_id == 0:
-            return len(tokenlist['phnid'])
-        elif itm_id == 1:
-            return len(tokenlist['sylph']) + tokenlist['phnid'].count(CTM_SIL_ID) 
-        elif itm_id == 2:
-            return len(tokenlist['graph']) - \
-                       tokenlist['graph'].count('sil') + \
-                       tokenlist['phnid'].count(CTM_SIL_ID)
-        else:
-            return 1
+def senone_to_monophone(senone: str) -> str:
+    """Convert senone symbols to monophone symbols.
 
-    def get_itemcontent(self, itm_id, tokenlist, start, finish):
-        interval_size = self.get_intervalsize(itm_id, tokenlist)
-        item_header = self.get_itemheader(itm_id+1,
-                    TG_NAMES[item], finish['graph'][-1], interval_size)
-        item_content     = ''
-        interval_content = ''
-        i = 0
-        if item == 0: # fonemas
-            p = 0
-            while i < interval_size:
-                if tokenlist['phnid'][i] == CTM_SIL_ID:
-                    token = 'sil'
-                else:
-                    token = tokenlist['phone'][p]
-                    p += 1
-                interval_content += self.get_intervalcontent(i+1,
-                            start['phnid'][i], finish['phnid'][i], token)
-                i += 1
-        elif item == 1: # silabas fonemas TODO
-            interval_content = ''
-            b = 0
-            e = 0
-            while len(tokenlist['phnid']):
-                phoneid = tokenlist['phnid'].pop(0)
-                if phoneid == CTM_SIL_ID:
-                    token = 'sil'
-                else:
-                    token = tokenlist['sylph'].pop(0)
-                    phone = tokenlist['phone'].pop(0)
-                    logging.debug(f'processing {token} {phone}')
-                    i=0
-                    while phone != token:
-                        logging.debug(f'{token} != {phone}')
-                        i += 1
-                        if i == 10:
-                            raise ValueError('ok this is odd. probably a bug')
-                        try:
-                            phone += tokenlist['phone'].pop(0)
-                            tokenlist['phnid'].pop(0) # FIXME
-                            e += 1
-                        except IndexError as e:
-                            logging.error(f'should not be happening')
-                            raise
-                interval_content += self.get_intervalcontent(i+1,
-                            start['phnid'][b], finish['phnid'][e], token)
-                i += 1
-                b = e + 1
-                e += 1
-        elif item == 2: # palavras grafemas
-            while i < interval_size:
-                token = tokenlist['graph'][i]
-                interval_content += self.get_intervalcontent(i+1,
-                            start['graph'][i], finish['graph'][i], token)
-                i += 1
-        elif item == 3: # frase fonemas
-            token = ' '.join(phonesyl for phonesyl in tokenlist['phrph'])
-            interval_content = self.get_intervalcontent(i+1,
-                        start['phnid'][0], finish['phnid'][-1], token)
-        elif item == 4: # frase grafemas
-            token = ' '.join(word for word in tokenlist['phrgr'])
-            interval_content = self.get_intervalcontent(i+1,
-                        start['graph'][0], finish['graph'][-1], token)
-        else:
-            logging.error('wait a minute... there is something really wrong here.')
-        return item_header + interval_content
+    Senones are basically the monophones with beginning, ending or intermediate
+    markers. This function basically gets rid of the markers.
 
-if __name__=='__main__':
-    if len(sys.argv) != 6:
-        print('usage: %s <ctm-graph-file> <ctm-phoneid-file> '
-              '<lex-dict> <syll-dict> <out-dir>' % sys.argv[0])
-        print('  <ctm-graph-file> is the CTM file with graphemes')
-        print('  <ctm-phoneid-file> is te CTM file with phonetic ids')
-        print('  <lex-dict> is the lexicon (phonetic dictionary)')
-        print('  <syll-dict> is the syllabic dictionary')
-        print('  <out-dir> is the output dir to store the textgrid file')
-        sys.exit(1)
+    Args:
+        senone: a string representing the senone symbol
+    Returns:
+        a string representing the monophone symbol
+    """
+    return senone.split("_")[0]
 
-    tg = TextGrid()
 
-    ctm_graph_filename = sys.argv[1]
-    ctm_phone_filename = sys.argv[2]
-    lex_filename = sys.argv[3]
-    syll_filename = sys.argv[4]
-    tg_output_dirname = sys.argv[5]
+# NOTE load bos as a string and force fit it as a float later when requested
+def load_ctm(filename: str) -> pd.DataFrame:
+    """Loads a CTM file from disk into a DataFrame in memory.
 
-    # sanity check 
-    check_ctm('phoneids', ctm_phone_filename)
-    check_ctm('graphemes', ctm_graph_filename)
-    tg.check_outputdir(tg_output_dirname)
+    """
+    logging.info(f"loading {filename} ...")
+    check_ctm(filename)
+    ctm = pd.read_csv(
+        filename, sep=" ", #engine="python",
+        names=["uttid", "chid", "bos", "dur", "token"],
+        dtype={"uttid": str, "chid": str, "bos": str, "dur": float, "token": str},
+    )
+    logging.debug(ctm.head())
+    ctm["token"] = ctm["token"].apply(lambda x: senone_to_monophone(x))
+    ctm["bos"] = ctm["bos"].apply(lambda x: floatify(x))
+    ctm["dur"] = ctm["dur"].apply(lambda x: floatify(x))
+    ctm["bos"], ctm["eos"] = compute_eos_and_ensure_causality(
+        ctm["bos"].tolist(), ctm["dur"].tolist(), ctm["token"].tolist()
+    )
+    ctm = ctm.drop(["dur"], axis=1)
+    ctm = ctm.reindex(["uttid", "chid", "bos", "eos", "token"], axis=1)
+    logging.debug(ctm.head())
+    return ctm
 
-    ctm = {
-        'graph': open(ctm_graph_filename, 'r', encoding='utf-8'),
-        'phnid': open(ctm_phone_filename, 'r', encoding='utf-8')
-    }
 
-    ctm_lines = {
-        'graph': get_file_numlines(ctm['graph']),
-        'phnid': get_file_numlines(ctm['phnid'])
-    }
+# https://stackoverflow.com/questions/18695605/how-to-convert-a-dataframe-to-a-dictionary
+def load_lexicon(filename: str) -> Dict[str, str]:
+    """Load tab-sep phonetic or syllabic dictionaries
 
-    logging.info(f'loading lex from {lex_filename}')
-    lex = {}
-    with open(lex_filename, encoding='utf-8') as f:
-        for line in f:
-            try:
-                grapheme, phonemes = line.split('\t')
-                lex[grapheme.strip()] = phonemes.strip()
-            except ValueError:
-                has_tab = '\t' in line
-                logging.error(f'lex problem: {line} {has_tab}')
-                lex[line.strip()] = line.strip()
+    """
+    logging.info(f"loading {filename} ...")
+    lex = pd.read_csv(
+        filename, sep="\t", engine="python", names=["word", "tokens"],
+    )
+    return OrderedDict(zip(lex["word"], lex["tokens"]))
 
-    logging.info(f'loading syll from {syll_filename}')
-    syll = {}
-    with open(syll_filename, encoding='utf-8') as f:
-        for line in f:
-            try:
-                grapheme, syllables = line.split('\t')
-                syll[grapheme.strip()] = syllables.strip()
-            except ValueError:
-                logging.error(f'syll problem: {line}')
-                syll[line.strip()] = line.strip()
 
-    fp_index = { 'graph': 0,  'phnid': 0  }
-    start    = { 'graph': [], 'phnid': [], 'sylph': [] }
-    finish   = { 'graph': [], 'phnid': [], 'sylph': [] }
-    bt       = { 'graph': 0,  'phnid': 0  }
-    dur      = { 'graph': 0,  'phnid': 0  }
+def join_tokens_as_a_sentence(
+    tokens: List[str],
+    lexicon: Optional[Dict[str, str]] = None,
+) -> str:
+    """Join tokens that belong to the same word, discarding silences.
+    
+    This is useful for some tiers that comprise the full sentence that has been
+    aligned, either as graphemes or phonemes.
+    """
+    sent = []
+    for t in tokens:
+        if t in ("<eps>", "sil"):
+            continue
+        sent.append(lexicon[t].replace(" ", "") if lexicon else t)
+    return " ".join(sent).strip()
 
-    tokenlist = {
-        'phnid': [], # 0 (1) phoneme ids as they appear in the CTM file
-        'sylph': [], # 1 (2) phonemes separated by syllabification of graphemes
-        'graph': [], # 2 (3) graphemes (words)
-        'phrph': [], # 4 (5) phrase of phonemes separated by the space between graphemes
-        'phrgr': [], # 3 (4) phrase of graphemes (words) 
-        'phone': [], #       phonemes as they occur in the list of words
-    }
 
-    # treat .grapheme file
-    logging.info(f'processing .grapheme file')
-    filepath, chn, bt['graph'], dur['graph'], grapheme = ctm['graph'].readline().split()
-    old_name = curr_name = filepath.split(sep='_', maxsplit=1).pop()
-    start['graph'].append(float(bt['graph']))
-    finish['graph'].append(float(bt['graph']) + float(dur['graph']))
-    tokenlist['graph'].append(grapheme)
-    fp_index['graph'] += 1
-    while fp_index['phnid'] < ctm_lines['phnid']:
-        while curr_name == old_name:
-            if fp_index['graph'] >= ctm_lines['graph']:
-                break
-            filepath, chn, bt['graph'], dur['graph'], grapheme = ctm['graph'].readline().split()
-            curr_name = filepath.split(sep='_', maxsplit=1).pop()
-            start['graph'].append(float(bt['graph']))
-            finish['graph'].append(float(bt['graph']) + float(dur['graph']))
-            tokenlist['graph'].append(grapheme)
-            fp_index['graph'] += 1
+def main(args):
 
-        # FIXME: dumb way to avoid the first word of the next sentence to be
-        # appended to the end of the current one
-        if fp_index['graph'] < ctm_lines['graph']:
-            start['graph'].pop()
-            finish['graph'].pop()
-            tokenlist['graph'].pop()
+    g_ctm = load_ctm(args.graphemes_ctm_file)
+    p_ctm = load_ctm(args.phonemes_ctm_file)
+    #syll = load_lexicon(args.syllabic_dictionary)
+    lex = load_lexicon(args.phonetic_dictionary)
 
-        # treat .phoneids file
-        filepath, chn, bt['phnid'], dur['phnid'], phoneme = ctm['phnid'].readline().split()
-        curr_name = filepath.split(sep='_', maxsplit=1).pop()
-        start['phnid'].append(float(bt['phnid']))
-        finish['phnid'].append(float(bt['phnid']) + float(dur['phnid']))
-        tokenlist['phnid'].append(phoneme)
-        fp_index['phnid'] += 1
-        while curr_name == old_name:
-            if fp_index['phnid'] >= ctm_lines['phnid']:
-                break
-            filepath, chn, bt['phnid'], dur['phnid'], phoneme = ctm['phnid'].readline().split()
-            curr_name = filepath.split(sep='_', maxsplit=1).pop()
-            start['phnid'].append(float(bt['phnid']))
-            finish['phnid'].append(float(bt['phnid']) + float(dur['phnid']))
-            tokenlist['phnid'].append(phoneme)
-            fp_index['phnid'] += 1
+    os.makedirs(args.output_dir, exist_ok=True)
+    for uttid in g_ctm["uttid"].unique():
+        w_df = g_ctm[g_ctm["uttid"] == uttid]
+        p_df = p_ctm[p_ctm["uttid"] == uttid]
+        # build phonemes tier
+        logging.info(f"building 'fonemas' tier...")
+        p_tier = IntervalTier(name="fonemas")
+        for i, (t, bos, eos) in enumerate(
+            zip(p_df["token"], p_df["bos"], p_df["eos"])
+        ):
+            logging.debug(f"phonemes {i=} {bos=} {eos=} {t}")
+            p_tier.add(minTime=bos, maxTime=eos, mark=t)
+        # build graphemes tier
+        logging.info(f"building 'grafemas' tier...")
+        w_tier = IntervalTier(name="grafemas")
+        for t, bos, eos in zip(w_df["token"], w_df["bos"], w_df["eos"]):
+            w_tier.add(minTime=bos, maxTime=eos, mark=t)
+        # build phoneme sentence tier
+        logging.info(f"building 'frase-fonemas' tier...")
+        ps_tier = IntervalTier(name="frase-fonemas")
+        bos = sorted(p_df["bos"].tolist())[0]
+        eos = sorted(p_df["eos"].tolist())[-1]
+        t = join_tokens_as_a_sentence(w_df["token"].tolist(), lexicon=lex)
+        ps_tier.add(minTime=bos, maxTime=eos, mark=t)
+        # build grapheme sentence tier
+        logging.info(f"building 'frase-grafemas' tier...")
+        gs_tier = IntervalTier(name="frase-grafemas")
+        bos = sorted(w_df["bos"].tolist())[0]
+        eos = sorted(w_df["eos"].tolist())[-1]
+        t = join_tokens_as_a_sentence(w_df["token"].tolist())
+        gs_tier.add(minTime=bos, maxTime=eos, mark=t)
+        # compose textgrid
+        logging.info(f"composing textgrid by attaching tiers...")
+        tg = TextGrid()
+        for tier in (p_tier, w_tier, ps_tier, gs_tier):
+            tg.append(tier)
+        # save texgrid to file
+        fout = f"{uttid}.TextGrid"
+        fout = os.path.join(os.path.realpath(args.output_dir), fout)
+        logging.info(f"dumping textgrid to file {fout} ...")
+        tg.write(f=fout)
 
-        # FIXME: dumb way to avoid the first phoneme of the next sentence to be
-        # appended to the end of the current one
-        if fp_index['phnid'] < ctm_lines['phnid']:
-            start['phnid'].pop()
-            finish['phnid'].pop()
-            tokenlist['phnid'].pop()
 
-        # prepare tg item's basic data structures
-        tokenlist['phone'] = []
-        for word in tokenlist['graph']:
-            if word == '<UNK>':
-                tokenlist['sylph'].append(word)
-                tokenlist['phone'].append(word)
-                tokenlist['phrph'].append(word)
-                tokenlist['phrgr'].append(word)
-                continue
-            elif word == 'cinquenta':
-                tokenlist['sylph'].append('si~')
-                tokenlist['sylph'].append('kwe~')
-                tokenlist['sylph'].append('ta')
-            elif word == 'veloz':
-                tokenlist['sylph'].append('ve')
-                tokenlist['sylph'].append('lOjs')
-            elif word == 'dez':
-                tokenlist['sylph'].append('dEjs')
-            else:
-                for sylph in syll[word].split('-'):
-                    tokenlist['sylph'].append(sylph.replace('\'',''))
-            phonemes = lex[word]
-            for phone in phonemes.split():
-                tokenlist['phone'].append(phone)
-            tokenlist['phrph'].append(phonemes.replace(' ', ''))
-            tokenlist['phrgr'].append(word)
+if __name__ == "__main__":
 
-        # write things to textgrid file
-        logging.info(f'writing {tg_output_dirname}/{old_name} textgrid file')
-        with open('%s/%s.TextGrid' % (tg_output_dirname, old_name), 'w',
-                encoding='utf-8') as f:
-            logging.info(f'processing file {old_name}')
-            f.write(tg.get_mainheader(finish['graph'][-1]))
-            for item in range(5):
-                logging.info(f'writing tier {item} ({TG_NAMES[item]})')
-                f.write(tg.get_itemcontent(item, tokenlist, start, finish))
-
-        # flush vars
-        start['graph']     = [float(bt['graph'])]
-        finish['graph']    = [float(bt['graph']) + float(dur['graph'])]
-        tokenlist['graph'] = [grapheme]
-        old_name           = curr_name
-        start['phnid']     = [float(bt['phnid'])]
-        finish['phnid']    = [float(bt['phnid']) + float(dur['phnid'])]
-        tokenlist['phnid'] = [phoneme]
-
-        tokenlist['sylph'] = []
-        tokenlist['phrph'] = []
-        tokenlist['phrgr'] = []
-
-    logging.info('done!')
-    ctm['graph'].close()
-    ctm['phnid'].close()
+    args = get_args()
+    logging.basicConfig(
+        format="%(filename)s %(levelname)8s %(message)s", level=args.loglevel
+    )
+    main(args)
+    logging.debug("Sucesso meu jovem!!")

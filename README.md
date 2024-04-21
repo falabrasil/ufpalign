@@ -9,6 +9,8 @@ sua transcrição ortográfica com algumas poucas etapas manuais. O resultado é
 TextGrid multi-nível contendo fonemas, sílabas, palavras, transcrições
 fonéticas e ortográficas conforme a figura abaixo.
 
+:warning: A rotina que gera o tier de sílabas foi descontinuada.
+
 ![](doc/textgrid.png)
 
 :uk: [Check the documentation in English](README.en.md)
@@ -103,6 +105,15 @@ baixá-lo, deves descompactar dentro de uma pasta. Pronto, apenas clica no
 executável para usar o Praat. O `*.tar.gz` pode ser deletado.
 </details>
 
+<details>
+<summary>Dependencias do Python</summary>
+Outras dependencias podem ser instaladas com o `pip`:
+
+```bash
+$ pip install requirements.txt
+```
+</details>
+
 
 ## Instruções de Uso
 
@@ -143,7 +154,7 @@ printa uma mensagem de ajuda. O comando abaixo funciona perfeitamente
 utilizando o modelo monofone:
 
 ```bash
-$ bash ufpalign.sh $HOME/kaldi demo/ex.wav demo/ex.txt mono
+$ KALDI_ROOT=$HOME/kaldi bash ufpalign.sh demo/ex.wav demo/ex.txt mono
 ```
 
 O arquivo [`demo/M-001.log`](demo/M-001.log) contém um exemplo de saída
@@ -178,18 +189,18 @@ com a seguinte referência:
 
 ```bibtex
 @article{Batista22a,
-		author     = {Batista, Cassio and Dias, Ana Larissa and Neto, Nelson},
-		title      = {Free resources for forced phonetic alignment in Brazilian Portuguese based on Kaldi toolkit},
-		journal    = {EURASIP Journal on Advances in Signal Processing},
-		year       = {2022},
-		month      = {Feb},
-		day        = {19},
-		volume     = {2022},
-		number     = {1},
-		pages      = {11},
-		issn       = {1687-6180},
-		doi        = {10.1186/s13634-022-00844-9},
-		url        = {https://doi.org/10.1186/s13634-022-00844-9}
+    author     = {Batista, Cassio and Dias, Ana Larissa and Neto, Nelson},
+    title      = {Free resources for forced phonetic alignment in Brazilian Portuguese based on Kaldi toolkit},
+    journal    = {EURASIP Journal on Advances in Signal Processing},
+    year       = {2022},
+    month      = {Feb},
+    day        = {19},
+    volume     = {2022},
+    number     = {1},
+    pages      = {11},
+    issn       = {1687-6180},
+    doi        = {10.1186/s13634-022-00844-9},
+    url        = {https://doi.org/10.1186/s13634-022-00844-9}
 }
 ```
 
@@ -199,7 +210,7 @@ Verifica também o
 
 [![FalaBrasil](https://gitlab.com/falabrasil/avatars/-/raw/main/logo_fb_git_footer.png)](https://ufpafalabrasil.gitlab.io/ "Visite o site do Grupo FalaBrasil") [![UFPA](https://gitlab.com/falabrasil/avatars/-/raw/main/logo_ufpa_git_footer.png)](https://portal.ufpa.br/ "Visite o site da UFPA")
 
-__Grupo FalaBrasil (2022)__ - https://ufpafalabrasil.gitlab.io/      
+__Grupo FalaBrasil (2024)__ - https://ufpafalabrasil.gitlab.io/      
 __Universidade Federal do Pará (UFPA)__ - https://portal.ufpa.br/     
-Cassio Batista - https://cassota.gitlab.io/    
+Cassio Batista - https://cassiotbatista.github.io    
 Larissa Dias   - larissa.engcomp@gmail.com     
