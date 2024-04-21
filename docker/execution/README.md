@@ -34,12 +34,12 @@ $ docker exec -it ufpalign-execution bash
 Once inside the container, run the aligner:
 
 ```text
-root@HASH # bash ufpalign.sh /opt/kaldi demo/audio.wav demo/trans.txt tdnn
+root@HASH # KALDI_ROOT=/opt/kaldi bash ufpalign.sh demo/audio.wav demo/trans.txt tdnn
 ```
 
 
 [![FalaBrasil](https://gitlab.com/falabrasil/avatars/-/raw/main/logo_fb_git_footer.png)](https://ufpafalabrasil.gitlab.io/ "Visite o site do Grupo FalaBrasil") [![UFPA](https://gitlab.com/falabrasil/avatars/-/raw/main/logo_ufpa_git_footer.png)](https://portal.ufpa.br/ "Visite o site da UFPA")
 
-__Grupo FalaBrasil (2022)__ - https://ufpafalabrasil.gitlab.io/      
+__Grupo FalaBrasil (2024)__ - https://ufpafalabrasil.gitlab.io/      
 __Universidade Federal do Pará (UFPA)__ - https://portal.ufpa.br/     
-Cassio Batista - https://cassota.gitlab.io/    
+Cassio Batista - https://cassiotbatista.github.io     

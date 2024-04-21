@@ -2,13 +2,13 @@
 #
 # author: apr 2021
 # cassio batista - https://cassota.gitlab.io
-# last update: jan 2024
+# last update: apr 2024
 
 
 UFPALIGN_DIR=/opt/UFPAlign
 beam=10
 retry_beam=40
-no_syllphones=false
+no_syllphones=false  # deprecated
 
 function log { echo -e "\e[$(shuf -i 91-96 -n 1)m[$(date +'%F %T')] $1\e[0m" ; }
 
@@ -145,32 +145,13 @@ for ali in data/alignme_ali/ali.*.gz ; do
   local/strip.py > data/$am_tag.graphemes.ctm
 done
 
-#steps/get_train_ctm.sh data/alignme data/lang data/alignme_ali data/ctm_tmp || exit 1
-#utils/strip.py < data/ctm_tmp/ctm > data/$am_tag.graphemes.ctm || exit 1
-
-## ctm 2 textgrid
-#if $no_syllphones ; then
-#  log "$0: creating textgrid with *no* syllphones tier"
-#  local/ctm2tg_nosyllphones.py \
-#    data/$am_tag.{graphemes,phoneids}.ctm \
-#    data/dict/{lexicon,syllphones}.txt \
-#    data/tg || exit 1
-#else
-#  log "$0: creating textgrid *with* syllphones tier"
-#  local/ctm2tg.py \
-#    data/$am_tag.{graphemes,phoneids}.ctm \
-#    data/dict/{lexicon,syllphones}.txt \
-#    data/tg || exit 1
-#fi
-
-# FIXME syllphones still not implemented in v2, so this flag is ignored for now
-local/ctm2tg2.py \
-  -g data/mono.graphemes.ctm \
-  -p data/mono.phonemes.ctm \
-  -l data/dict/lexicon.txt \
-  -o data/tg || exit 1
+# NOTE syllphones still not implemented in v2, so this flag is ignored for now
+local/ctm2tg.py \
+  --graphemes-ctm-file data/mono.graphemes.ctm \
+  --phonemes-ctm-file data/mono.phonemes.ctm \
+  --phonetic-dictionary data/dict/lexicon.txt \
+  --output-dir data/tg || exit 1
   #-s data/dict/syllables.txt \
-  #-e
 
 cd - > /dev/null
 
