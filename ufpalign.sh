@@ -1,14 +1,13 @@
 #!/usr/bin/env bash
 #
 # author: apr 2021
-# cassio batista - https://cassota.gitlab.io
-# last update: apr 2024
+# Cassio T Batista - https://cassiotbatista.github.io
+# last update: feb 2025
 
 
 UFPALIGN_DIR=/opt/UFPAlign
 beam=10
 retry_beam=40
-no_syllphones=false  # deprecated
 
 function log { echo -e "\e[$(shuf -i 91-96 -n 1)m[$(date +'%F %T')] $1\e[0m" ; }
 
@@ -39,7 +38,7 @@ am_tag=$3
 
 # sanity check
 [[ -z "$KALDI_ROOT" || ! -d "$KALDI_ROOT/egs" ]] && \
-  echo "$0: error: bad kaldi root dir: '$KALDI_ROOT'" && exit 1
+  echo "$0: error: please set KALDI_ROOT dir: '$KALDI_ROOT'" && exit 1
 for f in $wav_file $txt_file ; do
   [ ! -f "$wav_file" ] && echo "$0: error: file '$f' does not exist" && exit 1
 done
@@ -59,7 +58,7 @@ rm -rf $egs_dir/data  # safety?
 mkdir -p $egs_dir/data/local || exit 1
 
 cp -r conf local $egs_dir
-cp -r $UFPALIGN_DIR/data $egs_dir
+cp -rv $UFPALIGN_DIR/data $egs_dir
 ln -rsf $KALDI_ROOT/egs/wsj/s5/{steps,utils,path.sh} $egs_dir
 
 ########################################
@@ -83,6 +82,11 @@ utils/utt2spk_to_spk2utt.pl \
 log "$0: extending lexicon and lang"
 local/ext_dict.sh \
   $UFPALIGN_DIR $txt_file data/dict/{lexicon,syllables}.txt || exit 1
+
+# FIXME I should *NOT* be rebuilding the FSTs graphs here but Kaldi simply
+# started complaining in 2025??? - Cassio
+log "$0: rebuilding lang (I've been forced to, sorry)"
+utils/prepare_lang.sh data/dict "<UNK>" data/lang_tmp data/lang || exit 1
 
 # extract mfcc features: low resolution for gmm, high for tdnn
 log "$0: extracting mfccs"
@@ -145,13 +149,15 @@ for ali in data/alignme_ali/ali.*.gz ; do
   local/strip.py > data/$am_tag.graphemes.ctm
 done
 
-# NOTE syllphones still not implemented in v2, so this flag is ignored for now
+# create textgrid
+log "$0: creating textgrid"
 local/ctm2tg.py \
-  --graphemes-ctm-file data/mono.graphemes.ctm \
-  --phonemes-ctm-file data/mono.phonemes.ctm \
+  --graphemes-ctm-file data/$am_tag.graphemes.ctm \
+  --phonemes-ctm-file data/$am_tag.phonemes.ctm \
   --phonetic-dictionary data/dict/lexicon.txt \
+  --syllphones-dictionary data/dict/syllphones.txt \
   --output-dir data/tg || exit 1
-  #-s data/dict/syllables.txt \
+  #--debug \
 
 cd - > /dev/null
 

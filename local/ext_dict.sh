@@ -4,10 +4,9 @@
 # transcriptions on the fly in case there are words missing in our lexicon
 #
 # author: apr 2021
-# cassio batista - https://cassota.gitlab.io
-# last update: jan 2023
+# Cassio T Batista - https://cassiotbatista.github.io
+# last update: feb 2025
 
-update=false
 
 if [ $# -ne 4 ] ; then
   echo "usage: $0 <jar-path> <trans-file> <lex-file> <syll-file>"
@@ -38,21 +37,15 @@ for word in $(cat $txt_file) ; do
   echo $word
 done > wlist.tmp
 
-# FIXME this should be part of data.tar.gz
-echo "$0: creating syllphones"
-dir=$(dirname $lex_file)
-java -jar $jar_path/fb_nlplib.jar -G -i wlist.tmp -o $dir/syllphones.tmp
-local/parse_abbrev.py --syllphones < $dir/syllphones.tmp > $dir/syllphones.txt || exit 1
-
+# FIXME I think this routine should continue checking for *all* words not in 
+# lexicon instead of aborting at the first one, because it'd cheaper to run 
+# inference only over the diff (words missing in the lexicon) rather than at 
+# the whole trans file
 awk '{print $1}' $lex_file | python -c "
 import sys
-lex = []
-for word in sys.stdin:
-  lex.append(word.strip())
-wlist = []
+lex = [ word.strip() for word in sys.stdin ]
 with open('wlist.tmp') as f:
-  for word in f:
-    wlist.append(word.strip())
+  wlist = [ word.strip() for word in f ]
 for word in wlist:
   if word not in lex:
     print('** word \'%s\' not in lex. extending dict...' % word)
@@ -74,7 +67,8 @@ java -jar $jar_path/fb_nlplib.jar -s -i wlist.tmp -o syll.tmp
 cat $syll_file >> syll.tmp
 sort -u syll.tmp | local/fix_syll.py > $syll_file || exit 1
 
-rm -f *.tmp
+# lastly, syllphones
+# TODO upload m2m.model to GDrive, fetch it and place it under `/opt/` dir 
+# alongside the others at installation time.
 
-echo "$0: creating syllphones"
-utils/prepare_lang.sh data/dict "<UNK>" data/lang_tmp data/lang || exit 1
+rm -f *.tmp
