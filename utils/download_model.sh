@@ -16,6 +16,7 @@ declare -A files=(
   ["tri3b.tar.gz"]="1IlBnLNabDnEY3rVBdz9g3P4g1wyD1Cxl"
   ["tdnn.tar.gz"]="10ru1CW221TzZGUdcCXTaZlw7H8nszvwP"
   ["ie.tar.gz"]="19VyLt6GpPJQmPdEwbsGuwiufdEUS5E_f"
+  ["m2m.model.gz"]="16z7uSUeA6vdL2cXIDpto6kW9FelXYazM"
 )
 
 if [ $# -ne 2 ] ; then
@@ -29,13 +30,17 @@ tag=$1
 dir=$2
 mkdir -p $dir || exit 1
 
-filename=$tag.tar.gz
+[[ $tag == "m2m" ]] && filename=$tag.model.gz || filename=$tag.tar.gz
 filehash=${files[$filename]}
 
 [ ! -f $dir/$filename ] && \
   gdown -O $dir/$filename "$filehash" || \
   echo "$0: file '$dir/$filename' exists. skipping download"
-tar xf $dir/$filename -C $dir || exit 1
+if [[ $tag == "m2m" ]] ; then
+  gunzip -kc $dir/$filename > $dir/${filename%.gz} || exit 1
+else
+  tar xf $dir/$filename -C $dir || exit 1
+fi
 
 if [ ! -f $dir/fb_nlplib.jar ] ; then
   echo "$0: downloading FalaBrasil annotator lib from GitHub"

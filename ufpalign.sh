@@ -30,15 +30,15 @@ fi
   sudo chown -Rv $(whoami):$(whoami) $UFPALIGN_DIR
 
 # check dependencies
-utils/check_dependencies.sh || exit 1
+KALDI_ROOT=$KALDI_ROOT \
+M2M_ROOT=$M2M_ROOT \
+  utils/check_dependencies.sh || exit 1
 
 wav_file=$(readlink -f $1)
 txt_file=$(readlink -f $2)
 am_tag=$3
 
 # sanity check
-[[ -z "$KALDI_ROOT" || ! -d "$KALDI_ROOT/egs" ]] && \
-  echo "$0: error: please set KALDI_ROOT dir: '$KALDI_ROOT'" && exit 1
 for f in $wav_file $txt_file ; do
   [ ! -f "$wav_file" ] && echo "$0: error: file '$f' does not exist" && exit 1
 done
@@ -46,9 +46,10 @@ done
 [[ "$am_tag" =~ ("mono"|"tri1"|"tri"[2-3]"b"|"tdnn") ]] || \
   { echo "$0: error: bad acoustic model tag '$am_tag'" && exit 1 ; }
 
-# fetch model
+# fetch resources: models, taggers, and dicts
 log "$0: downloading models"
 utils/download_model.sh "data" $UFPALIGN_DIR || exit 1
+utils/download_model.sh "m2m" $UFPALIGN_DIR || exit 1
 utils/download_model.sh $am_tag $UFPALIGN_DIR || exit 1
 [[ "$am_tag" == "tdnn" ]] && \
   { utils/download_model.sh "ie" $UFPALIGN_DIR || exit 1 ; }
@@ -80,8 +81,10 @@ utils/utt2spk_to_spk2utt.pl \
 
 # extend lexicon & lang
 log "$0: extending lexicon and lang"
-local/ext_dict.sh \
-  $UFPALIGN_DIR $txt_file data/dict/{lexicon,syllables}.txt || exit 1
+UFPALIGN_DIR=$UFPALIGN_DIR \
+M2M_ROOT=$M2M_ROOT \
+  local/ext_dict.sh \
+    $txt_file data/dict/{lexicon,syllables,syllphones}.txt || exit 1
 
 # FIXME I should *NOT* be rebuilding the FSTs graphs here but Kaldi simply
 # started complaining in 2025??? - Cassio
