@@ -204,6 +204,7 @@ def build_syllphones_ctm(
     p_ctm: pd.DataFrame,
     g_ctm: pd.DataFrame,
     sp_dict: Dict[str, str],
+    p_dict: Optional[Dict[str, str]] = None,
 ) -> pd.DataFrame:
     """Tech debt
 
@@ -216,7 +217,13 @@ def build_syllphones_ctm(
         prev_bos = 0.0
         for word in w_df['token']:
             logging.debug(f"fetching syllphones for {word=}")
-            syllphones = sp_dict[word]
+            try:
+                syllphones = sp_dict[word]
+            except KeyError:
+                logging.error(
+                    f"{word=} not in syllphones. retrieving as-is from lexicon"
+                )
+                syllphones = p_dict[word]
             logging.debug(f"{syllphones=}")
             for syllable in [s.strip() for s in syllphones.split('-')]:
                 last_phone = syllable.split()[-1]
@@ -239,7 +246,7 @@ def main(args):
     lexicon = load_dictionary(args.phonetic_dictionary)
 
     syllphones = load_dictionary(args.syllphones_dictionary)
-    s_ctm = build_syllphones_ctm(p_ctm, g_ctm, syllphones)
+    s_ctm = build_syllphones_ctm(p_ctm, g_ctm, syllphones, p_dict=lexicon)
 
     os.makedirs(args.output_dir, exist_ok=True)
     for uttid in g_ctm["uttid"].unique():

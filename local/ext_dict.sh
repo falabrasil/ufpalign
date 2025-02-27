@@ -93,9 +93,12 @@ $M2M_ROOT/m2m-aligner \
 ) > sp
 mv sp $sp_file
 
-# TODO decide what to do with utts in \*.err: 
-# they should go to syllphones too, maybe with the original phones or
-# as None
+# FIXME utts in \*.err are not being fixed
+[ -s sp.ali.tmp.err ] && \
+  echo "$0: warn: the syllables from the following words could not be " && \
+  echo "properly aligned to their phonetic transcription, " && \
+  echo "so they will NOT appear in the syllphones dict:" && \
+  cat sp.ali.tmp.err
 
 rm -f *.tmp *.err
 echo "$0: info: success!"
