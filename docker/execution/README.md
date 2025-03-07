@@ -1,9 +1,10 @@
 # Docker for executing of UFPAlign :whale:
 
 This is an image to run UFPAlign in a Docker container. It's based on Kaldi
-image for CPU execution which is in turn based on Debian 10 (Buster). The only
-extra thing is the JDK 8 package which is required by the FalaBrasil NLP lib,
-which performs G2P conversion.
+image for CPU execution which is in turn based on Debian 10 (Buster). 
+JDK 8 package which is required by the FalaBrasil NLP lib, which performs
+phonetic and syllabic conversion; and M2M aligner, which helps stitching phones
+and syllables from the same utterance.
 
 
 ## Build
@@ -34,12 +35,13 @@ $ docker exec -it ufpalign-execution bash
 Once inside the container, run the aligner:
 
 ```text
-root@HASH # KALDI_ROOT=/opt/kaldi bash ufpalign.sh demo/audio.wav demo/trans.txt tdnn
+root@HASH # KALDI_ROOT=/opt/kaldi M2M_ROOt=/opt/m2m-aligner \
+    bash ufpalign.sh demo/coxinha.wav demo/coxinha.txt mono
 ```
 
 
 [![FalaBrasil](https://gitlab.com/falabrasil/avatars/-/raw/main/logo_fb_git_footer.png)](https://ufpafalabrasil.gitlab.io/ "Visite o site do Grupo FalaBrasil") [![UFPA](https://gitlab.com/falabrasil/avatars/-/raw/main/logo_ufpa_git_footer.png)](https://portal.ufpa.br/ "Visite o site da UFPA")
 
-__Grupo FalaBrasil (2024)__ - https://ufpafalabrasil.gitlab.io/      
+__Grupo FalaBrasil (2025)__ - https://ufpafalabrasil.gitlab.io/      
 __Universidade Federal do Pará (UFPA)__ - https://portal.ufpa.br/     
-Cassio Batista - https://cassiotbatista.github.io     
+Cassio T Batista - https://cassiotbatista.github.io     
