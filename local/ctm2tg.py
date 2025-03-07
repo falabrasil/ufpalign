@@ -8,6 +8,7 @@
 #
 # author: apr 2024
 # Cassio Batista - https://cassiotbatista.github.io
+# last update: feb 2025
 
 import argparse
 import logging
@@ -78,7 +79,7 @@ def floatify(val: Union[str, float]) -> float:
     Args:
         val: string or float to be floatified
     Returns:
-        float: two-decimal floating point timestamp
+        A two-decimal floating point timestamp
     """
     if isinstance(val, float):
         return round(float(val), 2)
@@ -114,7 +115,7 @@ def compute_eos_and_ensure_causality(
         dur: list of durations of each phone, from CTM
         tokens: phone symbols
     Returns:
-        A tuple with fixed bos and new eos, which is the sum of bos and dur.
+        A tuple with fixed bos and new eos, which is the sum of bos and dur
     """
     assert len(bos) == len(dur)
     eos = [floatify(b + d) for b, d in zip(bos, dur)]
@@ -141,7 +142,7 @@ def senone_to_monophone(senone: str) -> str:
     Args:
         senone: a string representing the senone symbol
     Returns:
-        a string representing the monophone symbol
+        A string representing the monophone symbol
     """
     return senone.split("_")[0]
 
@@ -150,6 +151,10 @@ def senone_to_monophone(senone: str) -> str:
 def load_ctm(filename: str) -> pd.DataFrame:
     """Loads a CTM file from disk into a DataFrame in memory.
 
+    Args:
+        filename: name of the ctm file to load from disk
+    Returns:
+        A pandas DataFrame with four columns: uttid, bos, eos, and token
     """
     logging.info(f"loading {filename} ...")
     check_ctm(filename)
@@ -175,6 +180,10 @@ def load_ctm(filename: str) -> pd.DataFrame:
 def load_dictionary(filename: str) -> Dict[str, str]:
     """Load tab-sep phonetic or syllabic dictionaries
 
+    Args:
+        filename: name of the two-column file to load from disk
+    Returns:
+        A dict with grapheme words as keys and tokens as values
     """
     logging.info(f"loading {filename} ...")
     dictionary = pd.read_csv(
@@ -191,6 +200,14 @@ def join_tokens_as_a_sentence(
     
     This is useful for some tiers that comprise the full sentence that has been
     aligned, either as graphemes or phonemes.
+
+    Args:
+        tokens: A list of string tokens, which can be either phonemes or
+        syllphones
+        lexicon: A dictionary that maps graphemes to the respective
+        aforementioned token
+    Returns:
+        A string containing the tokens from the list separated by white space
     """
     sent = []
     for t in tokens:
@@ -208,6 +225,13 @@ def build_syllphones_ctm(
 ) -> pd.DataFrame:
     """Tech debt
 
+    Args:
+        p_ctm: A DataFrame containing info from the phonemes CTM file
+        g_ctm: A DataFrame containing info from the graphemes CTM file
+        sp_dict: A dictionary that maps graphemes to phonemes
+        p_dict: A dictionary that maps graphemes to syllphones
+    Returns:
+        A pandas DataFrame with info regarding the syllphones CTM
     """
     df_list = []
     for uttid in g_ctm["uttid"].unique():
@@ -240,7 +264,6 @@ def build_syllphones_ctm(
 
 
 def main(args):
-
     g_ctm = load_ctm(args.graphemes_ctm_file)
     p_ctm = load_ctm(args.phonemes_ctm_file)
     lexicon = load_dictionary(args.phonetic_dictionary)
@@ -298,11 +321,12 @@ def main(args):
 
 
 if __name__ == "__main__":
-
     args = get_args()
     logging.basicConfig(
         format="%(filename)s %(levelname)8s %(message)s", level=args.loglevel
     )
-    logging.info(args)
+    logging.info(f"config params:")
+    for arg, value in vars(args).items():
+        logging.info(f"  +{arg}={value}")
     main(args)
     logging.debug("Sucesso meu jovem!!")

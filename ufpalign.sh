@@ -155,11 +155,11 @@ done
 # create textgrid
 log "$0: creating textgrid"
 local/ctm2tg.py \
-  --graphemes-ctm-file data/$am_tag.graphemes.ctm \
-  --phonemes-ctm-file data/$am_tag.phonemes.ctm \
-  --phonetic-dictionary data/dict/lexicon.txt \
-  --syllphones-dictionary data/dict/syllphones.txt \
-  --output-dir data/tg || exit 1
+  --graphemes-ctm-file $PWD/data/$am_tag.graphemes.ctm \
+  --phonemes-ctm-file $PWD/data/$am_tag.phonemes.ctm \
+  --phonetic-dictionary $PWD/data/dict/lexicon.txt \
+  --syllphones-dictionary $PWD/data/dict/syllphones.txt \
+  --output-dir $PWD/data/tg || exit 1
   #--debug \
 
 cd - > /dev/null
