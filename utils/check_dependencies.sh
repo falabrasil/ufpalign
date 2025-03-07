@@ -13,7 +13,7 @@ ok=true
   echo "$0: error: please set M2M_ROOT dir: '$M2M_ROOT'"
 
 # bash dependencies
-for f in sudo tar java wget curl python3 gdown ; do
+for f in sudo tar java wget curl python3 gdown md5sum ; do
   ! type -f $f > /dev/null 2>&1 && ok=false && \
     echo "$0: error: $f not installed"
 done
