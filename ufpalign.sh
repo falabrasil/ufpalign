@@ -19,9 +19,11 @@ if [ $# -ne 3 ] ; then
   echo "  <txt-file> is the transcription input file"
   echo "  <am-tag> is the tag corresponding to the acoustic model"
   echo
-  echo "  e.g.: KALDI_ROOT=$HOME/kaldi $0 demo/audio.wav demo/trans.txt tdnn"
+  echo "  e.g.: KALDI_ROOT=$HOME/kaldi M2M_ROOT=$HOME/m2m-aligner $0 demo/audio.wav demo/trans.txt mono"
   echo
   echo "  valid am tags: mono, tri1, tri2b, tri3b, tdnn"
+  echo
+  echo "  do not forget to set 'KALDI_ROOT' and 'M2M_ROOT' env vars!"
   exit 1
 fi
 

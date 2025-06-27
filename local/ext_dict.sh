@@ -89,7 +89,7 @@ $M2M_ROOT/m2m-aligner \
     tail -n +2 $sp_file
     python3 local/ali2syllphones.py < sp.ali.tmp
     cat sp.lut.tmp
-  ) | sort -u
+  ) | sort -u | local/parse_abbrev.py
 ) > sp
 mv sp $sp_file
 
