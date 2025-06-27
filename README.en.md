@@ -1,20 +1,19 @@
 # UFPAlign: Forced Phonetic Alignment :brazil:
 
-UFPAlign is an open-source automatic phonetic alignment tool for Brazilian 
-Portuguese that uses the [Kaldi toolkit](http://kaldi-asr.org/) for performing 
-forced alignment of speech datasets. The UFPAlign is distributed as a plugin 
-for [Praat](https://www.fon.hum.uva.nl/praat/), a popular free software package 
-for speech analysis in phonetics. The plugin is directly accessible from the 
-Praat menus and it allows to align speech from an audio file and its 
-orthographic transcription with a few minor manual steps. The result is a 
+UFPAlign is an open-source, automatic phonetic alignment tool that uses 
+[Kaldi](http://kaldi-asr.org/) toolkit for performing forced alignment of 
+speech in Brazilian Portuguese. UFPAlign is distributed as a plugin 
+for [Praat](https://www.fon.hum.uva.nl/praat/), a popular, free software package 
+for speech analysis in phonetics. The plugin is directly accessible from 
+Praat's menu and allows the alignment of speech from an audio file to its 
+orthographic transcription with only a few manual steps. The result is a 
 multi-level annotation TextGrid containing phonemes, syllables, words, 
-phonetic and orthographic information as below. 
-
-:warning: The routine that generates the syllabic tier was discontinued.
+phonetic and orthographic transcriptions, as depicted by the figure below.
 
 ![](doc/textgrid.png)
 
 :brazil: [Acesse a documentação em Português Brasileiro](README.md)
+
 
 ## Requirements
 
@@ -41,10 +40,6 @@ you need to do:
 $ cd kaldi/tools
 $ extras/check_dependencies.sh
 ```
-Check the output carefully and install any prerequisites missing, like
-`automake`, `svn`, and other stuff Kaldi depens on. :warning: The only
-dependency you gotta ignore is Intel MKL library for linear algebra, as we'll
-install another one later :warning:
 
 Then, assuming you have 4 CPU cores available on your machine, run:
 
@@ -60,7 +55,7 @@ machine, even the hyperthreads if your processor has support to it.
 $ extras/install_openblas.sh
 ```
 
-Finally, install Kaldi `src`. No CUDA support is necessary.
+Finally, install Kaldi `src`. No CUDA support is necessary for UFPAlign.
 
 ```bash
 $ cd kaldi/src
@@ -85,8 +80,28 @@ The last line should print the word error rate:
 ```
 </details>
 
+
+<details>
+<summary>M2M Aligner Installation</summary>
+
+First, clone the most current version of M2M aligner from GitHub by typing the 
+following into a shell:
+
+```bash
+$ git clone https://github.com/letter-to-phoneme/m2m-aligner.git
+```
+
+Then switch to the repo directory and compile the project:
+
+```bash
+$ cd m2m-aligner
+$ make
+```
+</details>
+
 <details>
 <summary>Praat Installation</summary>
+
 To install the Linux version of Praat, you can either use `apt-get` by typing
 into a shell:
 
@@ -105,7 +120,7 @@ file.
 Other dependencies can be installed using Python's `pip` utility:
 
 ```bash
-$ pip install requirements.txt
+$ pip install -r requirements.txt
 ```
 </details>
 
@@ -114,8 +129,7 @@ $ pip install requirements.txt
 
 ### As a Praat Plugin (GUI)
 
-UFPAlign works fine under Linux environments via command line, but also 
-provides a graphical interface as a plugin to Praat. In order to use the 
+In order to use the 
 plugin, open the `New` menu and click on the `UFPAlign` option, the following 
 initial window will be displayed. Click on the `Choose...` buttons to select 
 the path to Kaldi's root directory, an audio file  and the corresponding 
@@ -126,8 +140,7 @@ file is aligned. This may take a while.
 
 ![](doc/praat_menu.png)
 
-
-When the alignment is successful finished, the aligner offers the option to 
+When the alignment is successfully finished, the aligner offers the option to 
 promptly display the current resulting TextGrid in the Praat interface or to 
 proceed to align a new audio file. 
 
@@ -137,14 +150,11 @@ spectrogram and its aligner's resulting multi-tier TextGrid containing five
 tiers: phonemes, syllables, words, phonetic transcription and orthographic 
 transcription, respectively. 
 
-Praat's TextGrid editor itself plots the waveform and spectrogram from the 
-audio file, it is not content of the TextGrid file. 
+Praat's TextGrid editor plots the waveform and spectrogram from the audio file,
+which means this data is not part of the contents of the TextGrid file. 
 Kaldi provides the vertical blue dashes, which correspond to the time marks, 
-while FalaBrasil's NLP library provides the phonetic and syllabic 
-transcriptions. Whether you decide to immediately open the result TextGrid in 
-Praat interface or not, the TextGrid file will be saved inside a directory 
-named textgrid at your home directory with the same name as the audio file you 
-choose to align.
+while FalaBrasil's annotator library (tagger) provides the phonetic and syllabic 
+transcriptions.
 
 ### From Command Line (CLI)
 
@@ -152,7 +162,9 @@ Just execute file `ufpalign.sh`. With no arguments, it prints a help message.
 The following command works perfectly using the monophone model, though:
 
 ```bash
-$ KALDI_ROOT=$HOME/kaldi bash ufpalign.sh demo/ex.wav demo/ex.txt mono
+$ KALDI_ROOT=$HOME/kaldi \
+  KALDI_ROOT=$HOME/m2m-aligner \
+    bash ufpalign.sh demo/ex.wav demo/ex.txt mono
 ```
 
 File [`demo/M-001.log`](demo/M-001.log) contains an example of output from a
@@ -202,13 +214,13 @@ as the following:
 }
 ```
 
-Check also the
+See also:
 [FalaBrasil's repository for training acoustic models with Kaldi](https://github.com/falabrasil/kaldi-br).
 
 
 [![FalaBrasil](https://gitlab.com/falabrasil/avatars/-/raw/main/logo_fb_git_footer.png)](https://ufpafalabrasil.gitlab.io/ "Visite o site do Grupo FalaBrasil") [![UFPA](https://gitlab.com/falabrasil/avatars/-/raw/main/logo_ufpa_git_footer.png)](https://portal.ufpa.br/ "Visite o site da UFPA")
 
-__Grupo FalaBrasil (2024)__ - https://ufpafalabrasil.gitlab.io/      
+__Grupo FalaBrasil (2025)__ - https://ufpafalabrasil.gitlab.io/      
 __Universidade Federal do Pará (UFPA)__ - https://portal.ufpa.br/     
-Cassio Batista - https://cassiotbatista.github.io    
-Larissa Dias   - larissa.engcomp@gmail.com     
+Cassio T Batista - https://cassiotbatista.github.io    
+Ana Larissa Dias   - larissa.engcomp@gmail.com     

@@ -8,6 +8,7 @@
 #
 # author: apr 2024
 # Cassio Batista - https://cassiotbatista.github.io
+# last update: feb 2025
 
 import argparse
 import logging
@@ -25,7 +26,7 @@ def get_args():
     parser.add_argument(
         "-d", "--debug", action="store_const", dest="loglevel",
         const=logging.DEBUG, default=logging.INFO,
-        help="something like 'mono.graphemes.ctm'"
+        help="log more"
     )
     parser.add_argument(
         "-g", "--graphemes-ctm-file", type=str, required=True,
@@ -39,13 +40,13 @@ def get_args():
         "-l", "--phonetic-dictionary", type=str, required=True,
         help="something like 'lexicon.txt'"
     )
-    #parser.add_argument(
-    #    "-s", "--syllabic-dictionary", type=str, required=True,
-    #    help="something like 'syll.txt'"
-    #)
+    parser.add_argument(
+        "-s", "--syllphones-dictionary", type=str, required=True,
+        help="something like 'syllphones.txt'"
+    )
     #parser.add_argument(
     #    "-i", "--ignore-syllphones", action="store_true",
-    #    help="whether to ignore the syllabe-phonemes tier"
+    #    help="whether to build the syllphones tier"
     #)
     parser.add_argument(
         "-o", "--output-dir", type=str, required=True,
@@ -78,7 +79,7 @@ def floatify(val: Union[str, float]) -> float:
     Args:
         val: string or float to be floatified
     Returns:
-        float: two-decimal floating point timestamp
+        A two-decimal floating point timestamp
     """
     if isinstance(val, float):
         return round(float(val), 2)
@@ -114,7 +115,7 @@ def compute_eos_and_ensure_causality(
         dur: list of durations of each phone, from CTM
         tokens: phone symbols
     Returns:
-        A tuple with fixed bos and new eos, which is the sum of bos and dur.
+        A tuple with fixed bos and new eos, which is the sum of bos and dur
     """
     assert len(bos) == len(dur)
     eos = [floatify(b + d) for b, d in zip(bos, dur)]
@@ -141,7 +142,7 @@ def senone_to_monophone(senone: str) -> str:
     Args:
         senone: a string representing the senone symbol
     Returns:
-        a string representing the monophone symbol
+        A string representing the monophone symbol
     """
     return senone.split("_")[0]
 
@@ -150,6 +151,10 @@ def senone_to_monophone(senone: str) -> str:
 def load_ctm(filename: str) -> pd.DataFrame:
     """Loads a CTM file from disk into a DataFrame in memory.
 
+    Args:
+        filename: name of the ctm file to load from disk
+    Returns:
+        A pandas DataFrame with four columns: uttid, bos, eos, and token
     """
     logging.info(f"loading {filename} ...")
     check_ctm(filename)
@@ -158,29 +163,33 @@ def load_ctm(filename: str) -> pd.DataFrame:
         names=["uttid", "chid", "bos", "dur", "token"],
         dtype={"uttid": str, "chid": str, "bos": str, "dur": float, "token": str},
     )
-    logging.debug(ctm.head())
+    logging.debug(ctm.head(10))
     ctm["token"] = ctm["token"].apply(lambda x: senone_to_monophone(x))
     ctm["bos"] = ctm["bos"].apply(lambda x: floatify(x))
     ctm["dur"] = ctm["dur"].apply(lambda x: floatify(x))
     ctm["bos"], ctm["eos"] = compute_eos_and_ensure_causality(
         ctm["bos"].tolist(), ctm["dur"].tolist(), ctm["token"].tolist()
     )
-    ctm = ctm.drop(["dur"], axis=1)
-    ctm = ctm.reindex(["uttid", "chid", "bos", "eos", "token"], axis=1)
-    logging.debug(ctm.head())
+    ctm = ctm.drop(["dur", "chid"], axis=1)
+    ctm = ctm.reindex(["uttid", "bos", "eos", "token"], axis=1)
+    logging.debug(ctm.head(10))
     return ctm
 
 
 # https://stackoverflow.com/questions/18695605/how-to-convert-a-dataframe-to-a-dictionary
-def load_lexicon(filename: str) -> Dict[str, str]:
+def load_dictionary(filename: str) -> Dict[str, str]:
     """Load tab-sep phonetic or syllabic dictionaries
 
+    Args:
+        filename: name of the two-column file to load from disk
+    Returns:
+        A dict with grapheme words as keys and tokens as values
     """
     logging.info(f"loading {filename} ...")
-    lex = pd.read_csv(
+    dictionary = pd.read_csv(
         filename, sep="\t", engine="python", names=["word", "tokens"],
     )
-    return OrderedDict(zip(lex["word"], lex["tokens"]))
+    return OrderedDict(zip(dictionary["word"], dictionary["tokens"]))
 
 
 def join_tokens_as_a_sentence(
@@ -191,6 +200,14 @@ def join_tokens_as_a_sentence(
     
     This is useful for some tiers that comprise the full sentence that has been
     aligned, either as graphemes or phonemes.
+
+    Args:
+        tokens: A list of string tokens, which can be either phonemes or
+        syllphones
+        lexicon: A dictionary that maps graphemes to the respective
+        aforementioned token
+    Returns:
+        A string containing the tokens from the list separated by white space
     """
     sent = []
     for t in tokens:
@@ -200,17 +217,65 @@ def join_tokens_as_a_sentence(
     return " ".join(sent).strip()
 
 
-def main(args):
+def build_syllphones_ctm(
+    p_ctm: pd.DataFrame,
+    g_ctm: pd.DataFrame,
+    sp_dict: Dict[str, str],
+    p_dict: Optional[Dict[str, str]] = None,
+) -> pd.DataFrame:
+    """Tech debt
 
+    Args:
+        p_ctm: A DataFrame containing info from the phonemes CTM file
+        g_ctm: A DataFrame containing info from the graphemes CTM file
+        sp_dict: A dictionary that maps graphemes to phonemes
+        p_dict: A dictionary that maps graphemes to syllphones
+    Returns:
+        A pandas DataFrame with info regarding the syllphones CTM
+    """
+    df_list = []
+    for uttid in g_ctm["uttid"].unique():
+        w_df = g_ctm[g_ctm["uttid"] == uttid]
+        p_df = p_ctm[p_ctm["uttid"] == uttid]
+        ctm = []
+        prev_bos = 0.0
+        for word in w_df['token']:
+            logging.debug(f"fetching syllphones for {word=}")
+            try:
+                syllphones = sp_dict[word]
+            except KeyError:
+                logging.error(
+                    f"{word=} not in syllphones. retrieving as-is from lexicon"
+                )
+                syllphones = p_dict[word]
+            logging.debug(f"{syllphones=}")
+            for syllable in [s.strip() for s in syllphones.split('-')]:
+                last_phone = syllable.split()[-1]
+                logging.debug(f"fetching times for {last_phone=}")
+                # NOTE the bos condition looks brittle. keep an eye on that.
+                eos = p_df[
+                    (p_df['token'] == last_phone) & (p_df['bos'] >= prev_bos)
+                ]['eos'].tolist()[0]
+                ctm.append((uttid, prev_bos, eos, syllable))
+                prev_bos = eos
+        df = pd.DataFrame(ctm, columns=["uttid", "bos", "eos", "token"])
+        df_list.append(df)
+    return pd.concat(df_list)
+
+
+def main(args):
     g_ctm = load_ctm(args.graphemes_ctm_file)
     p_ctm = load_ctm(args.phonemes_ctm_file)
-    #syll = load_lexicon(args.syllabic_dictionary)
-    lex = load_lexicon(args.phonetic_dictionary)
+    lexicon = load_dictionary(args.phonetic_dictionary)
+
+    syllphones = load_dictionary(args.syllphones_dictionary)
+    s_ctm = build_syllphones_ctm(p_ctm, g_ctm, syllphones, p_dict=lexicon)
 
     os.makedirs(args.output_dir, exist_ok=True)
     for uttid in g_ctm["uttid"].unique():
         w_df = g_ctm[g_ctm["uttid"] == uttid]
         p_df = p_ctm[p_ctm["uttid"] == uttid]
+        s_df = s_ctm[s_ctm["uttid"] == uttid]
         # build phonemes tier
         logging.info(f"building 'fonemas' tier...")
         p_tier = IntervalTier(name="fonemas")
@@ -224,12 +289,17 @@ def main(args):
         w_tier = IntervalTier(name="grafemas")
         for t, bos, eos in zip(w_df["token"], w_df["bos"], w_df["eos"]):
             w_tier.add(minTime=bos, maxTime=eos, mark=t)
+        # build syllphones tier
+        logging.info(f"building 'silabas-fonemas' tier...")
+        s_tier = IntervalTier(name="silabas-fonemas")
+        for t, bos, eos in zip(s_df["token"], s_df["bos"], s_df["eos"]):
+            s_tier.add(minTime=bos, maxTime=eos, mark=t)
         # build phoneme sentence tier
         logging.info(f"building 'frase-fonemas' tier...")
         ps_tier = IntervalTier(name="frase-fonemas")
         bos = sorted(p_df["bos"].tolist())[0]
         eos = sorted(p_df["eos"].tolist())[-1]
-        t = join_tokens_as_a_sentence(w_df["token"].tolist(), lexicon=lex)
+        t = join_tokens_as_a_sentence(w_df["token"].tolist(), lexicon=lexicon)
         ps_tier.add(minTime=bos, maxTime=eos, mark=t)
         # build grapheme sentence tier
         logging.info(f"building 'frase-grafemas' tier...")
@@ -241,7 +311,7 @@ def main(args):
         # compose textgrid
         logging.info(f"composing textgrid by attaching tiers...")
         tg = TextGrid()
-        for tier in (p_tier, w_tier, ps_tier, gs_tier):
+        for tier in (p_tier, w_tier, s_tier, ps_tier, gs_tier):
             tg.append(tier)
         # save texgrid to file
         fout = f"{uttid}.TextGrid"
@@ -251,10 +321,12 @@ def main(args):
 
 
 if __name__ == "__main__":
-
     args = get_args()
     logging.basicConfig(
         format="%(filename)s %(levelname)8s %(message)s", level=args.loglevel
     )
+    logging.info(f"config params:")
+    for arg, value in vars(args).items():
+        logging.info(f"  +{arg}={value}")
     main(args)
     logging.debug("Sucesso meu jovem!!")

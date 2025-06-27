@@ -1,7 +1,7 @@
 # UFPAlign: Alinhamento Fonético Forçado :brazil:
 
 O UFPAlign é uma ferramenta de código aberto para alinhamento fonético
-automático do Português Brasileiro utilizando o pacote de ferramentas 
+automático em Português Brasileiro utilizando o pacote de ferramentas 
 [Kaldi](http://kaldi-asr.org/). O UFPAlign é disponibilizado como um plugin 
 para o [Praat](https://www.fon.hum.uva.nl/praat/), sendo acessível diretamente 
 do menu do Praat e executando o alinhamento a partir de um arquivo de áudio e 
@@ -9,15 +9,14 @@ sua transcrição ortográfica com algumas poucas etapas manuais. O resultado é
 TextGrid multi-nível contendo fonemas, sílabas, palavras, transcrições
 fonéticas e ortográficas conforme a figura abaixo.
 
-:warning: A rotina que gera o tier de sílabas foi descontinuada.
-
 ![](doc/textgrid.png)
 
 :uk: [Check the documentation in English](README.en.md)
 
+
 ## Dependências
 
-:warning: Atualmente, o UFPAlign funciona em sistemas operacionais Linux.
+:warning: Atualmente, o UFPAlign funciona apenas em sistemas operacionais Linux.
 
 Aqui, assume-se uma instalação em um sistema operacional
 baseado no Debian, então o gerenciador de pacotes padrão será o `apt`.
@@ -41,15 +40,8 @@ $ cd kaldi/tools
 $ extras/check_dependencies.sh
 ```
 
-Se houver algum requisito faltando, o comando deve te informar o passo para
-instalá-lo. O passo seguinte é a compilação dos requisitos com o `make`:
-
-```bash
-$ make
-```
-
-Se tiveres várias CPUs e quiseres acelerar as coisas, podes rodar o passo
-anterior paralelamente usando o parâmetro `-j`. Por exemplo, para usar 4 CPUs:
+A seguir, assumindo que tenhas 4 CPUs disponíveis na tua máquina, executa o
+seguinte comando:
 
 ```bash
 $ make -j 4
@@ -64,7 +56,8 @@ processador as suporte.
 $ extras/install_openblas.sh
 ```
 
-Finalmente, podes intalar o Kaldi `src`.
+Finalmente, podes intalar o Kaldi `src`. Para o UFPAlign, o suporte ao CUDA não
+é necessário.
 
 ```bash
 $ cd kaldi/src
@@ -91,6 +84,24 @@ A última linha da execução deverá printar a taxa de erro por palavra (WER):
 </details>
 
 <details>
+<summary>M2M aligner</summary>
+
+Primeiro, clona a versão mais atual do alinhador M2M do GitHub digitando no
+terminal:
+
+```bash
+$ git clone https://github.com/letter-to-phoneme/m2m-aligner.git
+```
+
+Em seguida, muda para o diretorio e compila o projeto:
+
+```bash
+$ cd m2m-aligner
+$ make
+```
+</details>
+
+<details>
 <summary>Praat</summary>
 
 Em ambientes Linux, podes instalar o Praat usando o `apt-get` rodando o comando:
@@ -110,7 +121,7 @@ executável para usar o Praat. O `*.tar.gz` pode ser deletado.
 Outras dependencias podem ser instaladas com o `pip`:
 
 ```bash
-$ pip install requirements.txt
+$ pip install -r requirements.txt
 ```
 </details>
 
@@ -138,14 +149,12 @@ e o TextGrid multicamadas resultante de alinhamento contendo cinco camadas:
 fonemas, sílabas, palavras, transcrição fonética e transcrição ortográfica, 
 respectivamente.
 
-O próprio editor TextGrid do Praat plota a forma de onda e o espectrograma do
-arquivo de áudio, esta informação não é conteúdo do arquivo TextGrid. O Kaldi
-fornece os traços azuis verticais, que correspondem às marcas de tempo,
+O editor TextGrid do Praat plota a forma de onda e o espectrograma do arquivo 
+de áudio, o que significa que esses dados não fazem parte do conteúdo do 
+arquivo TextGrid. 
+O Kaldi fornece os traços azuis verticais, que correspondem às marcas de tempo,
 enquanto a biblioteca de NLP do FalaBrasil fornece as transcrições fonéticas e
-silábicas. Decidindo abrir imediatamente o TextGrid resultante na
-interface Praat ou não, o arquivo TextGrid será salvo dentro de um diretório
-chamado textgrid no diretório inicial com o mesmo nome do arquivo de áudio
-que escolheste alinhar.
+silábicas.
 
 ### Linha de Comando (CLI)
 
@@ -154,7 +163,9 @@ printa uma mensagem de ajuda. O comando abaixo funciona perfeitamente
 utilizando o modelo monofone:
 
 ```bash
-$ KALDI_ROOT=$HOME/kaldi bash ufpalign.sh demo/ex.wav demo/ex.txt mono
+$ KALDI_ROOT=$HOME/kaldi \
+  KALDI_ROOT=$HOME/m2m-aligner \
+    bash ufpalign.sh demo/ex.wav demo/ex.txt mono
 ```
 
 O arquivo [`demo/M-001.log`](demo/M-001.log) contém um exemplo de saída
@@ -204,13 +215,13 @@ com a seguinte referência:
 }
 ```
 
-Verifica também o
+Ver também:
 [repositório do FalaBrasil para treino de modelos acústicos com o Kaldi](https://github.com/falabrasil/kaldi-br).
 
 
 [![FalaBrasil](https://gitlab.com/falabrasil/avatars/-/raw/main/logo_fb_git_footer.png)](https://ufpafalabrasil.gitlab.io/ "Visite o site do Grupo FalaBrasil") [![UFPA](https://gitlab.com/falabrasil/avatars/-/raw/main/logo_ufpa_git_footer.png)](https://portal.ufpa.br/ "Visite o site da UFPA")
 
-__Grupo FalaBrasil (2024)__ - https://ufpafalabrasil.gitlab.io/      
+__Grupo FalaBrasil (2025)__ - https://ufpafalabrasil.gitlab.io/      
 __Universidade Federal do Pará (UFPA)__ - https://portal.ufpa.br/     
-Cassio Batista - https://cassiotbatista.github.io    
-Larissa Dias   - larissa.engcomp@gmail.com     
+Cassio T Batista - https://cassiotbatista.github.io    
+Ana Larissa Dias   - larissa.engcomp@gmail.com     
