@@ -9,8 +9,6 @@ ok=true
 # env var dependencies
 [[ -z "$KALDI_ROOT" || ! -d "$KALDI_ROOT/egs" ]] && ok=false && \
   echo "$0: error: please set KALDI_ROOT dir: '$KALDI_ROOT'"
-[[ -z "$M2M_ROOT" || ! -d "$M2M_ROOT" ]] && ok=false && \
-  echo "$0: error: please set M2M_ROOT dir: '$M2M_ROOT'"
 
 # bash dependencies
 for f in sudo tar java wget curl python3 gdown md5sum ; do

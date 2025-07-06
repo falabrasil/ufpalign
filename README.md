@@ -84,24 +84,6 @@ A última linha da execução deverá printar a taxa de erro por palavra (WER):
 </details>
 
 <details>
-<summary>M2M aligner</summary>
-
-Primeiro, clona a versão mais atual do alinhador M2M do GitHub digitando no
-terminal:
-
-```bash
-$ git clone https://github.com/letter-to-phoneme/m2m-aligner.git
-```
-
-Em seguida, muda para o diretorio e compila o projeto:
-
-```bash
-$ cd m2m-aligner
-$ make
-```
-</details>
-
-<details>
 <summary>Praat</summary>
 
 Em ambientes Linux, podes instalar o Praat usando o `apt-get` rodando o comando:
@@ -164,7 +146,6 @@ utilizando o modelo monofone:
 
 ```bash
 $ KALDI_ROOT=$HOME/kaldi \
-  KALDI_ROOT=$HOME/m2m-aligner \
     bash ufpalign.sh demo/ex.wav demo/ex.txt mono
 ```
 
@@ -188,7 +169,7 @@ Recomenda-se o uso da imagem docker em `docker/simulation`.
 
 ## Citação
 
-Se utilizares qualquer recurso disponível nesse repositório, por favor nos cite
+Se utilizares qualquer recurso disponível nesse repositório, podes nos citar
 com a seguinte referência:
 
 ### [EURASIP 2022](https://asp-eurasipjournals.springeropen.com/articles/10.1186/s13634-022-00844-9)
