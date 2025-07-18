@@ -5,7 +5,8 @@
 #
 # author: apr 2021
 # Cassio T Batista - https://cassiotbatista.github.io
-# last update: feb 2025
+# last update: jul 2025
+
 
 if [ $# -ne 4 ] ; then
   echo "usage: $0 <trans-file> <lex-file> <syll-file> <sp-file>"
@@ -76,13 +77,13 @@ mv -v syll $syll_file
 echo "$0: info: extending syllphones"
 local/dict2news.py \
   --m2m_lut_file sp.lut.tmp lex.tmp syll.tmp > sp.news.tmp || exit 1
-$M2M_ROOT/m2m-aligner \
-  --maxFn conXY \
-  --maxX 4 \
-  --maxY 1 \
-  --inputFile sp.news.tmp \
-  --outputFile sp.ali.tmp \
-  --alignerIn $UFPALIGN_DIR/m2m.model
+python3 local/m2m_aligner.py \
+  --max_x 4 \
+  --max_y 1 \
+  --input_file sp.news.tmp \
+  --output_file sp.ali.tmp \
+  --aligner_in $UFPALIGN_DIR/m2m.model
+  #--debug \
 (
   head -n 1 $sp_file
   (

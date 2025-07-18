@@ -3,8 +3,7 @@
 This is an image to run UFPAlign in a Docker container. It's based on Kaldi
 image for CPU execution which is in turn based on Debian 10 (Buster). 
 JDK 8 package which is required by the FalaBrasil NLP lib, which performs
-phonetic and syllabic conversion; and M2M aligner, which helps stitching phones
-and syllables from the same utterance.
+phonetic and syllabic conversion.
 
 
 ## Build
@@ -35,7 +34,7 @@ $ docker exec -it ufpalign-execution bash
 Once inside the container, run the aligner:
 
 ```text
-root@HASH # KALDI_ROOT=/opt/kaldi M2M_ROOt=/opt/m2m-aligner \
+root@HASH # KALDI_ROOT=/opt/kaldi \
     bash ufpalign.sh demo/coxinha.wav demo/coxinha.txt mono
 ```
 

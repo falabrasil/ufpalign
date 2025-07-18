@@ -80,25 +80,6 @@ The last line should print the word error rate:
 ```
 </details>
 
-
-<details>
-<summary>M2M Aligner Installation</summary>
-
-First, clone the most current version of M2M aligner from GitHub by typing the 
-following into a shell:
-
-```bash
-$ git clone https://github.com/letter-to-phoneme/m2m-aligner.git
-```
-
-Then switch to the repo directory and compile the project:
-
-```bash
-$ cd m2m-aligner
-$ make
-```
-</details>
-
 <details>
 <summary>Praat Installation</summary>
 
@@ -163,7 +144,6 @@ The following command works perfectly using the monophone model, though:
 
 ```bash
 $ KALDI_ROOT=$HOME/kaldi \
-  KALDI_ROOT=$HOME/m2m-aligner \
     bash ufpalign.sh demo/ex.wav demo/ex.txt mono
 ```
 
@@ -187,7 +167,7 @@ We recommend the use of the docker image in `docker/simulation`.
 
 ## Citation
 
-If you use any of the resources provided on this repository, please cite us
+If you use any of the resources provided on this repository, you can cite us
 as the following:
 
 ### [EURASIP 2022](https://asp-eurasipjournals.springeropen.com/articles/10.1186/s13634-022-00844-9)

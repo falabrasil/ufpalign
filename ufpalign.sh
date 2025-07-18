@@ -2,7 +2,7 @@
 #
 # author: apr 2021
 # Cassio T Batista - https://cassiotbatista.github.io
-# last update: feb 2025
+# last update: jul 2025
 
 
 UFPALIGN_DIR=/opt/UFPAlign
@@ -19,11 +19,11 @@ if [ $# -ne 3 ] ; then
   echo "  <txt-file> is the transcription input file"
   echo "  <am-tag> is the tag corresponding to the acoustic model"
   echo
-  echo "  e.g.: KALDI_ROOT=$HOME/kaldi M2M_ROOT=$HOME/m2m-aligner $0 demo/audio.wav demo/trans.txt mono"
+  echo "  e.g.: KALDI_ROOT=$HOME/kaldi $0 demo/audio.wav demo/trans.txt mono"
   echo
   echo "  valid am tags: mono, tri1, tri2b, tri3b, tdnn"
   echo
-  echo "  do not forget to set 'KALDI_ROOT' and 'M2M_ROOT' env vars!"
+  echo "  do not forget to set 'KALDI_ROOT' env var!"
   exit 1
 fi
 
@@ -33,7 +33,6 @@ fi
 
 # check dependencies
 KALDI_ROOT=$KALDI_ROOT \
-M2M_ROOT=$M2M_ROOT \
   utils/check_dependencies.sh || exit 1
 
 wav_file=$(readlink -f $1)
@@ -84,7 +83,6 @@ utils/utt2spk_to_spk2utt.pl \
 # extend lexicon & lang
 log "$0: extending lexicon and lang"
 UFPALIGN_DIR=$UFPALIGN_DIR \
-M2M_ROOT=$M2M_ROOT \
   local/ext_dict.sh \
     $txt_file data/dict/{lexicon,syllables,syllphones}.txt || exit 1
 
